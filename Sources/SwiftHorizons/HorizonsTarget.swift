@@ -29,7 +29,7 @@ public struct HorizonsTarget:Decodable {
     
 }
 
-public struct Horizon {
+public struct HorizonsRequest {
     /** Horizons request formatter
      Creates a request Url from the API and configured parameters, with start and end time
      */

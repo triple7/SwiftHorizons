@@ -10,8 +10,14 @@ public enum HorizonsError:Error {
 public struct HorizonsSyslog:CustomStringConvertible {
     let log:HorizonsError
     let message:String
+    let timecode:String
     
     init( log: HorizonsError, message: String) {
+        let date = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy--MM-dd hh:mm:ss"
+        self.timecode = dateFormatter.string(from: date)
+
         self.log = log
                   self.message = message
     }
@@ -36,7 +42,7 @@ public class SwiftHorizons:NSObject {
     private var buffer:Int!
     private var progress:Float?
     private var expectedContentLength:Int?
-    private var sysLog:[String:HorizonsSyslog]!
+    private var sysLog:[HorizonsSyslog]!
     
     override init() {
         self.targets = [String: HorizonsTarget]()
@@ -69,32 +75,32 @@ public class SwiftHorizons:NSObject {
           type: ephemerus request type
           closure: whether request was successful
           */
-         let target = Horizon(target: objectID, parameters: type.defaultParameters)
+         let request = HorizonsRequest(target: objectID, parameters: type.defaultParameters)
          let configuration = URLSessionConfiguration.ephemeral
      let queue = OperationQueue.main
          let session = URLSession(configuration: configuration, delegate: self, delegateQueue: queue)
          
-         let task = session.dataTask(with: target.getURL()) { [weak self] data, response, error in
+         let task = session.dataTask(with: request.getURL()) { [weak self] data, response, error in
              if error != nil {
-                 self?.sysLog[objectID] = HorizonsSyslog(log: .RequestError, message: error!.localizedDescription)
+                 self?.sysLog.append(HorizonsSyslog(log: .RequestError, message: error!.localizedDescription))
                  closure(false)
                  return
              }
              guard let response = response as? HTTPURLResponse else {
-                 self?.sysLog[objectID] = HorizonsSyslog(log: .RequestError, message: "response timed out")
+                 self?.sysLog.append(HorizonsSyslog(log: .RequestError, message: "response timed out"))
                  closure(false)
                  return
              }
              if response.statusCode != 200 {
                  let error = NSError(domain: "com.error", code: response.statusCode)
-                 self?.sysLog[objectID] = HorizonsSyslog(log: .RequestError, message: error.localizedDescription)
+                 self?.sysLog.append(HorizonsSyslog(log: .RequestError, message: error.localizedDescription))
                  closure(false)
              }
 
              let text = String(decoding: data!, as: UTF8.self)
-             let target = self?.parseSingleTarget(id: objectID, parameters: target.parameters, text: text, type: type)
+             let target = self?.parseSingleTarget(id: objectID, parameters: request.parameters, text: text, type: type)
              self?.targets[objectID] = target
-             self?.sysLog[objectID] = HorizonsSyslog(log: .Ok, message: "ephemerus downloaded")
+             self?.sysLog.append(HorizonsSyslog(log: .Ok, message: "ephemerus downloaded"))
          closure(true)
              return
      }
