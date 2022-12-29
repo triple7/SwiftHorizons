@@ -59,6 +59,7 @@ public class SwiftHorizons:NSObject {
          while !objects.isEmpty {
              print("getting next object \(objects)")
              let targetID = objects.removeFirst()
+             print("target id \(targets)")
              serialGroup.enter()
              getTarget(objectID: targetID, type: type, { success in
                  serialGroup.leave()
