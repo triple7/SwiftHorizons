@@ -10,5 +10,23 @@
 			<integer>0</integer>
 		</dict>
 	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>SwiftHorizons</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>SwiftHorizonsTests</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>SwiftHorizons_SwiftHorizonsTests</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
 </dict>
 </plist>

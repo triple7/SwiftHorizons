@@ -2,7 +2,11 @@
 
 Swift wrapper for the NASA Horizon telnet service
 
-# background
+## Introduction
+
+This package is used for the [AstreOS](https://astreos.space) platform developed by Yuma Antoine Decaux.
+
+## background
 
 Source [here](https://ssd.jpl.nasa.gov/horizons/)
 
@@ -17,5 +21,3 @@ This swift wrapper allows simple single and multi target requests to be containe
     * physical properties (WIP)
     * ephemeride: list of each time unit in given coordinates
 
-
- 

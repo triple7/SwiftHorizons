@@ -7,13 +7,13 @@
 
 import Foundation
 
-typealias hp = HorizonParameter
+typealias hp = HorizonsParameter
 
 /* Reference from the JPL Horizon Systems API page
  https://ssd-api.jpl.nasa.gov/doc/horizons.html#spk_file
  */
 
-public enum HorizonParameter:String, CaseIterable, Identifiable {
+public enum HorizonsParameter:String, CaseIterable, Identifiable {
     // Common parameters
     case format // json ,  text
     case COMMAND // see

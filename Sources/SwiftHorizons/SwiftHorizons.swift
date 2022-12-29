@@ -38,22 +38,23 @@ public class SwiftHorizons:NSObject {
      * progress: progress in percentage of download for a target
      * expectedContentLength: size in kbytes of data
      */
-    private var targets:[String: HorizonsTarget]
+    public var targets:[String: HorizonsTarget]
     private var buffer:Int!
-    private var progress:Float?
+    public var progress:Float?
     private var expectedContentLength:Int?
-    private var sysLog:[HorizonsSyslog]!
+    public var sysLog:[HorizonsSyslog]!
     
-    override init() {
+    public override init() {
         self.targets = [String: HorizonsTarget]()
         self.buffer = 0
+        self.sysLog = [HorizonsSyslog]()
     }
     
 }
 
  extension SwiftHorizons: URLSessionDelegate {
 
-     func getBatchTargets( objects: inout [String], type: EphemType) {
+public      func getBatchTargets( objects: inout [String], type: EphemType) {
          let serialGroup = DispatchGroup()
          while !objects.isEmpty {
              let targetID = objects.removeFirst()
@@ -67,7 +68,7 @@ public class SwiftHorizons:NSObject {
          }
      }
      
-     func getTarget(objectID: String, type: EphemType, _ closure: @escaping (Bool)-> Void) {
+     public func getTarget(objectID: String, type: EphemType, _ closure: @escaping (Bool)-> Void) {
          /** Gets a single target
           Adds a target into the targets dictionary and adds a response type for further processing
           Params:
