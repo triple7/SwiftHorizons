@@ -14,6 +14,7 @@ extension SwiftHorizons {
         print("parsing \(id)")
         let asteriskDelimitor = "\n*******************************************************************************\n"
         let format = text.components(separatedBy: asteriskDelimitor)
+        print("delimiter set")
         let summary = format[1].components(separatedBy: "\n")
         print("got summary")
         var soe = ""
