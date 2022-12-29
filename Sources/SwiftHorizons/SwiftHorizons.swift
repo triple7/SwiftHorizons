@@ -55,19 +55,36 @@ public class SwiftHorizons:NSObject {
  extension SwiftHorizons: URLSessionDelegate {
 
      public      func getBatchTargets( objects: inout [String], type: EphemType, closure: @escaping (Bool)->Void ) {
-         let serialGroup = DispatchGroup()
+         let queue = OperationQueue()
+         queue.maxConcurrentOperationCount = 1
+         
          while !objects.isEmpty {
              print("getting next object \(objects)")
              let targetID = objects.removeFirst()
-             serialGroup.enter()
-             getTarget(objectID: targetID, type: type, { success in
-                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                     serialGroup.leave()
+             let request = HorizonsRequest(target: targetID, parameters: type.defaultParameters)
+             let operation = DownloadOperation(session: URLSession.shared, dataTaskURL: request.getURL(), completionHandler: { (data, response, error) in
+                 if error != nil {
+                     self.sysLog.append(HorizonsSyslog(log: .RequestError, message: error!.localizedDescription))
+                     closure(false)
+                     return
                  }
+                 guard let response = response as? HTTPURLResponse else {
+                     self.sysLog.append(HorizonsSyslog(log: .RequestError, message: "response timed out"))
+                     closure(false)
+                     return
+                 }
+                 if response.statusCode != 200 {
+                     let error = NSError(domain: "com.error", code: response.statusCode)
+                     self.sysLog.append(HorizonsSyslog(log: .RequestError, message: error.localizedDescription))
+                     closure(false)
+                 }
+
+                 let text = String(decoding: data!, as: UTF8.self)
+                 let target = self.parseSingleTarget(id: targetID, parameters: request.parameters, text: text, type: type)
+                 self.targets[targetID] = target
+                 self.sysLog.append(HorizonsSyslog(log: .Ok, message: "ephemerus downloaded"))
              })
-         }
-         serialGroup.notify(queue: .main) {
-             closure(true)
+             queue.addOperation(operation)
          }
      }
      
