@@ -15,6 +15,7 @@ extension SwiftHorizons {
         let asteriskDelimitor = "\n*******************************************************************************\n"
         let format = text.components(separatedBy: asteriskDelimitor)
         let summary = format[1].components(separatedBy: "\n")
+        print("got summary")
         var soe = ""
         var wip = false
         switch type {
@@ -25,7 +26,9 @@ extension SwiftHorizons {
             break
         case .VECTORS:
             let start = text.components(separatedBy: "SOE\n").last!
+            print("got start")
             soe = "$$SOE\n\(start.components(separatedBy: "EOE").first!)"
+            print("got soe")
         case .APPROACH:
             wip = true
             break
