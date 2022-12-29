@@ -59,7 +59,7 @@ public class SwiftHorizons:NSObject {
          while !objects.isEmpty {
              print("getting next object \(objects)")
              let targetID = objects.removeFirst()
-             print("target id \(targets)")
+             print("target id \(targetID)")
              serialGroup.enter()
              getTarget(objectID: targetID, type: type, { success in
                  serialGroup.leave()
@@ -101,6 +101,7 @@ public class SwiftHorizons:NSObject {
              }
 
              let text = String(decoding: data!, as: UTF8.self)
+             print("got text \(objectID)")
              let target = self?.parseSingleTarget(id: objectID, parameters: request.parameters, text: text, type: type)
              self?.targets[objectID] = target
              self?.sysLog.append(HorizonsSyslog(log: .Ok, message: "ephemerus downloaded"))

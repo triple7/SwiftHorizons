@@ -11,6 +11,7 @@ import simd
 extension SwiftHorizons {
     
     func parseSingleTarget(id: String, parameters: [String: String], text: String, type: EphemType)->HorizonsTarget {
+        print("parsing \(id)")
         let asteriskDelimitor = "\n*******************************************************************************\n"
         let format = text.components(separatedBy: asteriskDelimitor)
         let summary = format[1].components(separatedBy: "\n")
