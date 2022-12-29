@@ -64,7 +64,7 @@ public class SwiftHorizons:NSObject {
              })
          }
          serialGroup.notify(queue: .main) {
-             
+             closure(true)
          }
      }
      
