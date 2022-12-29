@@ -58,30 +58,36 @@ public class SwiftHorizons:NSObject {
          let queue = OperationQueue()
          queue.maxConcurrentOperationCount = 1
          
-         while !objects.isEmpty {
-             let targetID = objects.removeFirst()
-             let request = HorizonsRequest(target: targetID, parameters: type.defaultParameters)
-             let operation = DownloadOperation(session: URLSession.shared, dataTaskURL: request.getURL(), completionHandler: { (data, response, error) in
-                 if error != nil {
-                     self.sysLog.append(HorizonsSyslog(log: .RequestError, message: error!.localizedDescription))
-                 }
-                 guard let response = response as? HTTPURLResponse else {
-                     self.sysLog.append(HorizonsSyslog(log: .RequestError, message: "response timed out"))
-                     closure(false)
-                     return
-                 }
-                 if response.statusCode != 200 {
-                     let error = NSError(domain: "com.error", code: response.statusCode)
-                     self.sysLog.append(HorizonsSyslog(log: .RequestError, message: error.localizedDescription))
-                 }
-
-                 let text = String(decoding: data!, as: UTF8.self)
-                 let target = self.parseSingleTarget(id: targetID, parameters: request.parameters, text: text, type: type)
-                 self.targets[targetID] = target
-                 self.sysLog.append(HorizonsSyslog(log: .Ok, message: "ephemerus downloaded"))
-             })
-             queue.addOperation(operation)
-         }
+         var requestCount = objects.count
+         var isComplete = false
+             while !isComplete {
+                 let targetID = objects.removeFirst()
+                 let request = HorizonsRequest(target: targetID, parameters: type.defaultParameters)
+                 let operation = DownloadOperation(session: URLSession.shared, dataTaskURL: request.getURL(), completionHandler: { (data, response, error) in
+                     if error != nil {
+                         self.sysLog.append(HorizonsSyslog(log: .RequestError, message: error!.localizedDescription))
+                     }
+                     guard let response = response as? HTTPURLResponse else {
+                         self.sysLog.append(HorizonsSyslog(log: .RequestError, message: "response timed out"))
+                         closure(false)
+                         return
+                     }
+                     if response.statusCode != 200 {
+                         let error = NSError(domain: "com.error", code: response.statusCode)
+                         self.sysLog.append(HorizonsSyslog(log: .RequestError, message: error.localizedDescription))
+                     }
+                     
+                     let text = String(decoding: data!, as: UTF8.self)
+                     let target = self.parseSingleTarget(id: targetID, parameters: request.parameters, text: text, type: type)
+                     self.targets[targetID] = target
+                     self.sysLog.append(HorizonsSyslog(log: .Ok, message: "ephemerus downloaded"))
+                     requestCount -= 1
+                     if requestCount == 0 {
+                         isComplete = true
+                     }
+                 })
+                 queue.addOperation(operation)
+             }
          closure(true)
      }
      
