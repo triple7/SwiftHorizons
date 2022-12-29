@@ -100,6 +100,7 @@ public class SwiftHorizons:NSObject {
 
              let text = String(decoding: data!, as: UTF8.self)
              let target = self?.parseSingleTarget(id: objectID, parameters: request.parameters, text: text, type: type)
+             print("placing target in horizons")
              self?.targets[objectID] = target
              self?.sysLog.append(HorizonsSyslog(log: .Ok, message: "ephemerus downloaded"))
          closure(true)

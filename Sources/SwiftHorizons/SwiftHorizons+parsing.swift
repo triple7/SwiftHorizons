@@ -47,7 +47,6 @@ extension SwiftHorizons {
              let timeCode = coordinates.removeFirst()
             ephemerus[timeCode] = coordinates.map {Double($0)!}
         }
-        print("ephemerus downloaded")
         return HorizonsTarget(id: id, parameters: parameters, properties: [String]()/* temporary */, ephemerus: ephemerus)
     }
 
