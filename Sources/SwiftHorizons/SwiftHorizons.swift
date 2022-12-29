@@ -54,7 +54,7 @@ public class SwiftHorizons:NSObject {
 
  extension SwiftHorizons: URLSessionDelegate {
 
-public      func getBatchTargets( objects: inout [String], type: EphemType) {
+     public      func getBatchTargets( objects: inout [String], type: EphemType, closure: @escaping (Bool)->Void ) {
          let serialGroup = DispatchGroup()
          while !objects.isEmpty {
              let targetID = objects.removeFirst()
