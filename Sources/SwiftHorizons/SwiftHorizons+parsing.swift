@@ -57,7 +57,6 @@ extension SwiftHorizons {
         case .ELEMENTS:
             return [String]()
         case .VECTORS:
-            print("is vectors")
             return [text[1], text[2], text[3], text[4]].map {$0.replacingOccurrences(of: " ", with: "")}
         case .APPROACH:
             return [String]()

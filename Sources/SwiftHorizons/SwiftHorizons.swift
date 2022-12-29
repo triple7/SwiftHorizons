@@ -57,6 +57,7 @@ public class SwiftHorizons:NSObject {
      public      func getBatchTargets( objects: inout [String], type: EphemType, closure: @escaping (Bool)->Void ) {
          let serialGroup = DispatchGroup()
          while !objects.isEmpty {
+             print("getting next object \(objects)")
              let targetID = objects.removeFirst()
              serialGroup.enter()
              getTarget(objectID: targetID, type: type, { success in
@@ -100,7 +101,6 @@ public class SwiftHorizons:NSObject {
 
              let text = String(decoding: data!, as: UTF8.self)
              let target = self?.parseSingleTarget(id: objectID, parameters: request.parameters, text: text, type: type)
-             print("placing target in horizons")
              self?.targets[objectID] = target
              self?.sysLog.append(HorizonsSyslog(log: .Ok, message: "ephemerus downloaded"))
          closure(true)
