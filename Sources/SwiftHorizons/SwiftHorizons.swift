@@ -59,14 +59,11 @@ public class SwiftHorizons:NSObject {
          queue.maxConcurrentOperationCount = 1
          
          while !objects.isEmpty {
-             print("getting next object \(objects)")
              let targetID = objects.removeFirst()
              let request = HorizonsRequest(target: targetID, parameters: type.defaultParameters)
              let operation = DownloadOperation(session: URLSession.shared, dataTaskURL: request.getURL(), completionHandler: { (data, response, error) in
                  if error != nil {
                      self.sysLog.append(HorizonsSyslog(log: .RequestError, message: error!.localizedDescription))
-                     closure(false)
-                     return
                  }
                  guard let response = response as? HTTPURLResponse else {
                      self.sysLog.append(HorizonsSyslog(log: .RequestError, message: "response timed out"))
@@ -76,7 +73,6 @@ public class SwiftHorizons:NSObject {
                  if response.statusCode != 200 {
                      let error = NSError(domain: "com.error", code: response.statusCode)
                      self.sysLog.append(HorizonsSyslog(log: .RequestError, message: error.localizedDescription))
-                     closure(false)
                  }
 
                  let text = String(decoding: data!, as: UTF8.self)
@@ -86,6 +82,7 @@ public class SwiftHorizons:NSObject {
              })
              queue.addOperation(operation)
          }
+         closure(true)
      }
      
      public func getTarget(objectID: String, type: EphemType, _ closure: @escaping (Bool)-> Void) {
