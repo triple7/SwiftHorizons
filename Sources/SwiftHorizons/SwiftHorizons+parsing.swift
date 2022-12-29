@@ -45,6 +45,7 @@ extension SwiftHorizons {
         for c in coordinateBlock {
             print(c)
             var coordinates = parseCoordinates(text: c.components(separatedBy: ","), type: type)
+            print(coordinates)
              let timeCode = coordinates.removeFirst()
             ephemerus[timeCode] = coordinates.map {Double($0)!}
         }
@@ -58,6 +59,7 @@ extension SwiftHorizons {
         case .ELEMENTS:
             return [String]()
         case .VECTORS:
+            print("is vectors")
             return [text[1], text[2], text[3], text[4]].map {$0.replacingOccurrences(of: " ", with: "")}
         case .APPROACH:
             return [String]()
