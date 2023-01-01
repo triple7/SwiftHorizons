@@ -60,6 +60,7 @@ public class SwiftHorizons:NSObject {
          
          var requestCount = objects.count
          var isComplete = false
+         while !isComplete {
              for targetID in objects {
                  let request = HorizonsRequest(target: targetID, parameters: type.defaultParameters)
                  let operation = DownloadOperation(session: URLSession.shared, dataTaskURL: request.getURL(), completionHandler: { (data, response, error) in
@@ -87,8 +88,6 @@ public class SwiftHorizons:NSObject {
                  })
                  queue.addOperation(operation)
              }
-         while !isComplete {
-             
          }
          closure(true)
      }
