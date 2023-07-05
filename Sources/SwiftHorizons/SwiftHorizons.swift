@@ -39,6 +39,9 @@ public class SwiftHorizons:NSObject {
      * expectedContentLength: size in kbytes of data
      */
     public var targets:[String: HorizonsTarget]
+    private lazy var batch:[String] = {
+        return [String]()
+    }()
     private var buffer:Int!
     public var progress:Float?
     private var expectedContentLength:Int?
@@ -50,44 +53,53 @@ public class SwiftHorizons:NSObject {
         self.sysLog = [HorizonsSyslog]()
     }
     
+    public func injectIntoBatch( _ batch: [String]) {
+        self.batch = batch + self.batch
+    }
+    
 }
 
  extension SwiftHorizons: URLSessionDelegate {
 
-     public      func getBatchTargets( objects: inout [String], type: EphemType, closure: @escaping (Bool)->Void ) {
+     public      func getBatchTargets( objects: [String], type: EphemType, closure: @escaping (Bool)->Void ) {
          let queue = OperationQueue()
          queue.maxConcurrentOperationCount = 1
          
-         var requestCount = objects.count
-         var isComplete = false
-         while !isComplete {
-             for targetID in objects {
-                 let request = HorizonsRequest(target: targetID, parameters: type.defaultParameters)
+         let requests = objects.map{HorizonsRequest(target: $0, parameters: type.defaultParameters)}
+         let count = objects.count - 1
+         var allDownloaded = false
+         for (i, request) in requests.enumerated() {
+             var gotError = false
                  let operation = DownloadOperation(session: URLSession.shared, dataTaskURL: request.getURL(), completionHandler: { (data, response, error) in
                      if error != nil {
                          self.sysLog.append(HorizonsSyslog(log: .RequestError, message: error!.localizedDescription))
+                         gotError = true
                      }
-                     guard let response = response as? HTTPURLResponse else {
+                     if (response as? HTTPURLResponse) == nil {
                          self.sysLog.append(HorizonsSyslog(log: .RequestError, message: "response timed out"))
-                         closure(false)
-                         return
+                         gotError = true
                      }
-                     if response.statusCode != 200 {
-                         let error = NSError(domain: "com.error", code: response.statusCode)
+                                                   let urlResponse = (response as! HTTPURLResponse)
+                                                   if urlResponse.statusCode != 200 {
+                         let error = NSError(domain: "com.error", code: urlResponse.statusCode)
                          self.sysLog.append(HorizonsSyslog(log: .RequestError, message: error.localizedDescription))
-                     }
-                     
+                     gotError = true
+                 }
+                                                   if !gotError {
                      let text = String(decoding: data!, as: UTF8.self)
+                                                       let targetID = objects[i]
                      let target = self.parseSingleTarget(id: targetID, parameters: request.parameters, text: text, type: type)
                      self.targets[targetID] = target
                      self.sysLog.append(HorizonsSyslog(log: .Ok, message: "ephemerus downloaded"))
-                     requestCount -= 1
-                     if requestCount == 0 {
-                         isComplete = true
-                     }
+                 }
+                                                   if i == count {
+                                                       allDownloaded = true
+                                                   }
                  })
                  queue.addOperation(operation)
              }
+         while !allDownloaded {
+             
          }
          closure(true)
      }
