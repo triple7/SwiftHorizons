@@ -61,48 +61,57 @@ public class SwiftHorizons:NSObject {
 
  extension SwiftHorizons: URLSessionDelegate {
 
-     public      func getBatchTargets( objects: [String], type: EphemType, closure: @escaping (Bool)->Void ) {
-         let queue = OperationQueue()
-         queue.maxConcurrentOperationCount = 1
+     public      func getBatchTargets( objects: [String], type: EphemType, completion: @escaping (Bool)->Void ) {
+         let serialQueue = DispatchQueue(label: "HorizonsDownloadQueue")
          
-         let requests = objects.map{HorizonsRequest(target: $0, parameters: type.defaultParameters)}
-         let count = objects.count - 1
-         var allDownloaded = false
-         for (i, request) in requests.enumerated() {
-             var gotError = false
-                 let operation = DownloadOperation(session: URLSession.shared, dataTaskURL: request.getURL(), completionHandler: { (data, response, error) in
-                     if error != nil {
-                         self.sysLog.append(HorizonsSyslog(log: .RequestError, message: error!.localizedDescription))
-                         gotError = true
-                     }
-                     if (response as? HTTPURLResponse) == nil {
-                         self.sysLog.append(HorizonsSyslog(log: .RequestError, message: "response timed out"))
-                         gotError = true
-                     }
-                                                   let urlResponse = (response as! HTTPURLResponse)
-                                                   if urlResponse.statusCode != 200 {
-                         let error = NSError(domain: "com.error", code: urlResponse.statusCode)
-                         self.sysLog.append(HorizonsSyslog(log: .RequestError, message: error.localizedDescription))
+         var remainingObjects = objects
+         
+         // Create a recursive function to handle the download
+         func downloadNextObject() {
+             guard !remainingObjects.isEmpty else {
+                 // All objects have been downloaded, call the completion handler
+                 completion(true)
+                 return
+             }
+         }
+             
+             let object = remainingObjects.removeFirst()
+             let request = HorizonsRequest(target: object, parameters: type.defaultParameters)
+             
+             let operation = DownloadOperation(session: URLSession.shared, dataTaskURL: request.getURL(), completionHandler: { (data, response, error) in
+                 var gotError = false
+                 if error != nil {
+                     self.sysLog.append(HorizonsSyslog(log: .RequestError, message: error!.localizedDescription))
                      gotError = true
                  }
-                                                   if !gotError {
+                 if (response as? HTTPURLResponse) == nil {
+                     self.sysLog.append(HorizonsSyslog(log: .RequestError, message: "response timed out"))
+                     gotError = true
+                 }
+                 let urlResponse = (response as! HTTPURLResponse)
+                 if urlResponse.statusCode != 200 {
+                     let error = NSError(domain: "com.error", code: urlResponse.statusCode)
+                     self.sysLog.append(HorizonsSyslog(log: .RequestError, message: error.localizedDescription))
+                     gotError = true
+                 }
+                 if !gotError {
                      let text = String(decoding: data!, as: UTF8.self)
-                                                       let targetID = objects[i]
-                     let target = self.parseSingleTarget(id: targetID, parameters: request.parameters, text: text, type: type)
-                     self.targets[targetID] = target
+                     let target = self.parseSingleTarget(id: object, parameters: request.parameters, text: text, type: type)
+                     self.targets[object] = target
                      self.sysLog.append(HorizonsSyslog(log: .Ok, message: "ephemerus downloaded"))
                  }
-                                                   if i == count {
-                                                       allDownloaded = true
-                                                   }
-                 })
-                 queue.addOperation(operation)
-             }
-         while !allDownloaded {
-             
-         }
-         closure(true)
-     }
+                 
+                 // Call the recursive function to download the next object
+                 serialQueue.async {
+                     downloadNextObject()
+                 }
+             })
+
+                     // Add the operation to the serial queue to execute it serially
+                     serialQueue.async {
+                         operation.start()
+                     }
+                 }
      
      public func getTarget(objectID: String, type: EphemType, _ closure: @escaping (Bool)-> Void) {
          /** Gets a single target
