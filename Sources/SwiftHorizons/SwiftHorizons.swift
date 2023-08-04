@@ -53,7 +53,7 @@ public class SwiftHorizons:NSObject {
         self.sysLog = [HorizonsSyslog]()
     }
     
-    public func injectIntoBatch( _ batch: [String]) {
+    public func addToBatch( _ batch: [String]) {
         self.batch = batch + self.batch
     }
     
@@ -103,6 +103,11 @@ public class SwiftHorizons:NSObject {
                  
                  // Call the recursive function to download the next object
                  serialQueue.async {
+                     if !self.batch.isEmpty {
+                         for object in self.batch {
+                             remainingObjects.insert(object, at: 0)
+                         }
+                     }
                      downloadNextObject()
                  }
              })
