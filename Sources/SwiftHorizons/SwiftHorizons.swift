@@ -1,4 +1,5 @@
 import Foundation
+import CoreLocation
 
 public enum HorizonsError:Error {
     case NoSuchObject
@@ -46,11 +47,16 @@ public class SwiftHorizons:NSObject {
     public var progress:Float?
     private var expectedContentLength:Int?
     public var sysLog:[HorizonsSyslog]!
+    public var location:CLLocation?
     
     public override init() {
         self.targets = [String: HorizonsTarget]()
         self.buffer = 0
         self.sysLog = [HorizonsSyslog]()
+    }
+    
+    public func updateLocation( _ locaiton: CLLocation) {
+        self.location = locaiton
     }
     
     public func addToBatch( _ batch: [HorizonsBatchObject]) {

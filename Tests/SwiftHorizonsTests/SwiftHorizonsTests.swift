@@ -66,4 +66,28 @@ final class SwiftHorizonsTests: XCTestCase {
         }
     }
 
+    fileprivate func rectifyDate(_ output: String)->String{
+        var result = ""
+        do{
+            let pattern = try NSRegularExpression(pattern: "[0-9]+-[A-Za-z]+-[0-9]+ [0-9]+:[0-9]+", options: [])
+            let match = pattern.firstMatch(in: output, options: [], range: NSRange(location: 0, length: output.count))?.range
+            result = String(output[Range(match!, in: output)!])
+        }catch{
+            print("Error getting regular expression")
+        }
+        let dateFormat = DateFormatter()
+        dateFormat.locale = Locale(identifier: "en_US_POSIX")
+        dateFormat.timeZone = TimeZone(abbreviation: "UTC")
+        dateFormat.dateFormat = "yyyy-MMM-dd HH:mm"
+        let TimeNow = dateFormat.date(from: result)!
+        let previous = Calendar.current.date(byAdding: .minute, value: -1, to: TimeNow)!
+        let prev = dateFormat.string(from: previous)
+        
+        // check if date is in the future
+        guard Date().timeIntervalSince(TimeNow) > 0 else {
+            return "FUTURE"
+        }
+        return prev + ";" + result
+    }
+
 }

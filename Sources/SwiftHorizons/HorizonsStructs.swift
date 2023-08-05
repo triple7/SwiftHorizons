@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 public struct HorizonsBatchObject {
     let id:String
@@ -42,7 +43,7 @@ public struct HorizonsRequest {
     private let fileAPIUrl = "https://ssd.jpl.nasa.gov/api/horizons_file.api"
     private(set) var parameters:[String: String]
     
-    public init(target: HorizonsBatchObject, parameters: [String: String]) {
+    public init(target: HorizonsBatchObject, parameters: [String: String], location: CLLocation? = nil) {
         if target.type == .Mb {
             self.parameters = [hp.COMMAND.id: target.id] + parameters
         } else {
@@ -51,6 +52,12 @@ public struct HorizonsRequest {
             let des = components[1]
             self.parameters = [hp.COMMAND.id: id, "DES": des] + parameters
         }
+        guard let location = location else {
+            return
+        }
+        // convert altitude from iOS in meters to km in Horizons
+        let convertedAltitude = location.altitude/1000
+        self.parameters[hp.SITE_COORD.id] = "\(location.coordinate.longitude),\(location.coordinate.latitude),\(convertedAltitude)"
     }
 
     public init() {
