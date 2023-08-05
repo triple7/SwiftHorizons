@@ -54,9 +54,16 @@ public class SwiftHorizons:NSObject {
     }
     
     public func addToBatch( _ batch: [String]) {
+        // Injects batch items at the start
         self.batch = batch + self.batch
     }
     
+    public func printLogs() {
+        for log in sysLog {
+            print(log.description)
+        }
+    }
+
 }
 
  extension SwiftHorizons: URLSessionDelegate {
