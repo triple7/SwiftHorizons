@@ -4,20 +4,42 @@ import XCTest
 final class SwiftHorizonsTests: XCTestCase {
     private let horizonSystem = SwiftHorizons()
     
-    func testSingleTargetObserver() throws {
+    func testSingleTargetObserverMb() throws {
         
         let objectID = "599"
         print("Object ID is \(objectID)")
-        horizonSystem.getTarget(objectID: objectID, type: .OBSERVER) { result in
+        let object = HorizonsBatchObject(id: objectID, type: .Mb)
+        horizonSystem.getTarget(object: object, type: .OBSERVER) { result in
             XCTAssert(result, "Result is unexpected")
         }
     }
 
-    func testSingleTargetVector() throws {
+    func testSingleTargetVectorMb() throws {
         
         let objectID = "599"
         print("Object ID is \(objectID)")
-         horizonSystem.getTarget(objectID: objectID, type: .VECTORS) { result in
+        let object = HorizonsBatchObject(id: objectID, type: .Mb)
+        horizonSystem.getTarget(object: object, type: .VECTORS) { result in
+            XCTAssert(result, "Result is unexpected")
+        }
+    }
+
+    func testSingleTargetObserverSb() throws {
+        
+        let objectID = "647/2000647"
+        print("Object ID is \(objectID)")
+        let object = HorizonsBatchObject(id: objectID, type: .Sb)
+        horizonSystem.getTarget(object: object, type: .OBSERVER) { result in
+            XCTAssert(result, "Result is unexpected")
+        }
+    }
+
+    func testSingleTargetVectorSb() throws {
+        
+        let objectID = "647/2000647"
+        print("Object ID is \(objectID)")
+        let object = HorizonsBatchObject(id: objectID, type: .Sb)
+        horizonSystem.getTarget(object: object, type: .VECTORS) { result in
             XCTAssert(result, "Result is unexpected")
         }
     }

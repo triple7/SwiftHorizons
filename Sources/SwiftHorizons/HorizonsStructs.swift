@@ -7,6 +7,11 @@
 
 import Foundation
 
+public struct HorizonsBatchObject {
+    let id:String
+    let type:HorizonsType
+}
+
 public struct HorizonsTarget:Decodable {
     /** Horizons target result
      Object containing all information pertaining to a Horizons target including:
@@ -37,8 +42,15 @@ public struct HorizonsRequest {
     private let fileAPIUrl = "https://ssd.jpl.nasa.gov/api/horizons_file.api"
     private(set) var parameters:[String: String]
     
-    public init(target: String, parameters: [String: String]) {
-        self.parameters = [hp.COMMAND.id: target] + parameters
+    public init(target: HorizonsBatchObject, parameters: [String: String]) {
+        if target.type == .Mb {
+            self.parameters = [hp.COMMAND.id: target.id] + parameters
+        } else {
+            let components = target.id.components(separatedBy: "/")
+            let id = components[0]
+            let des = components[1]
+            self.parameters = [hp.COMMAND.id: id, "DES": des] + parameters
+        }
     }
 
     public init() {

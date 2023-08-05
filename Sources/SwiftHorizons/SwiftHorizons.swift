@@ -39,8 +39,8 @@ public class SwiftHorizons:NSObject {
      * expectedContentLength: size in kbytes of data
      */
     public var targets:[String: HorizonsTarget]
-    private lazy var batch:[String] = {
-        return [String]()
+    private lazy var batch:[HorizonsBatchObject] = {
+        return [HorizonsBatchObject]()
     }()
     private var buffer:Int!
     public var progress:Float?
@@ -53,7 +53,7 @@ public class SwiftHorizons:NSObject {
         self.sysLog = [HorizonsSyslog]()
     }
     
-    public func addToBatch( _ batch: [String]) {
+    public func addToBatch( _ batch: [HorizonsBatchObject]) {
         // Injects batch items at the start
         self.batch = batch + self.batch
     }
@@ -68,7 +68,7 @@ public class SwiftHorizons:NSObject {
 
  extension SwiftHorizons: URLSessionDelegate {
 
-     public      func getBatchTargets( objects: [String], type: EphemType, completion: @escaping (Bool)->Void ) {
+     public      func getBatchTargets( objects: [HorizonsBatchObject], type: EphemType, _ notifications: Bool=false, completion: @escaping (Bool)->Void ) {
          let serialQueue = DispatchQueue(label: "HorizonsDownloadQueue")
          
          var remainingObjects = objects
@@ -103,8 +103,8 @@ public class SwiftHorizons:NSObject {
                  }
                  if !gotError {
                      let text = String(decoding: data!, as: UTF8.self)
-                     let target = self.parseSingleTarget(id: object, parameters: request.parameters, text: text, type: type)
-                     self.targets[object] = target
+                     let target = self.parseSingleTarget(id: object.id, parameters: request.parameters, text: text, type: type)
+                     self.targets[object.id] = target
                      self.sysLog.append(HorizonsSyslog(log: .Ok, message: "ephemerus downloaded"))
                  }
                  
@@ -125,15 +125,15 @@ public class SwiftHorizons:NSObject {
                      }
                  }
      
-     public func getTarget(objectID: String, type: EphemType, _ closure: @escaping (Bool)-> Void) {
+     public func getTarget(object: HorizonsBatchObject, type: EphemType, _ closure: @escaping (Bool)-> Void) {
          /** Gets a single target
           Adds a target into the targets dictionary and adds a response type for further processing
           Params:
-          objectId: Horizons standard object id
+          objectId: Horizons standard batch object
           type: ephemerus request type
-          closure: whether request was successful
+          closure: whether async request is completed
           */
-         let request = HorizonsRequest(target: objectID, parameters: type.defaultParameters)
+         let request = HorizonsRequest(target: object, parameters: type.defaultParameters)
          let configuration = URLSessionConfiguration.ephemeral
      let queue = OperationQueue.main
          let session = URLSession(configuration: configuration, delegate: self, delegateQueue: queue)
@@ -156,8 +156,8 @@ public class SwiftHorizons:NSObject {
              }
 
              let text = String(decoding: data!, as: UTF8.self)
-             let target = self?.parseSingleTarget(id: objectID, parameters: request.parameters, text: text, type: type)
-             self?.targets[objectID] = target
+             let target = self?.parseSingleTarget(id: object.id, parameters: request.parameters, text: text, type: type)
+             self?.targets[object.id] = target
              self?.sysLog.append(HorizonsSyslog(log: .Ok, message: "ephemerus downloaded"))
          closure(true)
              return
