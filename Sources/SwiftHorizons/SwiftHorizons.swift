@@ -141,7 +141,7 @@ public class SwiftHorizons:NSObject {
              let object = remainingObjects.removeFirst()
              let request = HorizonsRequest(target: object, parameters: type.defaultParameters)
              
-             let operation = DownloadOperation(session: getOptimisedUrlSession(), dataTaskURL: request.getURL(), completionHandler: { (data, response, error) in
+             let operation = DownloadOperation(session: URLSession.shared, dataTaskURL: request.getURL(), completionHandler: { (data, response, error) in
                  if self.requestIsValid(error: error, response: response) {
                      let text = String(decoding: data!, as: UTF8.self)
                      if text.contains("No ephemeris for target"){
