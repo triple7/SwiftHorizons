@@ -132,9 +132,12 @@ public class SwiftHorizons:NSObject {
              let object = remainingObjects.removeFirst()
              let request = HorizonsRequest(target: object, parameters: type.defaultParameters)
              
+         print("getting object: \(object)")
              let operation = DownloadOperation(session: URLSession.shared, dataTaskURL: request.getURL(), completionHandler: { (data, response, error) in
                  if self.requestIsValid(error: error, response: response) {
+                     print("Good request")
                      let text = String(decoding: data!, as: UTF8.self)
+                     print(text0)
                      if text.contains("No ephemeris for target"){
                          let result = self.rectifyDate(text)
                          if result == "FUTURE" {
