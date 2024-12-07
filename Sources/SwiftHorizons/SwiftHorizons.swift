@@ -137,12 +137,11 @@ public class SwiftHorizons:NSObject {
                  if self.requestIsValid(error: error, response: response) {
                      print("Good request")
                      let text = String(decoding: data!, as: UTF8.self)
-                     print(text)
                      if text.contains("No ephemeris for target"){
                          let result = self.rectifyDate(text)
                          if result == "FUTURE" {
                              self.sysLog.append(HorizonsSyslog(log: .FUTURE, message: "ephemerus is historical"))
-                                                if self.batch.isEmpty {
+                             if self.batch.isEmpty {
                                  if notify {
                                      NotificationCenter.default.post(name: resetToEarthNotification, object: nil)
                                  }
@@ -153,19 +152,20 @@ public class SwiftHorizons:NSObject {
                      let target = self.parseSingleTarget(id: object.id, parameters: request.parameters, text: text, type: type, notify)
                      self.targets[object.id] = target
                      self.sysLog.append(HorizonsSyslog(log: .OK, message: "ephemerus downloaded"))
-                                                if notify {
-                                 NotificationCenter.default.post(name: remainingNotification, object: (objects.count - 1))
-                             }
-                 }
-                 
-                 // Call the recursive function to download the next object
-                 serialQueue.async {
-                     if !self.batch.isEmpty {
-                         for object in self.batch {
-                             remainingObjects.insert(object, at: 0)
-                         }
+                     if notify {
+                         NotificationCenter.default.post(name: remainingNotification, object: (objects.count - 1))
                      }
-                     downloadNextObject()
+                     
+                     // Call the recursive function to download the next object
+                     serialQueue.async {
+                         print("Going for next object")
+                         if !self.batch.isEmpty {
+                             for object in self.batch {
+                                 remainingObjects.insert(object, at: 0)
+                             }
+                         }
+                         downloadNextObject()
+                     }
                  }
              })
 
