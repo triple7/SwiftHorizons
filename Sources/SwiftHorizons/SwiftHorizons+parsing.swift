@@ -10,7 +10,7 @@ import simd
 
 extension SwiftHorizons {
     
-    func parseSingleTarget(id: String, parameters: [String: String], text: String, type: EphemType)->HorizonsTarget {
+    func parseSingleTarget(id: String, parameters: [String: String], text: String, type: EphemType, _ notify: Bool = false)->HorizonsTarget {
         let asteriskDelimitor = "\n*******************************************************************************\n"
         let format = text.components(separatedBy: asteriskDelimitor)
         _ = format[1].components(separatedBy: "\n")

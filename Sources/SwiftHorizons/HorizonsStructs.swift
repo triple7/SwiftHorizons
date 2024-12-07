@@ -8,9 +8,23 @@
 import Foundation
 import CoreLocation
 
-public struct HorizonsBatchObject {
-    let id:String
-    let type:HorizonsType
+public struct HorizonsBatchObject: Hashable, Equatable {
+    let id: String
+    let type: HorizonsType
+
+    public init(id: String, type: HorizonsType) {
+        self.id = id
+        self.type = type
+    }
+    
+    public static func == (lhs: HorizonsBatchObject, rhs: HorizonsBatchObject) -> Bool {
+        return lhs.id == rhs.id && lhs.type == rhs.type
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+        hasher.combine(type)
+    }
 }
 
 public struct HorizonsTarget:Decodable {
@@ -91,5 +105,5 @@ public struct HorizonsRequest {
         let T = DateAgent.getISODate(t0: start, t1: stop)
         return parameters + [hp.START_TIME.id: T.0, hp.STOP_TIME.id: T.1]
     }
-    
+
 }
