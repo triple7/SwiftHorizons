@@ -91,7 +91,6 @@ public class SwiftHorizons:NSObject {
      private func requestIsValid(error: Error?, response: URLResponse?, url: URL? = nil) -> Bool {
          var gotError = false
          if error != nil {
-             print(error!.localizedDescription)
              self.sysLog.append(HorizonsSyslog(log: .RequestError, message: error!.localizedDescription))
              gotError = true
          }
@@ -112,6 +111,17 @@ public class SwiftHorizons:NSObject {
          return !gotError
      }
 
+     
+     private func getOptimisedUrlSession() -> URLSession {
+         let configuration = URLSessionConfiguration.default
+         // Optimise the session network config
+         configuration.httpShouldUsePipelining = true
+         configuration.httpMaximumConnectionsPerHost = 10
+         configuration.waitsForConnectivity = false
+         return URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
+     }
+     
+     
      public      func getBatchTargets( objects: [HorizonsBatchObject], type: EphemType, _ notify: Bool=true, completion: @escaping (Bool)->Void ) {
          let serialQueue = DispatchQueue(label: "HorizonsDownloadQueue")
          
@@ -131,10 +141,8 @@ public class SwiftHorizons:NSObject {
              let object = remainingObjects.removeFirst()
              let request = HorizonsRequest(target: object, parameters: type.defaultParameters)
              
-             print("getting object: \(object)")
-             let operation = DownloadOperation(session: URLSession.shared, dataTaskURL: request.getURL(), completionHandler: { (data, response, error) in
+             let operation = DownloadOperation(session: getOptimisedUrlSession(), dataTaskURL: request.getURL(), completionHandler: { (data, response, error) in
                  if self.requestIsValid(error: error, response: response) {
-                     print("Good request")
                      let text = String(decoding: data!, as: UTF8.self)
                      if text.contains("No ephemeris for target"){
                          let result = self.rectifyDate(text)
