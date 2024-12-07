@@ -127,12 +127,11 @@ public class SwiftHorizons:NSObject {
                  completion(true)
                  return
              }
-         }
              
              let object = remainingObjects.removeFirst()
              let request = HorizonsRequest(target: object, parameters: type.defaultParameters)
              
-         print("getting object: \(object)")
+             print("getting object: \(object)")
              let operation = DownloadOperation(session: URLSession.shared, dataTaskURL: request.getURL(), completionHandler: { (data, response, error) in
                  if self.requestIsValid(error: error, response: response) {
                      print("Good request")
@@ -158,7 +157,6 @@ public class SwiftHorizons:NSObject {
                      
                      // Call the recursive function to download the next object
                      serialQueue.async {
-                         print("Going for next object")
                          if !self.batch.isEmpty {
                              for object in self.batch {
                                  remainingObjects.insert(object, at: 0)
@@ -168,11 +166,17 @@ public class SwiftHorizons:NSObject {
                      }
                  }
              })
+             
+             // Add the operation to the serial queue to execute it serially
+             serialQueue.async {
+                 operation.start()
+             }
+         }
 
-                     // Add the operation to the serial queue to execute it serially
-                     serialQueue.async {
-                         operation.start()
-                     }
+         // Add the operation to the serial queue to execute it serially
+         serialQueue.async {
+             downloadNextObject()
+         }
                  }
      
      public func getTarget(object: HorizonsBatchObject, type: EphemType, _ closure: @escaping (Bool)-> Void) {
