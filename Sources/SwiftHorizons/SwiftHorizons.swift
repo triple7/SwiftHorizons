@@ -112,16 +112,6 @@ public class SwiftHorizons:NSObject {
      }
 
      
-     private func getOptimisedUrlSession() -> URLSession {
-         let configuration = URLSessionConfiguration.ephemeral
-         // Optimise the session network config
-         configuration.httpShouldUsePipelining = true
-         configuration.httpMaximumConnectionsPerHost = 6
-         configuration.waitsForConnectivity = false
-         return URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
-     }
-     
-     
      public      func getBatchTargets( objects: [HorizonsBatchObject], type: EphemType, _ notify: Bool=true, completion: @escaping (Bool)->Void ) {
          let serialQueue = DispatchQueue(label: "HorizonsDownloadQueue")
          
@@ -141,7 +131,7 @@ public class SwiftHorizons:NSObject {
              let object = remainingObjects.removeFirst()
              let request = HorizonsRequest(target: object, parameters: type.defaultParameters)
              
-             let operation = DownloadOperation(session: getOptimisedUrlSession(), dataTaskURL: request.getURL(), completionHandler: { (data, response, error) in
+             let operation = DownloadOperation(session: URLSession.shared, dataTaskURL: request.getURL(), completionHandler: { (data, response, error) in
                  if self.requestIsValid(error: error, response: response) {
                      let text = String(decoding: data!, as: UTF8.self)
                      if text.contains("No ephemeris for target"){
