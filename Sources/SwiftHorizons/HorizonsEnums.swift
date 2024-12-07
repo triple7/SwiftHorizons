@@ -67,6 +67,7 @@ public enum HorizonsParameter:String, CaseIterable, Identifiable {
     case ELM_LABELS
     case TP_TYPE
     case R_T_S_ONLY
+    case TABLE_TYPE
     
     public var id:String {
         return self.rawValue
@@ -105,18 +106,8 @@ case APPROACH
         case .ELEMENTS:
             /* WIP */
             return [String: String]()
-        case .VECTORS:
-            return [
-                hp.format.id: "text",
-                hp.CENTER.id: "c@399",
-                hp.REF_PLANE.id: "FRAME",
-                hp.VEC_TABLE.id: "1",
-                hp.VEC_CORR.id: "LT",
-                hp.VEC_LABELS.id: "NO",
-                hp.EPHEM_TYPE.id: self.id,
-                hp.STEP_SIZE.id: "3",
-                hp.CSV_FORMAT.id: "YES"
-            ]        case .APPROACH:
+        case .VECTORS: return VEC_BATCH_PARAMS
+            case .APPROACH:
             /* WIP*/
             return [String: String]()
         case .SPK:
