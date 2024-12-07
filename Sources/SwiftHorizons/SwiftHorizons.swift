@@ -137,7 +137,7 @@ public class SwiftHorizons:NSObject {
                  if self.requestIsValid(error: error, response: response) {
                      print("Good request")
                      let text = String(decoding: data!, as: UTF8.self)
-                     print(text0)
+                     print(text)
                      if text.contains("No ephemeris for target"){
                          let result = self.rectifyDate(text)
                          if result == "FUTURE" {
