@@ -47,6 +47,7 @@ public struct HorizonsTarget:Decodable {
         self.ephemerus = ephemerus
     }
     
+    
 }
 
 public struct HorizonsRequest {
@@ -77,6 +78,11 @@ public struct HorizonsRequest {
     public init() {
         self.parameters = [String: String]()
     }
+
+    public mutating func setParameter(name: String, value: String) {
+        parameters[name] = value
+    }
+
     
     public func getURL(start: Int = -1, stop: Int = 1)->URL {
         /** Returns a formatted request Url

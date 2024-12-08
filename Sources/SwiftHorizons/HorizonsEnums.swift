@@ -118,3 +118,22 @@ case APPROACH
     
     
 }
+
+enum Parameters{
+    case Observable, Source, StartDate, EndDate, DurationStep
+    
+    var index:Int{
+        switch self{
+        case .Observable: return 0
+        case .Source: return 5
+        case .StartDate: return 7
+        case .EndDate: return 8
+        case .DurationStep: return 9
+        }
+    }
+
+    func format(_ value: String)->String{
+        return "\(value)\n"
+    }
+    
+}

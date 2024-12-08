@@ -8,6 +8,19 @@
 
 import Foundation
 
+/* Astronomical constants used for
+ time and date conversion
+ */
+
+//Julian date for Jan2000
+let JULIAN2000 = 2451545.0
+//get local UT time since J2000 12h UT+1
+let J2000 = Date(timeIntervalSinceReferenceDate: -(31536000 + 43200)) //Taken into account 1 year and 12 hours in seconds
+//J2000 to unix timestamp epoch
+let j2000Unix = 946684800
+
+
+
 var VEC_BATCH_PARAMS = [
     hp.OBJ_DATA.id: "NO",
     hp.MAKE_EPHEM.id: "YES",

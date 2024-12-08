@@ -36,11 +36,18 @@ public class SwiftHorizons:NSObject {
      For batch processing of objects, this class serially retrieves targets, and defaults to the sun, planets and satellites.
      properties:
      * targets: dictionary of targets with id as key and parameters as value
+     * firstTimeSamplingJD: uses local time snapshot for calculating new celestial positions
      * bufferlength: progressive size of download
      * progress: progress in percentage of download for a target
      * expectedContentLength: size in kbytes of data
      */
     public var targets:[String: HorizonsTarget]
+    internal var firstTimeSamplingJD = true
+    internal var snapShotToday:Date?
+    internal var snapShotJDStart:Double?
+    internal var local:CLLocation?
+
+    
     private lazy var batch:[HorizonsBatchObject] = {
         return [HorizonsBatchObject]()
     }()
@@ -50,6 +57,7 @@ public class SwiftHorizons:NSObject {
     private var buffer:Int!
     public var progress:Float?
     private var expectedContentLength:Int?
+    
     public var sysLog:[HorizonsSyslog]!
     public var location:CLLocation?
     private var retries:[HorizonsBatchObject: Int]
@@ -62,7 +70,26 @@ public class SwiftHorizons:NSObject {
         self.sysLog = [HorizonsSyslog]()
          retries = [HorizonsBatchObject: Int]()
     }
+
     
+    public func configureBatch(request: inout HorizonsRequest,local: CLLocation){
+        self.local = local
+        let dateFormat = DateFormatter()
+        dateFormat.timeZone = TimeZone(abbreviation: "UTC")
+        dateFormat.dateFormat = "yyyy-MMM-dd HH:mm" //automatically converts from utc
+        let TimeNow = getTDBtime(date: Date())
+        
+        let previous = Calendar.current.date(byAdding: .hour, value: 24, to: TimeNow)!
+        let prevString = (Parameters.StartDate.format(dateFormat.string(from: previous))).components(separatedBy: "\n").first!
+        
+        request.setParameter(name: hp.STOP_TIME.id, value: "\(prevString)")
+        request.setParameter(name: hp.START_TIME.id, value: Parameters.EndDate.format(dateFormat.string(from: TimeNow)).components(separatedBy: "\n").first!)
+        // convert altitude from iOS in meters to km in Horizons
+        let convertedAltitude = local.altitude/1000
+        
+        request.setParameter(name: hp.SITE_COORD.id, value: "\(local.coordinate.longitude),\(local.coordinate.latitude),\(convertedAltitude)")
+    }
+
     public func updateLocation( _ location: CLLocation) {
         self.location = location
     }

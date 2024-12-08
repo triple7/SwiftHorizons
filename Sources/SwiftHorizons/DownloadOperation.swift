@@ -8,7 +8,7 @@
 import Foundation
 
 
-class DownloadOperation : Operation {
+class DownloadOperation : Operation, @unchecked Sendable {
     
     private var task : URLSessionDataTask!
     
