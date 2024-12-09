@@ -113,3 +113,15 @@ public struct HorizonsRequest {
     }
 
 }
+
+
+
+public struct Batch:Hashable {
+    let id:String
+    let type:String
+                          
+    
+    public static func == (lhs: Batch, rhs: Batch) -> Bool {
+        return lhs.id == rhs.id
+}
+}
