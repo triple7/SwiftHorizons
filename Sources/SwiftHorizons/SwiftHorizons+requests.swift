@@ -54,11 +54,13 @@ extension SwiftHorizons: URLSessionDelegate {
         
         var remainingObjects = objects
         
+        print("getBatchTargets: \(remainingObjects.count) remaining")
         // Create a recursive function to handle the download
         func downloadNextObject() {
             guard !remainingObjects.isEmpty else {
                 // All objects have been downloaded, call the completion handler
                 if notify {
+                    print("Notifying completion")
                     NotificationCenter.default.post(name: completedNotification, object: nil)
                 }
                 completion(true)
@@ -71,6 +73,7 @@ extension SwiftHorizons: URLSessionDelegate {
             let operation = DownloadOperation(session: URLSession.shared, dataTaskURL: request.getURL(), completionHandler: { (data, response, error) in
                 if self.requestIsValid(error: error, response: response) {
                     let text = String(decoding: data!, as: UTF8.self)
+                    print("Got object: \(text)")
                     if text.contains("No ephemeris for target"){
                         let result = self.rectifyDate(text)
                         if result == "FUTURE" {
