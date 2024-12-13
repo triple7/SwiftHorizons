@@ -39,11 +39,8 @@ extension SwiftHorizons: URLSessionDelegate {
     /** Wraps the full target list batch odwnload
      */
     public func downloadBatch(type: EphemType = .VECTORS, notify: Bool = true) {
-        print("self.batch: \(self.batch.count)")
         let tobatch = self.batch
-        print("toBatch: \(tobatch.count)")
         self.batch.removeAll()
-        print("tobatch: \(tobatch.count)")
         getBatchTargets(objects: tobatch, type: type, notify: notify, completion: { success in
             let msg = success ? "all downloaded" : "one or more failures, check logs"
             let log:HorizonsError = success ? .OK : .RequestError

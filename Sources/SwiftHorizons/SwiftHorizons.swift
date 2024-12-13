@@ -98,11 +98,9 @@ public class SwiftHorizons:NSObject {
         // Injects batch items at the start
         for object in objects {
             if !downloaded.contains(object) && !batch.contains(object) {
-                print("adding \(object.id)")
                 self.batch.insert(object, at: 0)
             }
         }
-        print("batch has: \(self.batch.count)")
     }
     
     public func printLogs() {
