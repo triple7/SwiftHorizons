@@ -84,9 +84,9 @@ public class SwiftHorizons:NSObject {
         request.setParameter(name: hp.STOP_TIME.id, value: "\(prevString)")
         request.setParameter(name: hp.START_TIME.id, value: Parameters.EndDate.format(dateFormat.string(from: TimeNow)).components(separatedBy: "\n").first!)
         // convert altitude from iOS in meters to km in Horizons
-        let convertedAltitude = local.altitude/1000
+        let convertedAltitude = local!.altitude/1000
         
-        request.setParameter(name: hp.SITE_COORD.id, value: "\(local.coordinate.longitude),\(local.coordinate.latitude),\(convertedAltitude)")
+        request.setParameter(name: hp.SITE_COORD.id, value: "\(local!.coordinate.longitude),\(local!.coordinate.latitude),\(convertedAltitude)")
     }
 
     public func updateLocation( _ location: CLLocation) {
