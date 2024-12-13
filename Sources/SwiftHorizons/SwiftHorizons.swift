@@ -90,6 +90,7 @@ public class SwiftHorizons:NSObject {
     }
 
     public func updateLocation( _ location: CLLocation?) {
+        print("Updating location")
         self.local = location
     }
     
