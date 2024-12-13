@@ -94,9 +94,9 @@ public class SwiftHorizons:NSObject {
         self.location = location
     }
     
-    public func addToBatch( _ batch: [HorizonsBatchObject]) {
+    public func addToBatch( _ objects: [HorizonsBatchObject]) {
         // Injects batch items at the start
-        for object in batch {
+        for object in objects {
             if !downloaded.contains(object) && !batch.contains(object) {
                 print("adding \(object.id)")
                 self.batch.insert(object, at: 0)
