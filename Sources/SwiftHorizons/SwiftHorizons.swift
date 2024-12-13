@@ -89,6 +89,11 @@ public class SwiftHorizons:NSObject {
         request.setParameter(name: hp.SITE_COORD.id, value: "\(local!.coordinate.longitude),\(local!.coordinate.latitude),\(convertedAltitude)")
     }
 
+    public func getLocal() -> CLLocation {
+        return self.local!
+    }
+    
+    
     public func updateLocation( _ location: CLLocation?) {
         print("Updating location")
         self.local = location
