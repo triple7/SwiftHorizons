@@ -72,8 +72,7 @@ public class SwiftHorizons:NSObject {
     }
 
     
-    public func configureBatch(request: inout HorizonsRequest,local: CLLocation){
-        self.local = local
+    public func configureBatch(request: inout HorizonsRequest){
         let dateFormat = DateFormatter()
         dateFormat.timeZone = TimeZone(abbreviation: "UTC")
         dateFormat.dateFormat = "yyyy-MMM-dd HH:mm" //automatically converts from utc
@@ -91,7 +90,7 @@ public class SwiftHorizons:NSObject {
     }
 
     public func updateLocation( _ location: CLLocation) {
-        self.location = location
+        self.local = location
     }
     
     public func addToBatch( _ objects: [HorizonsBatchObject]) {
