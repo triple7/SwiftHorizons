@@ -71,6 +71,7 @@ extension SwiftHorizons: URLSessionDelegate {
             
             let object = remainingObjects.removeFirst()
             let request = HorizonsRequest(target: object, parameters: type.defaultParameters)
+            print(request.getURL())
             
             let operation = DownloadOperation(session: URLSession.shared, dataTaskURL: request.getURL(), completionHandler: { (data, response, error) in
                 if self.requestIsValid(error: error, response: response) {
