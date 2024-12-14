@@ -24,7 +24,6 @@ extension SwiftHorizons {
             wip = true
             break
         case .VECTORS:
-            print("getting vectors")
             let start = result.components(separatedBy: "SOE\n").last!
             soe = "$$SOE\n\(start.components(separatedBy: "EOE").first!)"
         case .APPROACH:
@@ -40,14 +39,11 @@ extension SwiftHorizons {
         }
         
         /* Parses the returned coordinate text block */
-        print("getting coordinate vectors")
         var coordinateBlock = soe.components(separatedBy: "\n")
-        print("coordinate block: \n\(coordinateBlock)")
         coordinateBlock.removeFirst()
         coordinateBlock.removeLast()
         var ephemerus = [String: [Double]]()
         for c in coordinateBlock {
-            print("coordinate: \n \(c)")
             var coordinates = parseCoordinates(text: c.components(separatedBy: ","), type: type)
              let timeCode = coordinates.removeFirst()
             ephemerus[timeCode] = coordinates.map {Double($0)!}
