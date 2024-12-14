@@ -82,8 +82,8 @@ public class SwiftHorizons:NSObject {
         let previous = Calendar.current.date(byAdding: .hour, value: 24, to: TimeNow)!
         let prevString = (Parameters.StartDate.format(dateFormat.string(from: previous))).components(separatedBy: "\n").first!
         
-        request.setParameter(name: hp.START_TIME.id, value: "\(prevString)")
-        request.setParameter(name: hp.STOP_TIME.id, value: Parameters.EndDate.format(dateFormat.string(from: TimeNow)).components(separatedBy: "\n").first!)
+        request.setParameter(name: hp.STOP_TIME.id, value: "\(prevString)")
+        request.setParameter(name: hp.START_TIME.id, value: Parameters.EndDate.format(dateFormat.string(from: TimeNow)).components(separatedBy: "\n").first!)
         // convert altitude from iOS in meters to km in Horizons
         let convertedAltitude = local!.altitude/1000
         
