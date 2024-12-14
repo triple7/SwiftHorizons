@@ -62,6 +62,7 @@ extension SwiftHorizons: URLSessionDelegate {
                     print("Notifying completion")
                     NotificationCenter.default.post(name: completedNotification, object: nil)
                 }
+                print("All objects downloaded")
                 completion(true)
                 return
             }
@@ -87,7 +88,7 @@ extension SwiftHorizons: URLSessionDelegate {
                     
                     let target = self.parseSingleTarget(id: object.id, parameters: request.parameters, text: text, type: type, notify)
                     self.targets[object.id] = target
-                    self.sysLog.append(HorizonsSyslog(log: .OK, message: "ephemerus downloaded"))
+                    self.sysLog.append(HorizonsSyslog(log: .OK, message: "ephemerus  \(object.id) \(object.type.id) downloaded"))
                     if notify {
                         NotificationCenter.default.post(name: remainingNotification, object: (objects.count - 1))
                     }
