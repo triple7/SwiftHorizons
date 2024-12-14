@@ -15,7 +15,6 @@ extension SwiftHorizons: URLSessionDelegate {
     private func requestIsValid(error: Error?, response: URLResponse?, url: URL? = nil) -> Bool {
         var gotError = false
         if error != nil {
-            print(error?.localizedDescription)
             self.sysLog.append(HorizonsSyslog(log: .RequestError, message: error!.localizedDescription))
             gotError = true
         }

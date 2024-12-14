@@ -25,7 +25,7 @@ extension SwiftHorizons {
             break
         case .VECTORS:
             print("getting vectors")
-            let start = text.components(separatedBy: "SOE\n").last!
+            let start = result.components(separatedBy: "SOE\n").last!
             soe = "$$SOE\n\(start.components(separatedBy: "EOE").first!)"
         case .APPROACH:
             wip = true
