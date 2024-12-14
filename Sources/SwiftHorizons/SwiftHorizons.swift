@@ -22,6 +22,7 @@ public struct HorizonsSyslog:CustomStringConvertible {
 
         self.log = log
                   self.message = message
+        print("Horizons: \(log) \(message)")
     }
     
     public var description:String {
