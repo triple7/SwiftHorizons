@@ -35,6 +35,6 @@ var VEC_BATCH_PARAMS = [
     hp.REF_SYSTEM.id: "J2000",
     hp.OUT_UNITS.id: "KM-S",
     hp.VEC_TABLE.id: "1",
-    hp.VEC_CORR.id: "LT+S",
+    hp.VEC_CORR.id: "CN+S",
     hp.CSV_FORMAT.id: "YES",
 ]
