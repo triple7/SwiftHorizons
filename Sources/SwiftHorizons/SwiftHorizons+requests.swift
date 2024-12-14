@@ -56,7 +56,6 @@ extension SwiftHorizons: URLSessionDelegate {
         
         var remainingObjects = objects
         
-        print("getBatchTargets: \(remainingObjects.count) remaining")
         // Create a recursive function to handle the download
         func downloadNextObject() {
             guard !remainingObjects.isEmpty else {

@@ -11,8 +11,10 @@ import simd
 extension SwiftHorizons {
     
     func parseSingleTarget(id: String, parameters: [String: String], text: String, type: EphemType, _ notify: Bool = false)->HorizonsTarget {
+        print("parse target")
         let asteriskDelimitor = "\n*******************************************************************************\n"
         let format = text.components(separatedBy: asteriskDelimitor)
+        print(format)
         _ = format[1].components(separatedBy: "\n")
         var soe = ""
         var wip = false
@@ -23,6 +25,7 @@ extension SwiftHorizons {
             wip = true
             break
         case .VECTORS:
+            print("getting vectors")
             let start = text.components(separatedBy: "SOE\n").last!
             soe = "$$SOE\n\(start.components(separatedBy: "EOE").first!)"
         case .APPROACH:
