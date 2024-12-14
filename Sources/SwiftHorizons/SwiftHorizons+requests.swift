@@ -42,6 +42,7 @@ extension SwiftHorizons: URLSessionDelegate {
         let tobatch = self.batch
         self.batch.removeAll()
         getBatchTargets(objects: tobatch, type: type, notify: notify, completion: { success in
+            print("Horizons: about to print log success")
             let msg = success ? "all downloaded" : "one or more failures, check logs"
             let log:HorizonsError = success ? .OK : .RequestError
             self.sysLog.append(HorizonsSyslog(log: log, message: msg))
@@ -59,10 +60,11 @@ extension SwiftHorizons: URLSessionDelegate {
             guard !remainingObjects.isEmpty else {
                 // All objects have been downloaded, call the completion handler
                 if notify {
-                    print("Notifying completion")
-                    NotificationCenter.default.post(name: completedNotification, object: nil)
+                    DispatchQueue.main.async {
+                        print("Notifying completion")
+                        NotificationCenter.default.post(name: completedNotification, object: nil)
+                    }
                 }
-                print("All objects downloaded")
                 completion(true)
                 return
             }
