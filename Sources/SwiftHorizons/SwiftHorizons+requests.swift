@@ -41,9 +41,9 @@ extension SwiftHorizons: URLSessionDelegate {
     public func downloadBatch(type: EphemType = .VECTORS, notify: Bool = true) {
         let tobatch = self.batch
         self.batch.removeAll()
+        let batchCount = tobatch.count
         getBatchTargets(objects: tobatch, type: type, notify: notify, completion: { success in
-            print("Horizons: about to print log success")
-            let msg = success ? "all downloaded" : "one or more failures, check logs"
+            let msg = success ? "all \(batchCount) ephemerides downloaded" : "one or more failures, check logs"
             let log:HorizonsError = success ? .OK : .RequestError
             self.sysLog.append(HorizonsSyslog(log: log, message: msg))
         })
@@ -61,7 +61,6 @@ extension SwiftHorizons: URLSessionDelegate {
                 // All objects have been downloaded, call the completion handler
                 if notify {
                     DispatchQueue.main.async {
-                        print("Notifying completion")
                         NotificationCenter.default.post(name: completedNotification, object: nil)
                     }
                 }
