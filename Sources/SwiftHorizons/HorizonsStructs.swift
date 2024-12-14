@@ -114,14 +114,14 @@ public struct HorizonsRequest {
 
 }
 
+public struct HorizonsReturnJson:Codable {
+    let result:String
+    let signature:HorizonsReturnSignature
+}
 
 
-public struct Batch:Hashable {
-    let id:String
-    let type:String
-                          
-    
-    public static func == (lhs: Batch, rhs: Batch) -> Bool {
-        return lhs.id == rhs.id
+public struct HorizonsReturnSignature:Codable {
+    let version:String
+    let source:String
 }
-}
+
