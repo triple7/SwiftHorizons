@@ -13,6 +13,12 @@ public struct HorizonsBatchObject:Codable, Hashable, Equatable {
     let type: HorizonsType // for request forming
     let objectType:String // category of object as known in english language
 
+    public init(id: String, type: HorizonsType, objectType: String) {
+        self.id = id
+        self.type = type
+        self.objectType = objectType
+    }
+    
     public static func == (lhs: HorizonsBatchObject, rhs: HorizonsBatchObject) -> Bool {
         return lhs.id == rhs.id && lhs.type == rhs.type
     }
