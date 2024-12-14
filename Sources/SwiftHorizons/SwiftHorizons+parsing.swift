@@ -38,7 +38,9 @@ extension SwiftHorizons {
         }
         
         /* Parses the returned coordinate text block */
+        print("getting coordinate vectors")
         var coordinateBlock = soe.components(separatedBy: "\n")
+        print("coordinate block: \n\(coordinateBlock)")
         coordinateBlock.removeFirst()
         coordinateBlock.removeLast()
         var ephemerus = [String: [Double]]()
