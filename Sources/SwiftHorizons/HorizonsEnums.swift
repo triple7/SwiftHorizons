@@ -13,7 +13,7 @@ typealias hp = HorizonsParameter
  https://ssd-api.jpl.nasa.gov/doc/horizons.html#spk_file
  */
 
-public enum HorizonsType:String, CaseIterable, Identifiable {
+public enum HorizonsType:String, Codable, CaseIterable, Identifiable {
     case Mb
     case Sb
     

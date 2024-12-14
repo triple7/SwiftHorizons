@@ -8,15 +8,11 @@
 import Foundation
 import CoreLocation
 
-public struct HorizonsBatchObject: Hashable, Equatable {
-    let id: String
-    let type: HorizonsType
+public struct HorizonsBatchObject:Codable, Hashable, Equatable {
+    let id: String // Known id in horizons
+    let type: HorizonsType // for request forming
+    let objectType:String // category of object as known in english language
 
-    public init(id: String, type: HorizonsType) {
-        self.id = id
-        self.type = type
-    }
-    
     public static func == (lhs: HorizonsBatchObject, rhs: HorizonsBatchObject) -> Bool {
         return lhs.id == rhs.id && lhs.type == rhs.type
     }
@@ -34,20 +30,14 @@ public struct HorizonsTarget:Decodable {
      * target request parameters
      * target physical properties
      * target ephemerus carthesian vectors
+     * target coordinate timestamp
      */
     let id:String /* Horizons client object id */
     let parameters:[String: String] /* object request parameters */
     let properties:[String] /* physical object properties */
-    let ephemerus:[String: [Double]] /* ephemerus carthesian coordinates */
-    
-    init(id: String, parameters: [String: String], properties: [String], ephemerus: [String: [Double]]) {
-        self.id = id
-        self.parameters = parameters
-        self.properties = properties
-        self.ephemerus = ephemerus
-    }
-    
-    
+    let coordinates:[Double] /* ephemerus carthesian coordinates */
+    let timestamps:[Double]
+
 }
 
 public struct HorizonsRequest {

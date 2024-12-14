@@ -42,13 +42,14 @@ extension SwiftHorizons {
         var coordinateBlock = soe.components(separatedBy: "\n")
         coordinateBlock.removeFirst()
         coordinateBlock.removeLast()
-        var ephemerus = [String: [Double]]()
+        var ephemCoordinates = [Double]()
+        var ephemCoordinateTimestamps = [Double]()
         for c in coordinateBlock {
             var coordinates = parseCoordinates(text: c.components(separatedBy: ","), type: type)
-             let timeCode = coordinates.removeFirst()
-            ephemerus[timeCode] = coordinates.map {Double($0)!}
+            ephemCoordinateTimestamps.append(Double(coordinates.removeFirst())!)
+            ephemCoordinates = coordinates.map {Double($0)!}
         }
-        return HorizonsTarget(id: id, parameters: parameters, properties: [String]()/* temporary */, ephemerus: ephemerus)
+        return HorizonsTarget(id: id, parameters: parameters, properties: [String]()/* temporary */, coordinates: ephemCoordinates, timestamps: ephemCoordinateTimestamps)
     }
 
     private final func parseCoordinates(text: [String], type: EphemType)->[String] {
