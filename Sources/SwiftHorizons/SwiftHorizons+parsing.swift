@@ -11,11 +11,9 @@ import simd
 extension SwiftHorizons {
     
     func parseSingleTarget(id: String, parameters: [String: String], text: String, type: EphemType, _ notify: Bool = false)->HorizonsTarget {
-        print("parse target")
         let result = try! JSONDecoder().decode(HorizonsReturnJson.self, from: text.data(using: .utf8)!).result
         let asteriskDelimitor = "\n*******************************************************************************\n"
         let format = result.components(separatedBy: asteriskDelimitor)
-        print(format)
         _ = format[1].components(separatedBy: "\n")
         var soe = ""
         var wip = false
@@ -49,6 +47,7 @@ extension SwiftHorizons {
         coordinateBlock.removeLast()
         var ephemerus = [String: [Double]]()
         for c in coordinateBlock {
+            print("coordinate: \n \(c)")
             var coordinates = parseCoordinates(text: c.components(separatedBy: ","), type: type)
              let timeCode = coordinates.removeFirst()
             ephemerus[timeCode] = coordinates.map {Double($0)!}

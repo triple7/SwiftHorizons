@@ -26,7 +26,6 @@ extension SwiftHorizons: URLSessionDelegate {
         let urlResponse = (response as! HTTPURLResponse)
         if urlResponse.statusCode != 200 {
             let error = NSError(domain: "com.error", code: urlResponse.statusCode)
-            print(error.localizedDescription)
             self.sysLog.append(HorizonsSyslog(log: .RequestError, message: error.localizedDescription))
             gotError = true
         }
@@ -71,12 +70,10 @@ extension SwiftHorizons: URLSessionDelegate {
             let object = remainingObjects.removeFirst()
             var request = HorizonsRequest(target: object, parameters: type.defaultParameters)
             self.configureBatch(request: &request)
-            print(request.getURL())
             
             let operation = DownloadOperation(session: URLSession.shared, dataTaskURL: request.getURL(), completionHandler: { (data, response, error) in
                 if self.requestIsValid(error: error, response: response) {
                     let text = String(decoding: data!, as: UTF8.self)
-                    print("Got object: \(text)")
                     if text.contains("No ephemeris for target"){
                         let result = self.rectifyDate(text)
                         if result == "FUTURE" {
