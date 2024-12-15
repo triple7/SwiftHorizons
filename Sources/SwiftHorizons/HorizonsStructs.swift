@@ -48,7 +48,7 @@ public struct HorizonsTarget:Decodable {
     public let objectType:String
     public let parameters:[String: String] /* object request parameters */
     public let properties:[String] /* physical object properties */
-    public let coordinates:[Double] /* ephemerus carthesian coordinates */
+    public let coordinates:[[Double]] /* ephemerus carthesian coordinates */
     public let timestamps:[Double]
 
 }

@@ -42,12 +42,12 @@ extension SwiftHorizons {
         var coordinateBlock = soe.components(separatedBy: "\n")
         coordinateBlock.removeFirst()
         coordinateBlock.removeLast()
-        var ephemCoordinates = [Double]()
+        var ephemCoordinates = [[Double]]()
         var ephemCoordinateTimestamps = [Double]()
         for c in coordinateBlock {
             var coordinates = parseCoordinates(text: c.components(separatedBy: ","), type: type)
             ephemCoordinateTimestamps.append(Double(coordinates.removeFirst())!)
-            ephemCoordinates = coordinates.map {Double($0)!}
+            ephemCoordinates.append(coordinates.map {Double($0)!})
         }
         return HorizonsTarget(name: name, id: id, objectType: objectType, parameters: parameters, properties: [String]()/* temporary */, coordinates: ephemCoordinates, timestamps: ephemCoordinateTimestamps)
     }
