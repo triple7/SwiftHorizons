@@ -42,12 +42,12 @@ public struct HorizonsTarget:Decodable {
      * target coordinate timestamp
      */
     
-    let name:String // Known name
-    let id:String /* Horizons client object id */
-    let parameters:[String: String] /* object request parameters */
-    let properties:[String] /* physical object properties */
-    let coordinates:[Double] /* ephemerus carthesian coordinates */
-    let timestamps:[Double]
+    public let name:String // Known name
+    public let id:String /* Horizons client object id */
+    public let parameters:[String: String] /* object request parameters */
+    public let properties:[String] /* physical object properties */
+    public let coordinates:[Double] /* ephemerus carthesian coordinates */
+    public let timestamps:[Double]
 
 }
 
