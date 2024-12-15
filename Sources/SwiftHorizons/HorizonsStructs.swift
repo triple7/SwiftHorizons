@@ -36,6 +36,7 @@ public struct HorizonsTarget:Decodable {
      Object containing all information pertaining to a Horizons target including:
      * known name
      * target id
+     * target object type
      * target request parameters
      * target physical properties
      * target ephemerus carthesian vectors
@@ -44,6 +45,7 @@ public struct HorizonsTarget:Decodable {
     
     public let name:String // Known name
     public let id:String /* Horizons client object id */
+    public let objectType:String
     public let parameters:[String: String] /* object request parameters */
     public let properties:[String] /* physical object properties */
     public let coordinates:[Double] /* ephemerus carthesian coordinates */

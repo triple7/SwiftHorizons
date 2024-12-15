@@ -10,7 +10,7 @@ import simd
 
 extension SwiftHorizons {
     
-    func parseSingleTarget(name: String, id: String, parameters: [String: String], text: String, type: EphemType, _ notify: Bool = false)->HorizonsTarget {
+    func parseSingleTarget(name: String, id: String, objectType: String, parameters: [String: String], text: String, type: EphemType, _ notify: Bool = false)->HorizonsTarget {
         let result = try! JSONDecoder().decode(HorizonsReturnJson.self, from: text.data(using: .utf8)!).result
         let asteriskDelimitor = "\n*******************************************************************************\n"
         let format = result.components(separatedBy: asteriskDelimitor)
@@ -49,7 +49,7 @@ extension SwiftHorizons {
             ephemCoordinateTimestamps.append(Double(coordinates.removeFirst())!)
             ephemCoordinates = coordinates.map {Double($0)!}
         }
-        return HorizonsTarget(name: name, id: id, parameters: parameters, properties: [String]()/* temporary */, coordinates: ephemCoordinates, timestamps: ephemCoordinateTimestamps)
+        return HorizonsTarget(name: name, id: id, objectType: objectType, parameters: parameters, properties: [String]()/* temporary */, coordinates: ephemCoordinates, timestamps: ephemCoordinateTimestamps)
     }
 
     private final func parseCoordinates(text: [String], type: EphemType)->[String] {
