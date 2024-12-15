@@ -9,11 +9,13 @@ import Foundation
 import CoreLocation
 
 public struct HorizonsBatchObject:Codable, Hashable, Equatable {
+    let name:String // Known name
     let id: String // Known id in horizons
     let type: HorizonsType // for request forming
     let objectType:String // category of object as known in english language
 
-    public init(id: String, type: HorizonsType, objectType: String) {
+    public init(name: String, id: String, type: HorizonsType, objectType: String) {
+        self.name = name
         self.id = id
         self.type = type
         self.objectType = objectType
@@ -32,12 +34,15 @@ public struct HorizonsBatchObject:Codable, Hashable, Equatable {
 public struct HorizonsTarget:Decodable {
     /** Horizons target result
      Object containing all information pertaining to a Horizons target including:
+     * known name
      * target id
      * target request parameters
      * target physical properties
      * target ephemerus carthesian vectors
      * target coordinate timestamp
      */
+    
+    let name:String // Known name
     let id:String /* Horizons client object id */
     let parameters:[String: String] /* object request parameters */
     let properties:[String] /* physical object properties */
