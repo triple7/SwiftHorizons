@@ -55,7 +55,7 @@ public class SwiftHorizons:NSObject {
     internal lazy var downloaded:[HorizonsBatchObject] = {
         return [HorizonsBatchObject]()
     }()
-    fileprivate var isProcessingBatch = false
+    internal var isProcessingBatch = false
     internal var buffer:Int!
     public var progress:Float?
     internal var expectedContentLength:Int?
