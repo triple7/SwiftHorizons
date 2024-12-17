@@ -62,8 +62,7 @@ extension SwiftHorizons {
         case .ELEMENTS:
             return [String]()
         case .VECTORS:
-            print("getting vectors \(text.count)")
-            return [ text[0], text[1], text[2], text[3], text[4]].map {$0.replacingOccurrences(of: " ", with: "")}
+            return [ text[0], text[2], text[3], text[4], text[5]].map {$0.replacingOccurrences(of: " ", with: "")}
         case .APPROACH:
             return [String]()
         case .SPK:
