@@ -49,7 +49,10 @@ extension SwiftHorizons {
             print("getting type \(type)")
             var coordinates = parseCoordinates(text: c.components(separatedBy: ","), type: type)
             print(coordinates)
-            ephemCoordinateTimestamps.append(Double(coordinates.removeFirst())!)
+            print(coordinates.count)
+            let timestamp = coordinates.removeFirst()
+            print(timestamp)
+            ephemCoordinateTimestamps.append(Double(timestamp)!)
             print("got timestamps")
             ephemCoordinates.append(coordinates.map {Double($0)!})
             print("got coordinates appended")
@@ -64,7 +67,7 @@ extension SwiftHorizons {
         case .ELEMENTS:
             return [String]()
         case .VECTORS:
-            return [ text[0], text[2], text[3], text[4]].map {$0.replacingOccurrences(of: " ", with: "")}
+            return [ text[0], text[2], text[3], text[4]].map {$0.trimmingCharacters(in: .whitespaces)}
         case .APPROACH:
             return [String]()
         case .SPK:
