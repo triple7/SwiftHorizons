@@ -46,6 +46,7 @@ extension SwiftHorizons {
         var ephemCoordinates = [[Double]]()
         var ephemCoordinateTimestamps = [Double]()
         for c in coordinateBlock {
+            print("getting type \(type)")
             var coordinates = parseCoordinates(text: c.components(separatedBy: ","), type: type)
             ephemCoordinateTimestamps.append(Double(coordinates.removeFirst())!)
             ephemCoordinates.append(coordinates.map {Double($0)!})
@@ -60,6 +61,7 @@ extension SwiftHorizons {
         case .ELEMENTS:
             return [String]()
         case .VECTORS:
+            print("getting vectors \(text.count)")
             return [ text[0], text[1], text[2], text[3], text[4]].map {$0.replacingOccurrences(of: " ", with: "")}
         case .APPROACH:
             return [String]()
