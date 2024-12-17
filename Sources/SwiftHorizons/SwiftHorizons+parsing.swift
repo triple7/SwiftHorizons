@@ -12,8 +12,10 @@ extension SwiftHorizons {
     
     func parseSingleTarget(name: String, id: String, objectType: String, parameters: [String: String], text: String, type: EphemType, _ notify: Bool = false)->HorizonsTarget {
         let result = try! JSONDecoder().decode(HorizonsReturnJson.self, from: text.data(using: .utf8)!).result
+        print(result)
         let asteriskDelimitor = "\n*******************************************************************************\n"
         let format = result.components(separatedBy: asteriskDelimitor)
+        print("parsing single target")
         _ = format[1].components(separatedBy: "\n")
         var soe = ""
         var wip = false
