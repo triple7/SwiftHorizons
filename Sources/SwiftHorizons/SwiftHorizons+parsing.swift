@@ -48,6 +48,7 @@ extension SwiftHorizons {
         for c in coordinateBlock {
             print("getting type \(type)")
             var coordinates = parseCoordinates(text: c.components(separatedBy: ","), type: type)
+            print(coordinates)
             ephemCoordinateTimestamps.append(Double(coordinates.removeFirst())!)
             ephemCoordinates.append(coordinates.map {Double($0)!})
         }
