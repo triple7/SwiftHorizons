@@ -8,14 +8,14 @@
 
 import Foundation
 
-let loadingNotification = Notification.Name(rawValue: "loading")
-let remainingNotification = Notification.Name(rawValue: "remaining")
-let completedNotification = Notification.Name(rawValue: "completed")
-let downloadCompleteNotification = Notification.Name(rawValue: "downloadComplete")
-let bodyLoadNotification = Notification.Name(rawValue: "bodyLoad")
+public let loadingNotification = Notification.Name(rawValue: "loading")
+public let remainingNotification = Notification.Name(rawValue: "remaining")
+public let completedNotification = Notification.Name(rawValue: "completed")
+public let downloadCompleteNotification = Notification.Name(rawValue: "downloadComplete")
+public let bodyLoadNotification = Notification.Name(rawValue: "bodyLoad")
 
 //Errors
-let noConnectionNotification = Notification.Name(rawValue: "noConnection")
-let downloadFailedNotification = Notification.Name(rawValue: "downloadFailedAsteroid")
-let resetToEarthNotification = Notification.Name(rawValue: "resetToEarth")
+public let noConnectionNotification = Notification.Name(rawValue: "noConnection")
+public let downloadFailedNotification = Notification.Name(rawValue: "downloadFailedAsteroid")
+public let resetToEarthNotification = Notification.Name(rawValue: "resetToEarth")
 
