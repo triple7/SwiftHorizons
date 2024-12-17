@@ -12,7 +12,6 @@ extension SwiftHorizons {
     
     func parseSingleTarget(name: String, id: String, objectType: String, parameters: [String: String], text: String, type: EphemType, _ notify: Bool = false)->HorizonsTarget {
         let result = try! JSONDecoder().decode(HorizonsReturnJson.self, from: text.data(using: .utf8)!).result
-        print(result)
         let asteriskDelimitor = "\n*******************************************************************************\n"
         let format = result.components(separatedBy: asteriskDelimitor)
         print("parsing single target")
@@ -61,7 +60,7 @@ extension SwiftHorizons {
         case .ELEMENTS:
             return [String]()
         case .VECTORS:
-            return [text[1], text[2], text[3], text[4]].map {$0.replacingOccurrences(of: " ", with: "")}
+            return [ text[0], text[1], text[2], text[3], text[4]].map {$0.replacingOccurrences(of: " ", with: "")}
         case .APPROACH:
             return [String]()
         case .SPK:
