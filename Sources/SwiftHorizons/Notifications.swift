@@ -9,7 +9,6 @@
 import Foundation
 
 public let loadingNotification = Notification.Name(rawValue: "loading")
-public let remainingNotification = Notification.Name(rawValue: "remaining")
 public let completedNotification = Notification.Name(rawValue: "completed")
 public let downloadCompleteNotification = Notification.Name(rawValue: "downloadComplete")
 public let bodyLoadNotification = Notification.Name(rawValue: "bodyLoad")

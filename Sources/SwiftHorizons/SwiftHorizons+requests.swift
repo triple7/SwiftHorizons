@@ -95,8 +95,7 @@ extension SwiftHorizons: URLSessionDelegate {
                     self.sysLog.append(HorizonsSyslog(log: .OK, message: "ephemerus  \(object.id) \(object.type.id) downloaded"))
                     if notify {
                         DispatchQueue.main.async {
-                            NotificationCenter.default.post(name: remainingNotification, object: (objects.count - 1))
-                            NotificationCenter.default.post(name: bodyLoadNotification, object: object)
+                            NotificationCenter.default.post(name: bodyLoadNotification, object: target)
                         }
                     }
                     
