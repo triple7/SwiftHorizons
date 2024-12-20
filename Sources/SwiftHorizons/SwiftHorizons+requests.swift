@@ -89,7 +89,7 @@ extension SwiftHorizons: URLSessionDelegate {
                         }
                     }
                     
-                    let target = self.parseSingleTarget(name: object.name, id: object.id, objectType: object.objectType, parameters: request.parameters, text: text, type: type, notify)
+                    let target = self.parseSingleTarget(name: object.name, id: object.id, objectType: object.objectType, parent: object.parent, parameters: request.parameters, text: text, type: type, notify)
                     self.targets[object.id] = target
                     self.downloaded.append(object)
                     self.sysLog.append(HorizonsSyslog(log: .OK, message: "ephemerus  \(object.id) \(object.type.id) downloaded"))
@@ -154,7 +154,7 @@ extension SwiftHorizons: URLSessionDelegate {
             }
 
             let text = String(decoding: data!, as: UTF8.self)
-            let target = self?.parseSingleTarget(name: object.name, id: object.id, objectType: object.objectType, parameters: request.parameters, text: text, type: type)
+            let target = self?.parseSingleTarget(name: object.name, id: object.id, objectType: object.objectType, parent: object.parent, parameters: request.parameters, text: text, type: type)
             self?.targets[object.id] = target
             self?.sysLog.append(HorizonsSyslog(log: .OK, message: "ephemerus downloaded"))
         closure(true)

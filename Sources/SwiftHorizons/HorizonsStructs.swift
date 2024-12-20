@@ -13,12 +13,14 @@ public struct HorizonsBatchObject:Codable, Hashable, Equatable {
     let id: String // Known id in horizons
     let type: HorizonsType // for request forming
     let objectType:String // category of object as known in english language
+    let parent:String // The object's orbit parent
 
-    public init(name: String, id: String, type: HorizonsType, objectType: String) {
+    public init(name: String, id: String, type: HorizonsType, objectType: String, parent: String) {
         self.name = name
         self.id = id
         self.type = type
         self.objectType = objectType
+        self.parent = parent
     }
     
     public static func == (lhs: HorizonsBatchObject, rhs: HorizonsBatchObject) -> Bool {
@@ -31,11 +33,12 @@ public struct HorizonsBatchObject:Codable, Hashable, Equatable {
     }
 }
 
-public struct HorizonsTarget:Decodable {
+public struct HorizonsTarget:Codable {
     /** Horizons target result
      Object containing all information pertaining to a Horizons target including:
      * known name
      * target id
+     * target orbital parent
      * target object type
      * target request parameters
      * target physical properties
@@ -46,6 +49,7 @@ public struct HorizonsTarget:Decodable {
     public let name:String // Known name
     public let id:String /* Horizons client object id */
     public let objectType:String
+    public let parent:String
     public let parameters:[String: String] /* object request parameters */
     public let properties:[String] /* physical object properties */
     public let coordinates:[[Double]] /* ephemerus carthesian coordinates */
