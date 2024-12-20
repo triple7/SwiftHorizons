@@ -9,11 +9,11 @@ import Foundation
 import CoreLocation
 
 public struct HorizonsBatchObject:Codable, Hashable, Equatable {
-    let name:String // Known name
-    let id: String // Known id in horizons
-    let type: HorizonsType // for request forming
-    let objectType:String // category of object as known in english language
-    let parent:String // The object's orbit parent
+    public let name:String // Known name
+    public let id: String // Known id in horizons
+    public let type: HorizonsType // for request forming
+    public let objectType:String // category of object as known in english language
+    public let parent:String // The object's orbit parent
 
     public init(name: String, id: String, type: HorizonsType, objectType: String, parent: String) {
         self.name = name
@@ -48,6 +48,7 @@ public struct HorizonsTarget:Codable {
     
     public let name:String // Known name
     public let id:String /* Horizons client object id */
+    public var designation:String?
     public let objectType:String
     public let parent:String
     public let parameters:[String: String] /* object request parameters */
