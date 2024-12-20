@@ -14,7 +14,6 @@ extension SwiftHorizons {
         let result = try! JSONDecoder().decode(HorizonsReturnJson.self, from: text.data(using: .utf8)!).result
         let asteriskDelimitor = "\n*******************************************************************************\n"
         let format = result.components(separatedBy: asteriskDelimitor)
-        print("parsing single target")
         _ = format[1].components(separatedBy: "\n")
         var soe = ""
         var wip = false
@@ -46,16 +45,10 @@ extension SwiftHorizons {
         var ephemCoordinates = [[Double]]()
         var ephemCoordinateTimestamps = [Double]()
         for c in coordinateBlock {
-            print("getting type \(type)")
             var coordinates = parseCoordinates(text: c.components(separatedBy: ","), type: type)
-            print(coordinates)
-            print(coordinates.count)
             let timestamp = coordinates.removeFirst()
-            print(timestamp)
             ephemCoordinateTimestamps.append(Double(timestamp)!)
-            print("got timestamps")
             ephemCoordinates.append(coordinates.map {Double($0)!})
-            print("got coordinates appended")
         }
         return HorizonsTarget(name: name, id: id, objectType: objectType, parent: parent, parameters: parameters, properties: [String]()/* temporary */, coordinates: ephemCoordinates, timestamps: ephemCoordinateTimestamps)
     }
