@@ -74,6 +74,7 @@ extension SwiftHorizons: URLSessionDelegate {
             var request = HorizonsRequest(target: object, parameters: type.defaultParameters)
             self.configureBatch(request: &request)
             
+            print(request.getURL())
             let operation = DownloadOperation(session: URLSession.shared, dataTaskURL: request.getURL(), completionHandler: { (data, response, error) in
                 if self.requestIsValid(error: error, response: response) {
                     let text = String(decoding: data!, as: UTF8.self)
