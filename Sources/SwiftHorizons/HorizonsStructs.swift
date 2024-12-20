@@ -66,14 +66,14 @@ public struct HorizonsRequest {
     private(set) var parameters:[String: String]
     
     public init(target: HorizonsBatchObject, parameters: [String: String], location: CLLocation? = nil) {
-//        if target.type == .Mb {
+        if target.type == .Mb {
             self.parameters = [hp.COMMAND.id: target.id] + parameters
-//        } else {
-//            let components = target.id.components(separatedBy: "/")
-//            let id = components[0]
-//            let des = components[1]
-//            self.parameters = [hp.COMMAND.id: id, "DES": des] + parameters
-//        }
+        } else {
+            let components = target.id.components(separatedBy: "/")
+            let id = components[0]
+            let des = components[1]
+            self.parameters = [hp.COMMAND.id: "DES=\(des)"] + parameters
+        }
         guard let location = location else {
             return
         }
