@@ -59,7 +59,6 @@ extension SwiftHorizons: URLSessionDelegate {
         
         // Create a recursive function to handle the download
         func downloadNextObject() {
-            print("remaining \(remainingObjects.count)")
             guard !remainingObjects.isEmpty else {
                 // All objects have been downloaded, call the completion handler
                 if notify {
@@ -104,13 +103,10 @@ extension SwiftHorizons: URLSessionDelegate {
                     // Call the recursive function to download the next object
                     serialQueue.async {
                         if !self.batch.isEmpty {
-                            print("remaining in batch")
-                            for object in self.batch {
-                                print(object.name)
-                            }
                             for object in self.batch {
                                 remainingObjects.insert(object, at: 0)
                             }
+                            self.batch.removeAll()
                         }
                         downloadNextObject()
                     }
