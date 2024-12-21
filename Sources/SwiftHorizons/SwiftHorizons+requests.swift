@@ -59,6 +59,7 @@ extension SwiftHorizons: URLSessionDelegate {
         
         // Create a recursive function to handle the download
         func downloadNextObject() {
+            print("remaining \(remainingObjects.count)")
             guard !remainingObjects.isEmpty else {
                 // All objects have been downloaded, call the completion handler
                 if notify {
