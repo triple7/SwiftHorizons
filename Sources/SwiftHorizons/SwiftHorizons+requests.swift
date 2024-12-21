@@ -72,10 +72,10 @@ extension SwiftHorizons: URLSessionDelegate {
             }
             
             let object = remainingObjects.removeFirst()
+            print("removed one object: remaining \(remainingObjects.count)")
             var request = HorizonsRequest(target: object, parameters: type.defaultParameters)
             self.configureBatch(request: &request)
             
-            print(request.getURL())
             let operation = DownloadOperation(session: URLSession.shared, dataTaskURL: request.getURL(), completionHandler: { (data, response, error) in
                 if self.requestIsValid(error: error, response: response) {
                     let text = String(decoding: data!, as: UTF8.self)
@@ -104,6 +104,10 @@ extension SwiftHorizons: URLSessionDelegate {
                     // Call the recursive function to download the next object
                     serialQueue.async {
                         if !self.batch.isEmpty {
+                            print("remaining in batch")
+                            for object in self.batch {
+                                print(object.name)
+                            }
                             for object in self.batch {
                                 remainingObjects.insert(object, at: 0)
                             }
