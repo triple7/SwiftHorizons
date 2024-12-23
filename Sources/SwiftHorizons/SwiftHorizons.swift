@@ -62,6 +62,7 @@ public class SwiftHorizons:NSObject {
     
     public var sysLog:[HorizonsSyslog]!
     public var location:CLLocation?
+    public var sampleTimeDays:Int = 1 // sample time is measured in days
     private var retries:[HorizonsBatchObject: Int]
     private let maxRetries:Int = 3
     
@@ -70,7 +71,7 @@ public class SwiftHorizons:NSObject {
         self.targets = [String: HorizonsTarget]()
         self.buffer = 0
         self.sysLog = [HorizonsSyslog]()
-         retries = [HorizonsBatchObject: Int]()
+        retries = [HorizonsBatchObject: Int]()
     }
 
     
@@ -80,7 +81,7 @@ public class SwiftHorizons:NSObject {
         dateFormat.dateFormat = "yyyy-MMM-dd HH:mm" //automatically converts from utc
         let TimeNow = getTDBtime(date: Date())
         
-        let previous = Calendar.current.date(byAdding: .hour, value: 24, to: TimeNow)!
+        let previous = Calendar.current.date(byAdding: .day, value: self.sampleTimeDays, to: TimeNow)!
         let prevString = (Parameters.StartDate.format(dateFormat.string(from: previous))).components(separatedBy: "\n").first!
         
         request.setParameter(name: hp.STOP_TIME.id, value: "\(prevString)")
