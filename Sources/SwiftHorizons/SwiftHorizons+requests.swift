@@ -88,17 +88,18 @@ extension SwiftHorizons: URLSessionDelegate {
                                 }
                             }
                         }
-                    }
-                    
-                    let target = self.parseSingleTarget(name: object.name, id: object.id, objectType: object.objectType, parent: object.parent, parameters: request.parameters, text: text, type: type, notify)
-                    self.targets[object.id] = target
-                    self.downloaded.append(object)
-                    self.sysLog.append(HorizonsSyslog(log: .OK, message: "ephemerus  \(object.id) \(object.type.id) downloaded"))
-                    if notify {
-                        DispatchQueue.main.async {
-                            NotificationCenter.default.post(name: bodyLoadNotification, object: (target, remainingObjects.count))
+                    }else{
+                        let target = self.parseSingleTarget(name: object.name, id: object.id, objectType: object.objectType, parent: object.parent, parameters: request.parameters, text: text, type: type, notify)
+                        self.targets[object.id] = target
+                        self.downloaded.append(object)
+                        self.sysLog.append(HorizonsSyslog(log: .OK, message: "ephemerus  \(object.id) \(object.type.id) downloaded"))
+                        if notify {
+                            DispatchQueue.main.async {
+                                NotificationCenter.default.post(name: bodyLoadNotification, object: (target, remainingObjects.count))
+                            }
                         }
                     }
+                    
                     
                     // Call the recursive function to download the next object
                     serialQueue.async {
