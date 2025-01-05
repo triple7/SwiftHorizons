@@ -74,8 +74,8 @@ extension SwiftHorizons: URLSessionDelegate {
             print("removed one object: remaining \(remainingObjects.count)")
             var request = HorizonsRequest(target: object, parameters: type.defaultParameters)
             self.configureBatch(request: &request)
-            print("SwiftHorizons: using URL \(request.getURL())")
-            let operation = DownloadOperation(session: URLSession.shared, dataTaskURL: request.getURL(), completionHandler: { (data, response, error) in
+            print("SwiftHorizons: using URL \(request.getURL(stop: self.sampleTimeDays))")
+            let operation = DownloadOperation(session: URLSession.shared, dataTaskURL: request.getURL(stop: self.sampleTimeDays), completionHandler: { (data, response, error) in
                 if self.requestIsValid(error: error, response: response) {
                     let text = String(decoding: data!, as: UTF8.self)
                     if text.contains("No ephemeris for target"){
@@ -139,7 +139,7 @@ extension SwiftHorizons: URLSessionDelegate {
     let queue = OperationQueue.main
         let session = URLSession(configuration: configuration, delegate: self, delegateQueue: queue)
         
-        let task = session.dataTask(with: request.getURL()) { [weak self] data, response, error in
+        let task = session.dataTask(with: request.getURL(stop: self.sampleTimeDays)) { [weak self] data, response, error in
             if error != nil {
                 self?.sysLog.append(HorizonsSyslog(log: .RequestError, message: error!.localizedDescription))
                 closure(false)
