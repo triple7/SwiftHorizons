@@ -79,14 +79,33 @@ public class SwiftHorizons:NSObject {
         let dateFormat = DateFormatter()
         dateFormat.timeZone = TimeZone(abbreviation: "UTC")
         dateFormat.dateFormat = "yyyy-MMM-dd HH:mm" //automatically converts from utc
-        let TimeNow = getTDBtime(date: Date())
-        
+
+        // Get current TDB time
+        let currentTDBTime = getTDBtime(date: Date())
         print("SwiftHorizons: Sampling data for \(self.sampleTimeDays) days")
-        let previous = Calendar.current.date(byAdding: .day, value: self.sampleTimeDays, to: TimeNow)!
-        let prevString = (Parameters.StartDate.format(dateFormat.string(from: previous))).components(separatedBy: "\n").first!
         
-        request.setParameter(name: hp.STOP_TIME.id, value: "\(prevString)")
-        request.setParameter(name: hp.START_TIME.id, value: Parameters.EndDate.format(dateFormat.string(from: TimeNow)).components(separatedBy: "\n").first!)
+        let stopTime = Calendar.current.date(byAdding: .day, value: self.sampleTimeDays, to: currentTDBTime)!
+        
+        print("SwiftHorizons: currentTDBTime \(currentTDBTime)")
+        print("SwiftHorizons: stopTime \(stopTime)")
+        
+        // Format dates
+        let stopTimeString = Parameters.EndDate
+            .format(dateFormat.string(from: stopTime))
+            .components(separatedBy: "\n")
+            .first ?? ""
+        
+        let startTimeString = Parameters.StartDate
+            .format(dateFormat.string(from: currentTDBTime))
+            .components(separatedBy: "\n")
+            .first ?? ""
+
+        print("SwiftHorizons: startTimeString: \(startTimeString)")
+        print("SwiftHorizons: stopTimeString: \(stopTimeString) ")
+        
+        request.setParameter(name: hp.STOP_TIME.id, value: stopTimeString)
+        request.setParameter(name: hp.START_TIME.id, value: startTimeString)
+
         // convert altitude from iOS in meters to km in Horizons
         if let localCoordinate = local {
             let convertedAltitude = localCoordinate.altitude/1000
