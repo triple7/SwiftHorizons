@@ -81,6 +81,7 @@ public class SwiftHorizons:NSObject {
         dateFormat.dateFormat = "yyyy-MMM-dd HH:mm" //automatically converts from utc
         let TimeNow = getTDBtime(date: Date())
         
+        print("SwiftHorizons: Sampling data for \(self.sampleTimeDays) days")
         let previous = Calendar.current.date(byAdding: .day, value: self.sampleTimeDays, to: TimeNow)!
         let prevString = (Parameters.StartDate.format(dateFormat.string(from: previous))).components(separatedBy: "\n").first!
         
