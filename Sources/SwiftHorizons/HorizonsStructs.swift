@@ -71,7 +71,6 @@ public struct HorizonsRequest {
             self.parameters = [hp.COMMAND.id: target.id] + parameters
         } else {
             let components = target.id.components(separatedBy: "/")
-            let id = components[0]
             let des = components[1]
             self.parameters = [hp.COMMAND.id: "DES=\(des)"] + parameters
         }

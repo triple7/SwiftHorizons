@@ -12,7 +12,7 @@ extension SwiftHorizons: URLSessionDelegate {
 
     /** request returned data check
      */
-    private func requestIsValid(error: Error?, response: URLResponse?, url: URL? = nil) -> Bool {
+    private func requestIsValid(message: String, error: Error?, response: URLResponse?) -> Bool {
         var gotError = false
         if error != nil {
             self.sysLog.append(HorizonsSyslog(log: .RequestError, message: error!.localizedDescription))
@@ -34,7 +34,6 @@ extension SwiftHorizons: URLSessionDelegate {
             gotError = true
         }
         if !gotError {
-            let message = url != nil ? url!.absoluteString : "data"
             self.sysLog.append(HorizonsSyslog(log: .OK, message: "\(message) downloaded"))
         }
         return !gotError
@@ -76,12 +75,10 @@ extension SwiftHorizons: URLSessionDelegate {
             }
             
             let object = remainingObjects.removeFirst()
-            print("removed one object: remaining \(remainingObjects.count)")
             var request = HorizonsRequest(target: object, parameters: type.defaultParameters)
             self.configureBatch(request: &request)
-            print("SwiftHorizons: using URL \(request.getURL(stop: self.sampleTimeDays))")
             let operation = DownloadOperation(session: URLSession.shared, dataTaskURL: request.getURL(stop: self.sampleTimeDays), completionHandler: { (data, response, error) in
-                if self.requestIsValid(error: error, response: response) {
+                if self.requestIsValid(message: object.name, error: error, response: response) {
                     let text = String(decoding: data!, as: UTF8.self)
                     if text.contains("No ephemeris for target"){
                         let result = self.rectifyDate(text)
