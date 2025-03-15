@@ -119,6 +119,11 @@ public struct HorizonsRequest {
         return parameters + [hp.START_TIME.id: T.0, hp.STOP_TIME.id: T.1]
     }
 
+    public func getMbRequestUrl() -> URL {
+        var url = URLComponents(string: APIUrl)
+    url!.queryItems = [URLQueryItem(name: "COMMAND", value: "MB")]
+        return url!.url!
+    }
 }
 
 public struct HorizonsReturnJson:Codable {

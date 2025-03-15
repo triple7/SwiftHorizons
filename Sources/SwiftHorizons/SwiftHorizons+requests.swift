@@ -202,5 +202,26 @@ extension SwiftHorizons: URLSessionDelegate {
            progress =  percentageDownloaded
     }
 
+    public func getMbList(_ closure: @escaping (Bool)-> Void) {
+        /** Gets the updated list of MBs
+         Params:
+         closure: whether async request is completed
+         */
+        let request = HorizonsRequest()
+        let configuration = URLSessionConfiguration.ephemeral
+    let queue = OperationQueue.main
+        let session = URLSession(configuration: configuration, delegate: self, delegateQueue: queue)
+        let task = session.dataTask(with: request.getMbRequestUrl()) { [weak self] data, response, error in
+            if self!.requestIsValid(message: "MB list: ", error: error, response: response) {
+                let text = String(decoding: data!, as: UTF8.self)
+                print(text)
+                self?.sysLog.append(HorizonsSyslog(log: .OK, message: "MB list downloaded"))
+                closure(true)
+                return
+            }
+        }
+    task.resume()
+    }
+
    
 }
