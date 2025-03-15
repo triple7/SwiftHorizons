@@ -67,6 +67,59 @@ extension SwiftHorizons {
             return [String]()
         }
     }
+
     
+    func parseMBList(payload: MBList) -> [String: Any] {
+        var planets: [String: [String: Any]] = [:]
+        var moons: [[String: Any]] = []
+        
+        let lines = payload.result.components(separatedBy: "\n")
+        
+        // Identify header row (the line containing "ID# Name Designation IAU/aliases/other")
+        guard let headerIndex = lines.firstIndex(where: { $0.contains("ID#") }) else {
+            print("Error: Header row not found")
+            return [:]
+        }
+        
+        let headerFields = lines[headerIndex]
+            .split(separator: " ")
+            .map { $0.trimmingCharacters(in: .whitespaces) }
+        
+        // Define index positions based on header
+        let idIndex = headerFields.firstIndex(of: "ID#") ?? 0
+        let nameIndex = headerFields.firstIndex(of: "Name") ?? 1
+        let designationIndex = headerFields.firstIndex(of: "Designation") ?? 2
+        
+        // Iterate over data rows
+        for line in lines[(headerIndex + 2)...] { // Skip header and separator
+            let components = line.split(separator: " ", omittingEmptySubsequences: true)
+            if components.count < nameIndex + 1 { continue } // Skip invalid lines
+            
+            let idString = String(components[idIndex])
+            let name = String(components[nameIndex])
+            let designation = components.count > designationIndex ? String(components[designationIndex]) : nil
+            
+            guard let id = Int(idString) else { continue } // Ensure valid ID
+            
+            let entry: [String: Any] = [
+                "id": id,
+                "name": name,
+                "designation": designation ?? ""
+            ]
+            
+            if id % 100 == 99 { // Planet IDs usually end in 99
+                planets[name] = entry
+            } else { // Moon
+                var moonEntry = entry
+                let planetId = (id / 100) * 100 + 99 // Find associated planet
+                let planetName = planets.first(where: { $0.value["id"] as? Int == planetId })?.key ?? "Unknown"
+                moonEntry["planet"] = planetName
+                moons.append(moonEntry)
+            }
+        }
+        
+        return ["planets": planets, "moons": moons]
+    }
+
 }
 

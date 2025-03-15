@@ -214,7 +214,9 @@ extension SwiftHorizons: URLSessionDelegate {
         let task = session.dataTask(with: request.getMbRequestUrl()) { [weak self] data, response, error in
             if self!.requestIsValid(message: "MB list: ", error: error, response: response) {
                 let text = String(decoding: data!, as: UTF8.self)
-                print(text)
+                let mbList = try! JSONDecoder().decode(MBList.self, from: data!)
+                let MBs = self!.parseMBList(payload: mbList)
+                print(MBs)
                 self?.sysLog.append(HorizonsSyslog(log: .OK, message: "MB list downloaded"))
                 closure(true)
                 return

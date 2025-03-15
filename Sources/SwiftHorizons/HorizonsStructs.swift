@@ -137,3 +137,8 @@ public struct HorizonsReturnSignature:Codable {
     let source:String
 }
 
+struct MBList: Codable {
+    let result: String
+    let signature: HorizonsReturnSignature
+}
+
