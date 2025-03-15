@@ -84,7 +84,7 @@ extension SwiftHorizons {
         let headerFields = lines[headerIndex]
             .split(separator: " ")
             .map { $0.trimmingCharacters(in: .whitespaces) }
-        
+        print(headerFields)
         // Define index positions based on header
         let idIndex = headerFields.firstIndex(of: "ID#") ?? 0
         let nameIndex = headerFields.firstIndex(of: "Name") ?? 1
