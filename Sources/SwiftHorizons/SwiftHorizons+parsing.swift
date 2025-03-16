@@ -114,7 +114,7 @@ extension SwiftHorizons {
                 950: "Pluto"
             ]
             
-            if id % 100 == 99 || id < 0 || id > 99999 || id == 0 { // Planet IDs usually end in 99
+            if id % 100 == 99 || id <= 2 || id > 99999 { // Planet IDs usually end in 99
                 print("Found id\(id) name \(name) designation: \(designation) aliases: \(aliases)")
                 output.append(MB(id: id, name: name, designation: designation, aliases: aliases))
             } else if id < 1000 && id > 299 && id % 100 != 99 {
@@ -122,7 +122,6 @@ extension SwiftHorizons {
                 output.append(MB(id: id, name: name, designation: designation, aliases: aliases, planet: planet))
             } else { // Moon
                     let bodyId = idString
-                print(idString)
                     let start = bodyId.index(bodyId.startIndex, offsetBy: 1)
                     let end = bodyId.index(bodyId.startIndex, offsetBy: 3)
                     let planet = extended[Int(bodyId[start..<end])!]!
