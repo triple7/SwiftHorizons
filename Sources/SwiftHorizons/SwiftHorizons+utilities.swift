@@ -36,7 +36,34 @@ extension SwiftHorizons {
             let TDB = Date(timeIntervalSince1970: TDB1970)
             return TDB
         }
+
+    func extractPhysicalProperties(from input: String) -> [String: Double] {
+        var properties: [String: Double] = [:]
+
+        // Regular expression to match key-value pairs
+        let pattern = #"([\w\s\(\)\/\.,-]+?)\s*=\s*([-~]?[0-9]+(?:\.[0-9]+)?(?:[eE][-+]?[0-9]+)?)"#
         
+        do {
+            let regex = try NSRegularExpression(pattern: pattern, options: [])
+            let matches = regex.matches(in: input, options: [], range: NSRange(input.startIndex..., in: input))
+            
+            for match in matches {
+                if let keyRange = Range(match.range(at: 1), in: input),
+                   let valueRange = Range(match.range(at: 2), in: input) {
+                    
+                    let key = input[keyRange].trimmingCharacters(in: .whitespacesAndNewlines)
+                    let valueString = input[valueRange]
+                    
+                    if let value = Double(valueString.replacingOccurrences(of: "~", with: "")) {
+                        properties[key] = value
+                    }
+                }
+            }
+        } catch {
+            print("Regex error: \(error)")
+        }
+        
+        return properties
     }
-    
-    
+
+    }
