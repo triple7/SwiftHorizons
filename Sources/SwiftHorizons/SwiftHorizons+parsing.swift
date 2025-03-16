@@ -126,10 +126,14 @@ extension SwiftHorizons {
                     let start = bodyId.index(bodyId.startIndex, offsetBy: 0)
                     let end = bodyId.index(bodyId.startIndex, offsetBy: 2)
                 print("Body is \(Int(bodyId[start..<end])!)")
-                    let planet = extended[Int(bodyId[start..<end])!]!
+                if let planet = extended[Int(bodyId[start..<end])!]{
                 output.append(MB(id: id, name: name, designation: designation, aliases: aliases, planet: planet))
-            }
+                } else {
+                    // Other bodies
+                    output.append(MB(id: id, name: name, designation: designation, aliases: aliases))
+                }
         }
+                                  }
         
                                          return output
     }
