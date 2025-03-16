@@ -22,7 +22,7 @@ let j2000Unix = 946684800
 
 
 var VEC_BATCH_PARAMS = [
-    hp.OBJ_DATA.id: "NO",
+    hp.OBJ_DATA.id: "YES",
     hp.MAKE_EPHEM.id: "YES",
     hp.TABLE_TYPE.id: "V",
     hp.CENTER.id: "c@399",
