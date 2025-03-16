@@ -107,11 +107,11 @@ extension SwiftHorizons {
                 9: "Pluto"
             ]
             let extended = [
-                550: "Jupiter",
-                650: "Saturn",
-                750: "Uranus",
-                850: "Neptune",
-                950: "Pluto"
+                55: "Jupiter",
+                65: "Saturn",
+                75: "Uranus",
+                85: "Neptune",
+                95: "Pluto"
             ]
             
             if id % 100 == 99 || id <= 100 || id > 99999 { // Planet IDs usually end in 99
