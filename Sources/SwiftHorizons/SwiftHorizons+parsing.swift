@@ -14,7 +14,6 @@ extension SwiftHorizons {
         let result = try! JSONDecoder().decode(HorizonsReturnJson.self, from: text.data(using: .utf8)!).result
         let asteriskDelimitor = "\n*******************************************************************************\n"
         let format = result.components(separatedBy: asteriskDelimitor)
-        print(format)
         let extractedProperties = extractPhysicalProperties(from: format[0])
         print(extractedProperties)
         _ = format[1].components(separatedBy: "\n")
