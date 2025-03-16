@@ -115,7 +115,7 @@ extension SwiftHorizons {
             ]
             
             if id % 100 == 99 || id < 0 || id > 99999 || id == 0 { // Planet IDs usually end in 99
-                print("Found id\(id)")
+                print("Found id\(id) name \(name) designation: \(designation) aliases: \(aliases)")
                 output.append(MB(id: id, name: name, designation: designation, aliases: aliases))
             } else if id < 1000 && id > 299 && id % 100 != 99 {
                 let planet = planets[id/100]!
