@@ -69,56 +69,65 @@ extension SwiftHorizons {
     }
 
     
-    func parseMBList(payload: MBList) -> [String: Any] {
-        var planets: [String: [String: Any]] = [:]
-        var moons: [[String: Any]] = []
-        
+    func parseMBList(payload: MBList) -> [MB] {
+        var output:[MB] = []
         let lines = payload.result.components(separatedBy: "\n")
         
         // Identify header row (the line containing "ID# Name Designation IAU/aliases/other")
         guard let headerIndex = lines.firstIndex(where: { $0.contains("ID#") }) else {
             print("Error: Header row not found")
-            return [:]
+            return []
         }
         
-        let headerFields = lines[headerIndex]
+        var headerFields = lines[headerIndex]
             .split(separator: " ")
             .map { $0.trimmingCharacters(in: .whitespaces) }
-        print(headerFields)
-        // Define index positions based on header
-        let idIndex = headerFields.firstIndex(of: "ID#") ?? 0
-        let nameIndex = headerFields.firstIndex(of: "Name") ?? 1
-        let designationIndex = headerFields.firstIndex(of: "Designation") ?? 2
+        headerFields[0] = "id"
+        headerFields[3] = "aliases"
         
-        // Iterate over data rows
-        for line in lines[(headerIndex + 2)...] { // Skip header and separator
+        for line in lines[(headerIndex + 2)...] {
             let components = line.split(separator: " ", omittingEmptySubsequences: true)
-            if components.count < nameIndex + 1 { continue } // Skip invalid lines
+            if components.count < 1 + 1 { continue } // Skip invalid lines
             
-            let idString = String(components[idIndex])
-            let name = String(components[nameIndex])
-            let designation = components.count > designationIndex ? String(components[designationIndex]) : nil
-            
+            let idString = String(components[0])
+            let name = String(components[1])
+            let designation = components.count > 2 ? String(components[2]) : ""
+            let aliases = components.count > 3 ? String(components[3]) : ""
             guard let id = Int(idString) else { continue } // Ensure valid ID
-            
-            let entry: [String: Any] = [
-                "id": id,
-                "name": name,
-                "designation": designation ?? ""
+
+                                         // Numericals for extended identifiers
+
+            let planets = [
+                3: "Earth",
+                4: "Mars",
+                5: "Jupiter",
+                6: "Saturn",
+                7: "Uranus",
+                8: "Neptune",
+                9: "Pluto"
             ]
-            
-            if id % 100 == 99 { // Planet IDs usually end in 99
-                planets[name] = entry
+            let extended = [
+                550: "Jupiter",
+                650: "Saturn",
+                750: "Uranus",
+                850: "Neptune",
+                950: "Pluto"
+            ]
+            if id % 100 == 99 || id < 0 || id > 99999 { // Planet IDs usually end in 99
+                output.append(MB(id: id, name: name, designation: designation, aliases: aliases))
+            } else if id < 1000 && id > 299 && id % 100 != 99 {
+                let planet = planets[id/100]!
+                output.append(MB(id: id, name: name, designation: designation, aliases: aliases, planet: planet))
             } else { // Moon
-                var moonEntry = entry
-                let planetId = (id / 100) * 100 + 99 // Find associated planet
-                let planetName = planets.first(where: { $0.value["id"] as? Int == planetId })?.key ?? "Unknown"
-                moonEntry["planet"] = planetName
-                moons.append(moonEntry)
+                    let bodyId = idString
+                    let start = bodyId.index(bodyId.startIndex, offsetBy: 1)
+                    let end = bodyId.index(bodyId.startIndex, offsetBy: 3)
+                    let planet = extended[Int(bodyId[start..<end])!]!
+                output.append(MB(id: id, name: name, designation: designation, aliases: aliases, planet: planet))
             }
         }
         
-        return ["planets": planets, "moons": moons]
+                                         return output
     }
 
 }

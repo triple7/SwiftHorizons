@@ -142,3 +142,11 @@ struct MBList: Codable {
     let signature: HorizonsReturnSignature
 }
 
+public struct MB: Codable {
+    let id: Int
+    let name: String
+    var designation: String?
+    var aliases: String?
+    var planet: String?
+    
+}
