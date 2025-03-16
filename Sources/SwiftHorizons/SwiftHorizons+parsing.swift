@@ -15,6 +15,8 @@ extension SwiftHorizons {
         let asteriskDelimitor = "\n*******************************************************************************\n"
         let format = result.components(separatedBy: asteriskDelimitor)
         print(format)
+        let extractedProperties = extractPhysicalProperties(from: format[0])
+        print(extractedProperties)
         _ = format[1].components(separatedBy: "\n")
         var soe = ""
         var wip = false
