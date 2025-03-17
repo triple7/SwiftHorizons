@@ -10,9 +10,24 @@ import simd
 
 extension SwiftHorizons {
     
-    func parseSingleTarget(name: String, id: String, objectType: String, parent: String, parameters: [String: String], text: String, type: EphemType, _ notify: Bool = false)->HorizonsTarget {
+    
+    private func parseElements(jsonString: String) -> OrbitalElements {
+        let elementsPattern = #"Eccentricity \(EC\)\s*=\s*([\d\.\-eE]+)\n.*?Perihelion distance \(QR\)\s*=\s*([\d\.\-eE]+) AU\n.*?Time of perihelion passage \(TP\)\s*=\s*([\d\.\-eE]+) JD\n.*?Longitude of Asc. Node \(OM\)\s*=\s*([\d\.\-eE]+)°\n.*?Argument of perihelion \(W\)\s*=\s*([\d\.\-eE]+)°\n.*?Inclination \(IN\)\s*=\s*([\d\.\-eE]+)°"#
+        
+        if let elementsRegex = try? NSRegularExpression(pattern: elementsPattern, options: []) {
+            if let match = elementsRegex.firstMatch(in: jsonString, options: [], range: NSRange(jsonString.startIndex..., in: jsonString)) {
+                let elements = (1...6).compactMap { index -> Double? in
+                    if let range = Range(match.range(at: index), in: jsonString) {
+                        return Double(jsonString[range])
+                    }
+                    return nil
+                }
+            }
+        }
+    }
+            
+            func parseSingleTarget(name: String, id: String, objectType: String, parent: String, parameters: [String: String], text: String, type: EphemType, _ notify: Bool = false)->HorizonsTarget {
         let result = try! JSONDecoder().decode(HorizonsReturnJson.self, from: text.data(using: .utf8)!).result
-        print(result)
         let asteriskDelimitor = "\n*******************************************************************************\n"
         let format = result.components(separatedBy: asteriskDelimitor)
         let extractedProperties = extractPhysicalProperties(from: format[0])
@@ -73,6 +88,7 @@ extension SwiftHorizons {
 
     
     func parseMBList(payload: MBList) -> [MB] {
+        print(payload.result)
         var output:[MB] = []
         let lines = payload.result.components(separatedBy: "\n")
         
@@ -118,17 +134,17 @@ extension SwiftHorizons {
             ]
             
             if id % 100 == 99 || id <= 100 || id > 99999 { // Planet IDs usually end in 99
-                print("Found id\(id) name \(name) designation: \(designation) aliases: \(aliases)")
+//                print("Found id\(id) name \(name) designation: \(designation) aliases: \(aliases)")
                 output.append(MB(id: id, name: name, designation: designation, aliases: aliases))
             } else if id < 1000 && id > 299 && id % 100 != 99 {
                 let planet = planets[id/100]!
                 output.append(MB(id: id, name: name, designation: designation, aliases: aliases, planet: planet))
             } else { // Moon
-                print("Found id\(id) name \(name) designation: \(designation) aliases: \(aliases)")
+//                print("Found id\(id) name \(name) designation: \(designation) aliases: \(aliases)")
                 let bodyId = idString
                     let start = bodyId.index(bodyId.startIndex, offsetBy: 0)
                     let end = bodyId.index(bodyId.startIndex, offsetBy: 2)
-                print("Body is \(Int(bodyId[start..<end])!)")
+//                print("Body is \(Int(bodyId[start..<end])!)")
                 if let planet = extended[Int(bodyId[start..<end])!]{
                 output.append(MB(id: id, name: name, designation: designation, aliases: aliases, planet: planet))
                 } else {

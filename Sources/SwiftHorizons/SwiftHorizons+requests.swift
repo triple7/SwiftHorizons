@@ -101,8 +101,6 @@ extension SwiftHorizons: URLSessionDelegate {
                             }
                         }
                     }
-                    
-                    
                     // Call the recursive function to download the next object
                     serialQueue.async {
                         if !self.batch.isEmpty {
@@ -115,19 +113,39 @@ extension SwiftHorizons: URLSessionDelegate {
                     }
                 }
             })
-            
             // Add the operation to the serial queue to execute it serially
             serialQueue.async {
                 operation.start()
             }
         }
-
         // Add the operation to the serial queue to execute it serially
         serialQueue.async {
             downloadNextObject()
         }
                 }
-    
+
+    public func getMbList(_ closure: @escaping (Bool)-> Void) {
+        /** Gets the updated list of MBs
+         Params:
+         closure: whether async request is completed
+         */
+        let request = HorizonsRequest()
+        let configuration = URLSessionConfiguration.ephemeral
+    let queue = OperationQueue.main
+        let session = URLSession(configuration: configuration, delegate: self, delegateQueue: queue)
+        let task = session.dataTask(with: request.getMbRequestUrl()) { [weak self] data, response, error in
+            if self!.requestIsValid(message: "MB list: ", error: error, response: response) {
+                let text = String(decoding: data!, as: UTF8.self)
+                let mbList = try! JSONDecoder().decode(MBList.self, from: data!)
+                let MBs = self!.parseMBList(payload: mbList)
+                self?.sysLog.append(HorizonsSyslog(log: .OK, message: "MB list downloaded"))
+                closure(true)
+                return
+            }
+        }
+    task.resume()
+    }
+
     public func getTarget(object: HorizonsBatchObject, type: EphemType, _ closure: @escaping (Bool)-> Void) {
         /** Gets a single target
          Adds a target into the targets dictionary and adds a response type for further processing
@@ -142,29 +160,15 @@ extension SwiftHorizons: URLSessionDelegate {
         let session = URLSession(configuration: configuration, delegate: self, delegateQueue: queue)
         
         let task = session.dataTask(with: request.getURL(stop: self.sampleTimeDays)) { [weak self] data, response, error in
-            if error != nil {
-                self?.sysLog.append(HorizonsSyslog(log: .RequestError, message: error!.localizedDescription))
-                closure(false)
+            if self!.requestIsValid(message: "request \(type.id)", error: error, response: response) {
+                let text = String(decoding: data!, as: UTF8.self)
+                let target = self?.parseSingleTarget(name: object.name, id: object.id, objectType: object.objectType, parent: object.parent, parameters: request.parameters, text: text, type: type)
+                self?.targets[object.id] = target
+                self?.sysLog.append(HorizonsSyslog(log: .OK, message: "ephemerus downloaded"))
+                closure(true)
                 return
             }
-            guard let response = response as? HTTPURLResponse else {
-                self?.sysLog.append(HorizonsSyslog(log: .RequestError, message: "response timed out"))
-                closure(false)
-                return
-            }
-            if response.statusCode != 200 {
-                let error = NSError(domain: "com.error", code: response.statusCode)
-                self?.sysLog.append(HorizonsSyslog(log: .RequestError, message: error.localizedDescription))
-                closure(false)
-            }
-
-            let text = String(decoding: data!, as: UTF8.self)
-            let target = self?.parseSingleTarget(name: object.name, id: object.id, objectType: object.objectType, parent: object.parent, parameters: request.parameters, text: text, type: type)
-            self?.targets[object.id] = target
-            self?.sysLog.append(HorizonsSyslog(log: .OK, message: "ephemerus downloaded"))
-        closure(true)
-            return
-    }
+        }
     task.resume()
     }
 
@@ -200,28 +204,6 @@ extension SwiftHorizons: URLSessionDelegate {
         buffer += data.count
         let percentageDownloaded = Float(buffer) / Float(expectedContentLength!)
            progress =  percentageDownloaded
-    }
-
-    public func getMbList(_ closure: @escaping (Bool)-> Void) {
-        /** Gets the updated list of MBs
-         Params:
-         closure: whether async request is completed
-         */
-        let request = HorizonsRequest()
-        let configuration = URLSessionConfiguration.ephemeral
-    let queue = OperationQueue.main
-        let session = URLSession(configuration: configuration, delegate: self, delegateQueue: queue)
-        let task = session.dataTask(with: request.getMbRequestUrl()) { [weak self] data, response, error in
-            if self!.requestIsValid(message: "MB list: ", error: error, response: response) {
-                let text = String(decoding: data!, as: UTF8.self)
-                let mbList = try! JSONDecoder().decode(MBList.self, from: data!)
-                let MBs = self!.parseMBList(payload: mbList)
-                self?.sysLog.append(HorizonsSyslog(log: .OK, message: "MB list downloaded"))
-                closure(true)
-                return
-            }
-        }
-    task.resume()
     }
 
    

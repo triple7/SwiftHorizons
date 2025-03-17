@@ -105,7 +105,11 @@ case APPROACH
             ]
         case .ELEMENTS:
             /* WIP */
-            return [String: String]()
+            return [
+                hp.EPHEM_TYPE.id: self.id,
+                hp.ANG_FORMAT.id: "DEG",
+                hp.EXTRA_PREC.id: "NO",
+            ]
         case .VECTORS: return VEC_BATCH_PARAMS
             case .APPROACH:
             /* WIP*/

@@ -150,3 +150,15 @@ public struct MB: Codable {
     var planet: String?
     
 }
+
+
+
+struct OrbitalElements: Codable {
+    let eccentricity: Double
+    let perihelionDistance: Double  // AU
+    let timeOfPerihelionPassage: Double  // JD
+    let longitudeOfAscendingNode: Double  // Degrees
+    let argumentOfPerihelion: Double  // Degrees
+    let inclination: Double  // Degrees
+}
+
