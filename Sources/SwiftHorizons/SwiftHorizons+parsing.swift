@@ -123,14 +123,14 @@ extension SwiftHorizons {
             ]
             
             if id % 100 == 99 || id <= 100 || id > 99999 { // Planet IDs usually end in 99
-                print("Found id\(id) name \(name) designation: \(designation) aliases: \(aliases)")
+//                print("Found id\(id) name \(name) designation: \(designation) aliases: \(aliases)")
                 output.append(MB(id: id, name: name, designation: designation, aliases: aliases))
             } else if id < 1000 && id > 299 && id % 100 != 99 {
-                print("found moon: \(id) \(name)")
+//                print("found moon: \(id) \(name)")
                 let planet = planets[id/100]!
                 output.append(MB(id: id, name: name, designation: designation, aliases: aliases, planet: planet))
             } else { // Moon
-                print("Found id\(id) name \(name) designation: \(designation) aliases: \(aliases)")
+//                print("Found id\(id) name \(name) designation: \(designation) aliases: \(aliases)")
                 let bodyId = idString
                     let start = bodyId.index(bodyId.startIndex, offsetBy: 0)
                     let end = bodyId.index(bodyId.startIndex, offsetBy: 2)

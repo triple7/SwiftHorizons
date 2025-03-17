@@ -124,7 +124,7 @@ extension SwiftHorizons: URLSessionDelegate {
         }
                 }
 
-    public func getMbList(_ closure: @escaping (Bool)-> Void) {
+    public func getMbList(_ closure: @escaping ([MB])-> Void) {
         /** Gets the updated list of MBs
          Params:
          closure: whether async request is completed
@@ -139,7 +139,7 @@ extension SwiftHorizons: URLSessionDelegate {
                 let mbList = try! JSONDecoder().decode(MBList.self, from: data!)
                 let MBs = self!.parseMBList(payload: mbList)
                 self?.sysLog.append(HorizonsSyslog(log: .OK, message: "MB list downloaded"))
-                closure(true)
+                closure(MBs)
                 return
             }
         }
