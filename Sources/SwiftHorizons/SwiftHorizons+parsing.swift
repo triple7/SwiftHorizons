@@ -12,18 +12,7 @@ extension SwiftHorizons {
     
     
     private func parseElements(jsonString: String) -> OrbitalElements {
-        let elementsPattern = #"Eccentricity \(EC\)\s*=\s*([\d\.\-eE]+)\n.*?Perihelion distance \(QR\)\s*=\s*([\d\.\-eE]+) AU\n.*?Time of perihelion passage \(TP\)\s*=\s*([\d\.\-eE]+) JD\n.*?Longitude of Asc. Node \(OM\)\s*=\s*([\d\.\-eE]+)°\n.*?Argument of perihelion \(W\)\s*=\s*([\d\.\-eE]+)°\n.*?Inclination \(IN\)\s*=\s*([\d\.\-eE]+)°"#
-        
-        if let elementsRegex = try? NSRegularExpression(pattern: elementsPattern, options: []) {
-            if let match = elementsRegex.firstMatch(in: jsonString, options: [], range: NSRange(jsonString.startIndex..., in: jsonString)) {
-                let elements = (1...6).compactMap { index -> Double? in
-                    if let range = Range(match.range(at: index), in: jsonString) {
-                        return Double(jsonString[range])
-                    }
-                    return nil
-                }
-            }
-        }
+        return OrbitalElements(eccentricity: 0, perihelionDistance: 0, timeOfPerihelionPassage: 0, longitudeOfAscendingNode: 0, argumentOfPerihelion: 0, inclination: 0)
     }
             
             func parseSingleTarget(name: String, id: String, objectType: String, parent: String, parameters: [String: String], text: String, type: EphemType, _ notify: Bool = false)->HorizonsTarget {
