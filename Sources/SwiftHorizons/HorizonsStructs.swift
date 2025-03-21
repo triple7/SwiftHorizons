@@ -162,6 +162,7 @@ public struct MB: Codable {
     var designation: String?
     var aliases: String?
     var planet: String?
+    var planetId:String?
     
 }
 

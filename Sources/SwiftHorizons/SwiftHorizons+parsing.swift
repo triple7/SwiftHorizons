@@ -108,38 +108,39 @@ extension SwiftHorizons {
                                          // Numericals for extended identifiers
 
             let planets = [
-                3: "Earth",
-                4: "Mars",
-                5: "Jupiter",
-                6: "Saturn",
-                7: "Uranus",
-                8: "Neptune",
-                9: "Pluto"
+                3: ("Earth", 399),
+                4: ("Mars", 499),
+                5: ("Jupiter", 599),
+                6: ("Saturn", 699),
+                7: ("Uranus", 799),
+                8: ("Neptune", 899),
+                9: ("Pluto", 999)
             ]
             let extended = [
-                55: "Jupiter",
-                65: "Saturn",
-                75: "Uranus",
-                85: "Neptune",
-                95: "Pluto"
+                55: ("Jupiter", 599),
+                65: ("Saturn", 699),
+                75: ("Uranus", 799),
+                85: ("Neptune", 899),
+                95: ("Pluto", 999)
             ]
             
             if id % 100 == 99 || id <= 100 || id > 99999 { // Planet IDs usually end in 99
 //                print("Found id\(id) name \(name) designation: \(designation) aliases: \(aliases)")
-                output.append(MB(id: id, name: name, designation: designation, aliases: aliases))
+                output.append(MB(id: id, name: name, designation: designation, aliases: aliases, planet: "Sol", planetId: "500@10"))
             } else if id < 1000 && id > 299 && id % 100 != 99 {
 //                print("found moon: \(id) \(name)")
                 let planet = planets[id/100]!
-                output.append(MB(id: id, name: name, designation: designation, aliases: aliases, planet: planet))
+                output.append(MB(id: id, name: name, designation: designation, aliases: aliases, planet: planet.0, planetId: "500@\(planet.1)"))
             } else { // Moon
 //                print("Found id\(id) name \(name) designation: \(designation) aliases: \(aliases)")
                 let bodyId = idString
                     let start = bodyId.index(bodyId.startIndex, offsetBy: 0)
                     let end = bodyId.index(bodyId.startIndex, offsetBy: 2)
                 if let planet = extended[Int(bodyId[start..<end])!]{
-                output.append(MB(id: id, name: name, designation: designation, aliases: aliases, planet: planet))
+                    output.append(MB(id: id, name: name, designation: designation, aliases: aliases, planet: planet.0, planetId: "500@\(planet.1)"))
                 } else {
                     // Other bodies
+                                    print("other id\(id) name \(name) designation: \(designation) aliases: \(aliases)")
                     output.append(MB(id: id, name: name, designation: designation, aliases: aliases))
                 }
         }
