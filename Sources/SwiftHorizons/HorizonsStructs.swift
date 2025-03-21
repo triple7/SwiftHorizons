@@ -108,6 +108,20 @@ public struct HorizonsRequest {
             return url!.url!
         }
 
+    public func getElementUrl() -> URL {
+        /** Returns a formatted request Url
+         */
+            var url = URLComponents(string: APIUrl)
+        var params = getparameters()
+        for k in params.keys {
+            if k != hp.format.id {
+            params[k] = "'\(params[k]!)'"
+            }
+        }
+        url!.queryItems = Array(params.keys).map {URLQueryItem(name: $0, value: params[$0]!)}
+            return url!.url!
+        }
+
     public func getparameters(_ start: Int = -1, _ stop: Int = 1)->[String: String] {
         /** Returns parameters used for the Url request
          Params:

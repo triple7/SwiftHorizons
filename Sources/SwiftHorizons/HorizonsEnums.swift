@@ -104,7 +104,6 @@ case APPROACH
                 hp.CSV_FORMAT.id: "YES",
             ]
         case .ELEMENTS:
-            /* WIP */
             return [
                 hp.EPHEM_TYPE.id: self.id,
                 hp.ANG_FORMAT.id: "DEG",

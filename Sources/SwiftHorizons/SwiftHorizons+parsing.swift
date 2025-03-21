@@ -11,12 +11,15 @@ import simd
 extension SwiftHorizons {
     
     
-    private func parseElements(jsonString: String) -> OrbitalElements {
+    internal func parseElements(jsonString: String) -> OrbitalElements {
+        let result = try! JSONDecoder().decode(HorizonsReturnJson.self, from: jsonString.data(using: .utf8)!).result
+                print(result)
         return OrbitalElements(eccentricity: 0, perihelionDistance: 0, timeOfPerihelionPassage: 0, longitudeOfAscendingNode: 0, argumentOfPerihelion: 0, inclination: 0)
     }
             
             func parseSingleTarget(name: String, id: String, objectType: String, parent: String, parameters: [String: String], text: String, type: EphemType, _ notify: Bool = false)->HorizonsTarget {
         let result = try! JSONDecoder().decode(HorizonsReturnJson.self, from: text.data(using: .utf8)!).result
+                print(result)
         let asteriskDelimitor = "\n*******************************************************************************\n"
         let format = result.components(separatedBy: asteriskDelimitor)
         let extractedProperties = extractPhysicalProperties(from: format[0])
@@ -28,7 +31,6 @@ extension SwiftHorizons {
         case .OBSERVER:
              soe = text.match("\\$\\$SOE[^(EOE)]*\\$\\$EOE")[0].first!
         case .ELEMENTS:
-            wip = true
             break
         case .VECTORS:
             let start = result.components(separatedBy: "SOE\n").last!
