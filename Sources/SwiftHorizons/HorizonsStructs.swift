@@ -158,12 +158,12 @@ struct MBList: Codable {
 }
 
 public struct MB: Codable {
-    let id: Int
-    let name: String
-    var designation: String?
-    var aliases: String?
-    var parent: String?
-    var parentId:Int?
+    public let id: Int
+    public let name: String
+    public var designation: String?
+    public var aliases: String?
+    public var parent: String?
+    public var parentId:Int?
     
 }
 
