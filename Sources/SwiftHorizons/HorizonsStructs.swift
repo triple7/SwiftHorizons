@@ -14,6 +14,7 @@ public struct HorizonsBatchObject:Codable, Hashable, Equatable {
     public let type: HorizonsType // for request forming
     public let objectType:String // category of object as known in english language
     public let parent:String // The object's orbit parent
+    public var parentId:Int?
 
     public init(name: String, id: String, type: HorizonsType, objectType: String, parent: String) {
         self.name = name
@@ -161,8 +162,8 @@ public struct MB: Codable {
     let name: String
     var designation: String?
     var aliases: String?
-    var planet: String?
-    var planetId:String?
+    var parent: String?
+    var parentId:Int?
     
 }
 

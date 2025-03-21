@@ -126,22 +126,22 @@ extension SwiftHorizons {
             
             if id % 100 == 99 || id <= 100 || id > 99999 { // Planet IDs usually end in 99
 //                print("Found id\(id) name \(name) designation: \(designation) aliases: \(aliases)")
-                output.append(MB(id: id, name: name, designation: designation, aliases: aliases, planet: "Sol", planetId: "500@10"))
+                output.append(MB(id: id, name: name, designation: designation, aliases: aliases, parent: "Sol", parentId: 10))
             } else if id < 1000 && id > 299 && id % 100 != 99 {
 //                print("found moon: \(id) \(name)")
                 let planet = planets[id/100]!
-                output.append(MB(id: id, name: name, designation: designation, aliases: aliases, planet: planet.0, planetId: "500@\(planet.1)"))
+                output.append(MB(id: id, name: name, designation: designation, aliases: aliases, parent: planet.0, parentId: planet.1))
             } else { // Moon
 //                print("Found id\(id) name \(name) designation: \(designation) aliases: \(aliases)")
                 let bodyId = idString
                     let start = bodyId.index(bodyId.startIndex, offsetBy: 0)
                     let end = bodyId.index(bodyId.startIndex, offsetBy: 2)
                 if let planet = extended[Int(bodyId[start..<end])!]{
-                    output.append(MB(id: id, name: name, designation: designation, aliases: aliases, planet: planet.0, planetId: "500@\(planet.1)"))
+                    output.append(MB(id: id, name: name, designation: designation, aliases: aliases, parent: planet.0, parentId: planet.1))
                 } else {
                     // Other bodies
                                     print("other id\(id) name \(name) designation: \(designation) aliases: \(aliases)")
-                    output.append(MB(id: id, name: name, designation: designation, aliases: aliases))
+                    output.append(MB(id: id, name: name, designation: designation, aliases: aliases, parent: "Sol", parentId: 10))
                 }
         }
                                   }
