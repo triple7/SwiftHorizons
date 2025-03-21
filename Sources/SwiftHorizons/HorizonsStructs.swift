@@ -170,7 +170,7 @@ public struct MB: Codable {
 
 
 
-struct OrbitalElements: Codable {
+public struct OrbitalElements: Codable {
     let eccentricity: Double
     let perihelionDistance: Double  // AU
     let timeOfPerihelionPassage: Double  // JD

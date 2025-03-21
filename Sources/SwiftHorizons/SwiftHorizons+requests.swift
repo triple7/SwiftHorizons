@@ -126,7 +126,7 @@ extension SwiftHorizons: URLSessionDelegate {
 
     
     
-    public      func getBatchElements( objects: [HorizonsBatchObject], completion: @escaping (Bool)->Void ) {
+    public      func getBatchElements( objects: [HorizonsBatchObject], completion: @escaping ([OrbitalElements])->Void ) {
         let serialQueue = DispatchQueue(label: "HorizonsDownloadQueue")
         
         var remainingObjects = objects
@@ -135,7 +135,7 @@ extension SwiftHorizons: URLSessionDelegate {
         func downloadNextObject() {
             guard !remainingObjects.isEmpty else {
                 // All objects have been downloaded, call the completion handler
-                completion(true)
+                completion(elements)
                 return
             }
             
