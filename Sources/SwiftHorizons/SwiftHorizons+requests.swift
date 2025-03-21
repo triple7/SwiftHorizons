@@ -75,7 +75,7 @@ extension SwiftHorizons: URLSessionDelegate {
             }
             
             let object = remainingObjects.removeFirst()
-            var request = HorizonsRequest(target: object, parameters: type.defaultParameters)
+            var request = HorizonsRequest(target: object, parameters: type.defaultParameters())
             self.configureBatch(request: &request)
             let operation = DownloadOperation(session: URLSession.shared, dataTaskURL: request.getURL(stop: self.sampleTimeDays), completionHandler: { (data, response, error) in
                 if self.requestIsValid(message: object.name, error: error, response: response) {
@@ -140,7 +140,7 @@ extension SwiftHorizons: URLSessionDelegate {
             }
             
             let object = remainingObjects.removeFirst()
-            var request = HorizonsRequest(target: object, parameters: EphemType.ELEMENTS.defaultParameters)
+            var request = HorizonsRequest(target: object, parameters: EphemType.ELEMENTS.defaultParameters())
             self.configureBatch(request: &request)
             let operation = DownloadOperation(session: URLSession.shared, dataTaskURL: request.getElementUrl(), completionHandler: { (data, response, error) in
                 if self.requestIsValid(message: object.name, error: error, response: response) {
@@ -192,7 +192,7 @@ extension SwiftHorizons: URLSessionDelegate {
          type: ephemerus request type
          closure: whether async request is completed
          */
-        let request = HorizonsRequest(target: object, parameters: type.defaultParameters)
+        let request = HorizonsRequest(target: object, parameters: type.defaultParameters())
         let configuration = URLSessionConfiguration.ephemeral
     let queue = OperationQueue.main
         let session = URLSession(configuration: configuration, delegate: self, delegateQueue: queue)
