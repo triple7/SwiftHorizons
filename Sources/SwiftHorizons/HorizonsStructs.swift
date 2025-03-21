@@ -16,12 +16,13 @@ public struct HorizonsBatchObject:Codable, Hashable, Equatable {
     public let parent:String // The object's orbit parent
     public var parentId:Int?
 
-    public init(name: String, id: String, type: HorizonsType, objectType: String, parent: String) {
+    public init(name: String, id: String, type: HorizonsType, objectType: String, parent: String, parentId: Int? = nil) {
         self.name = name
         self.id = id
         self.type = type
         self.objectType = objectType
         self.parent = parent
+        self.parentId = parentId
     }
     
     public static func == (lhs: HorizonsBatchObject, rhs: HorizonsBatchObject) -> Bool {
