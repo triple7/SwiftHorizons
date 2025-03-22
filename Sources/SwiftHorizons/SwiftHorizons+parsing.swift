@@ -54,6 +54,7 @@ extension SwiftHorizons {
             let A = Double(Aadapr[1].components(separatedBy: "=")[1])!
             let ad = Double(Aadapr[2].components(separatedBy: "=")[1])!
             let apr = Double(Aadapr[3].components(separatedBy: "=")[1])!
+            print("adding ephem elements")
             ephemorbitals.append(OrbitalElements(epoch: epoch, eccentricity: ec, periapsisDistance: qr, inclination: inc, ascendingNode: om, argumentOfPeriapsis: w, timeOfPeriapsis: tp, meanMotion: n, meanAnomaly: ma, trueAnomaly: ta, semiMajorAxis: A, apoapsisDistance: ad, orbitalPeriod: apr))
         }
         return TargetProperties(orbitalElements: ephemorbitals, physicalProperties: extractedProperties)
