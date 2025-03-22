@@ -11,23 +11,49 @@ import simd
 extension SwiftHorizons {
     
     
-    internal func parseElements(jsonString: String) -> OrbitalElements {
+    internal func parseElements(jsonString: String) -> TargetProperties {
         let result = try! JSONDecoder().decode(HorizonsReturnJson.self, from: jsonString.data(using: .utf8)!).result
-                print(result)
         let asteriskDelimitor = "\n*******************************************************************************\n"
         let format = result.components(separatedBy: asteriskDelimitor)
         let extractedProperties = extractPhysicalProperties(from: format[0])
-        print(extractedProperties)
         let start = result.components(separatedBy: "SOE\n").last!
         let soe = "$$SOE\n\(start.components(separatedBy: "EOE").first!)"
         var orbitalBlock = soe.components(separatedBy: "\n")
         orbitalBlock.removeFirst()
         orbitalBlock.removeLast()
-        print(orbitalBlock)
         var ephemorbitals = [OrbitalElements]()
-
-        
-        return OrbitalElements(eccentricity: 0, perihelionDistance: 0, timeOfPerihelionPassage: 0, longitudeOfAscendingNode: 0, argumentOfPerihelion: 0, inclination: 0)
+        /* csv output is not available
+        So JD is first of a sequence at index 0
+         every 5 after that will be the next of the blocks
+         * ec, qr and in are index 1
+         om, w and tp are index 2
+         n, ma ta are index 3
+         a, ada, pr are index 4
+         then cycle through
+         */
+        let idx = orbitalBlock.count/5
+        for i in 0 ..< idx {
+            let jdBlock = orbitalBlock[i].replacingOccurrences(of: "= ", with: "").replacingOccurrences(of: " =", with: "").components(separatedBy: "=")
+            let epoch = Double(jdBlock[0])!
+            let ecqrinBlock = orbitalBlock[i+1].replacingOccurrences(of: "= ", with: "").replacingOccurrences(of: " =", with: "").components(separatedBy: " ")
+            let ec = Double(ecqrinBlock[1])!
+            let qr = Double(ecqrinBlock[3])!
+            let inc = Double(ecqrinBlock[5])!
+            let omwtpBlock = orbitalBlock[i+2].replacingOccurrences(of: "= ", with: "").replacingOccurrences(of: " =", with: "").replacingOccurrences(of: "  ", with: "").components(separatedBy: " ")
+            let om = Double(omwtpBlock[1])!
+            let w = Double(omwtpBlock[3])!
+            let tp = Double(omwtpBlock[5])!
+            let amataBlock = orbitalBlock[i+3].replacingOccurrences(of: "= ", with: "").replacingOccurrences(of: " =", with: "").replacingOccurrences(of: "  ", with: "").components(separatedBy: "=")
+            let n = Double(amataBlock[1])!
+            let ma = Double(amataBlock[3])!
+            let ta = Double(amataBlock[5])!
+            let Aadapr = orbitalBlock[i+4].replacingOccurrences(of: "= ", with: "").replacingOccurrences(of: " =", with: "").replacingOccurrences(of: "  ", with: "").components(separatedBy: "=")
+            let A = Double(Aadapr[1])!
+            let ad = Double(Aadapr[3])!
+            let apr = Double(Aadapr[5])!
+            ephemorbitals.append(OrbitalElements(epoch: epoch, eccentricity: ec, periapsisDistance: qr, inclination: inc, ascendingNode: om, argumentOfPeriapsis: w, timeOfPeriapsis: tp, meanMotion: n, meanAnomaly: ma, trueAnomaly: ta, semiMajorAxis: A, apoapsisDistance: ad, orbitalPeriod: apr))
+        }
+        return TargetProperties(orbitalElements: ephemorbitals, physicalProperties: extractedProperties)
     }
             
             func parseSingleTarget(name: String, id: String, objectType: String, parent: String, parameters: [String: String], text: String, type: EphemType, _ notify: Bool = false)->HorizonsTarget {

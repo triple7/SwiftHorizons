@@ -126,10 +126,10 @@ extension SwiftHorizons: URLSessionDelegate {
 
     
     
-    public func getBatchElements(objects: [HorizonsBatchObject], completion: @escaping ([OrbitalElements]) -> Void) {
+    public func getBatchElements(objects: [HorizonsBatchObject], completion: @escaping ([TargetProperties]) -> Void) {
         print("getBatchElements: \(objects.count) targets")
         var remainingObjects = objects
-        var elements = [OrbitalElements]()
+        var elements = [TargetProperties]()
 
         func downloadNextObject() {
             guard !remainingObjects.isEmpty else {
@@ -143,7 +143,6 @@ extension SwiftHorizons: URLSessionDelegate {
             var request = HorizonsRequest(target: object, parameters: EphemType.ELEMENTS.defaultParameters(object.parentId!))
             self.configureBatch(request: &request)
 
-            print(request.getElementUrl().absoluteString)
             let operation = DownloadOperation(
                 
                 session: URLSession.shared,
@@ -153,7 +152,6 @@ extension SwiftHorizons: URLSessionDelegate {
                     if self.requestIsValid(message: object.name, error: error, response: response),
                        let data = data {
                         let text = String(decoding: data, as: UTF8.self)
-                        print(text)
                         let parsed = self.parseElements(jsonString: text)
                         elements.append(parsed)
                     }

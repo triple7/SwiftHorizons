@@ -168,14 +168,23 @@ public struct MB: Codable {
     
 }
 
-
-
-public struct OrbitalElements: Codable {
-    let eccentricity: Double
-    let perihelionDistance: Double  // AU
-    let timeOfPerihelionPassage: Double  // JD
-    let longitudeOfAscendingNode: Double  // Degrees
-    let argumentOfPerihelion: Double  // Degrees
-    let inclination: Double  // Degrees
+public struct TargetProperties:Codable {
+    let orbitalElements:[OrbitalElements]
+    let physicalProperties:[String: Double]
 }
 
+public struct OrbitalElements: Codable {
+    let epoch: Double               // Julian Date of the elements
+    let eccentricity: Double        // EC
+    let periapsisDistance: Double   // QR (km)
+    let inclination: Double         // IN (degrees)
+    let ascendingNode: Double       // OM (degrees)
+    let argumentOfPeriapsis: Double // W (degrees)
+    let timeOfPeriapsis: Double     // Tp (Julian Date)
+    let meanMotion: Double          // N (degrees/day)
+    let meanAnomaly: Double         // MA (degrees)
+    let trueAnomaly: Double         // TA (degrees)
+    let semiMajorAxis: Double       // A (km)
+    let apoapsisDistance: Double    // AD (km)
+    let orbitalPeriod: Double       // PR (days)
+}
