@@ -126,43 +126,46 @@ extension SwiftHorizons: URLSessionDelegate {
 
     
     
-    public      func getBatchElements( objects: [HorizonsBatchObject], completion: @escaping ([OrbitalElements])->Void ) {
-
-        let serialQueue = DispatchQueue(label: "HorizonsDownloadQueue")
+    public func getBatchElements(objects: [HorizonsBatchObject], completion: @escaping ([OrbitalElements]) -> Void) {
+        print("getBatchElements: \(objects.count) targets")
         var remainingObjects = objects
         var elements = [OrbitalElements]()
-        // Create a recursive function to handle the download
+
         func downloadNextObject() {
             guard !remainingObjects.isEmpty else {
-                // All objects have been downloaded, call the completion handler
-                completion(elements)
+                DispatchQueue.main.async {
+                    completion(elements)
+                }
                 return
             }
-            
+
             let object = remainingObjects.removeFirst()
             var request = HorizonsRequest(target: object, parameters: EphemType.ELEMENTS.defaultParameters())
             self.configureBatch(request: &request)
-            let operation = DownloadOperation(session: URLSession.shared, dataTaskURL: request.getElementUrl(), completionHandler: { (data, response, error) in
-                if self.requestIsValid(message: object.name, error: error, response: response) {
-                    let text = String(decoding: data!, as: UTF8.self)
-                    print(text)
-                    elements.append(self.parseElements(jsonString: text))
-                    // Call the recursive function to download the next object
-                    serialQueue.async {
-                        downloadNextObject()
+
+            let operation = DownloadOperation(
+                session: URLSession.shared,
+                dataTaskURL: request.getElementUrl(),
+                completionHandler: { (data, response, error) in
+                    if self.requestIsValid(message: object.name, error: error, response: response),
+                       let data = data {
+                        let text = String(decoding: data, as: UTF8.self)
+                        print(text)
+                        let parsed = self.parseElements(jsonString: text)
+                        elements.append(parsed)
                     }
-                }
-            })
-            // Add the operation to the serial queue to execute it serially
-            serialQueue.async {
-                operation.start()
-            }
-        }
-                // Add the operation to the serial queue to execute it serially
-                serialQueue.async {
+
+                    // Continue with the next download
                     downloadNextObject()
-                }
-            }
+                })
+
+            // Start the download (which runs its own async network task)
+            operation.start()
+        }
+
+        // Start downloading the first object
+        downloadNextObject()
+    }
 
     public func getMbList(_ closure: @escaping ([MB])-> Void) {
         /** Gets the updated list of MBs
