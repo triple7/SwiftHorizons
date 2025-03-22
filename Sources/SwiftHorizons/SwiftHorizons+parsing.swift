@@ -19,7 +19,6 @@ extension SwiftHorizons {
             
             func parseSingleTarget(name: String, id: String, objectType: String, parent: String, parameters: [String: String], text: String, type: EphemType, _ notify: Bool = false)->HorizonsTarget {
         let result = try! JSONDecoder().decode(HorizonsReturnJson.self, from: text.data(using: .utf8)!).result
-                print(result)
         let asteriskDelimitor = "\n*******************************************************************************\n"
         let format = result.components(separatedBy: asteriskDelimitor)
         let extractedProperties = extractPhysicalProperties(from: format[0])
@@ -79,7 +78,6 @@ extension SwiftHorizons {
 
     
     func parseMBList(payload: MBList) -> [MB] {
-        print(payload.result)
         var output:[MB] = []
         let lines = payload.result.components(separatedBy: "\n")
         
