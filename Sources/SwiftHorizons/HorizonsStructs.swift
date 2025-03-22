@@ -70,6 +70,7 @@ public struct HorizonsRequest {
     
     public init(target: HorizonsBatchObject, parameters: [String: String], location: CLLocation? = nil) {
         if target.type == .Mb {
+            print("MB target: \(target)")
             self.parameters = [hp.COMMAND.id: target.id] + parameters
         } else {
             let components = target.id.components(separatedBy: "/")

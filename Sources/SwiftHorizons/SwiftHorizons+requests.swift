@@ -141,7 +141,7 @@ extension SwiftHorizons: URLSessionDelegate {
 
             let object = remainingObjects.removeFirst()
             print("Got remaining object")
-            var request = HorizonsRequest(target: object, parameters: EphemType.ELEMENTS.defaultParameters())
+            var request = HorizonsRequest(target: object, parameters: EphemType.ELEMENTS.defaultParameters(object.parentId!))
             self.configureBatch(request: &request)
 
             let operation = DownloadOperation(
