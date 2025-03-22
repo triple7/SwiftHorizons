@@ -34,23 +34,18 @@ extension SwiftHorizons {
         let idx = orbitalBlock.count/5
         for i in 0 ..< idx {
             let jdBlock = orbitalBlock[i].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").components(separatedBy: "=")
-            print(jdBlock)
             let epoch = Double(jdBlock[0])!
             let ecqrinBlock = orbitalBlock[i+1].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").components(separatedBy: " ")
-            print(ecqrinBlock)
             let ec = Double(ecqrinBlock[1].components(separatedBy: "=")[1])!
             let qr = Double(ecqrinBlock[2].components(separatedBy: "=")[1])!
             let inc = Double(ecqrinBlock[3].components(separatedBy: "=")[1])!
             let omwtpBlock = orbitalBlock[i+2].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").replacingOccurrences(of: "  ", with: "").components(separatedBy: " ")
-            print(omwtpBlock)
             let om = Double(omwtpBlock[1].components(separatedBy: "=")[1])!
-            print(om)
             let w = Double(omwtpBlock[2].components(separatedBy: "=")[1])!
-            print(w)
             let tp = Double(omwtpBlock[4])!
-            print(orbitalBlock.count)
             let amataBlock = orbitalBlock[i+3].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").replacingOccurrences(of: "  ", with: "").components(separatedBy: "=")
-            print(amataBlock)
+            
+            print(orbitalBlock[i+3])
             let n = Double(amataBlock[1].components(separatedBy: "=")[1])!
             let ma = Double(amataBlock[2].components(separatedBy: "=")[1])!
             let ta = Double(amataBlock[3].components(separatedBy: "=")[1])!
