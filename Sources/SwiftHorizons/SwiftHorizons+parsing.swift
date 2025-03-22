@@ -38,22 +38,22 @@ extension SwiftHorizons {
             let epoch = Double(jdBlock[0])!
             let ecqrinBlock = orbitalBlock[i+1].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").components(separatedBy: " ")
             print(ecqrinBlock)
-            let ec = Double(ecqrinBlock[1].components(separatedBy: "=")[1])!
-            let qr = Double(ecqrinBlock[3].components(separatedBy: "=")[1])!
-            let inc = Double(ecqrinBlock[5].components(separatedBy: "=")[1])!
+            let ec = Double(ecqrinBlock[0].components(separatedBy: "=")[1])!
+            let qr = Double(ecqrinBlock[1].components(separatedBy: "=")[1])!
+            let inc = Double(ecqrinBlock[2].components(separatedBy: "=")[1])!
             let omwtpBlock = orbitalBlock[i+2].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").replacingOccurrences(of: "  ", with: "").components(separatedBy: " ")
             print(omwtpBlock)
-            let om = Double(omwtpBlock[1].components(separatedBy: "=")[1])!
-            let w = Double(omwtpBlock[3].components(separatedBy: "=")[1])!
-            let tp = Double(omwtpBlock[5].components(separatedBy: "=")[1])!
+            let om = Double(omwtpBlock[0].components(separatedBy: "=")[1])!
+            let w = Double(omwtpBlock[1].components(separatedBy: "=")[1])!
+            let tp = Double(omwtpBlock[2].components(separatedBy: "=")[1])!
             let amataBlock = orbitalBlock[i+3].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").replacingOccurrences(of: "  ", with: "").components(separatedBy: "=")
-            let n = Double(amataBlock[1].components(separatedBy: "=")[1])!
-            let ma = Double(amataBlock[3].components(separatedBy: "=")[1])!
-            let ta = Double(amataBlock[5].components(separatedBy: "=")[1])!
+            let n = Double(amataBlock[0].components(separatedBy: "=")[1])!
+            let ma = Double(amataBlock[1].components(separatedBy: "=")[1])!
+            let ta = Double(amataBlock[2].components(separatedBy: "=")[1])!
             let Aadapr = orbitalBlock[i+4].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").replacingOccurrences(of: "  ", with: "").components(separatedBy: "=")
-            let A = Double(Aadapr[1].components(separatedBy: "=")[1])!
-            let ad = Double(Aadapr[3].components(separatedBy: "=")[1])!
-            let apr = Double(Aadapr[5].components(separatedBy: "=")[1])!
+            let A = Double(Aadapr[0].components(separatedBy: "=")[1])!
+            let ad = Double(Aadapr[1].components(separatedBy: "=")[1])!
+            let apr = Double(Aadapr[2].components(separatedBy: "=")[1])!
             ephemorbitals.append(OrbitalElements(epoch: epoch, eccentricity: ec, periapsisDistance: qr, inclination: inc, ascendingNode: om, argumentOfPeriapsis: w, timeOfPeriapsis: tp, meanMotion: n, meanAnomaly: ma, trueAnomaly: ta, semiMajorAxis: A, apoapsisDistance: ad, orbitalPeriod: apr))
         }
         return TargetProperties(orbitalElements: ephemorbitals, physicalProperties: extractedProperties)
