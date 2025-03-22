@@ -38,6 +38,9 @@ extension SwiftHorizons {
             let epoch = Double(jdBlock[0])!
             let ecqrinBlock = orbitalBlock[i+1].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").components(separatedBy: " ")
             print(ecqrinBlock)
+            print(ecqrinBlock[1].components(separatedBy: "="))
+            ecqrinBlock[2].components(separatedBy: "=")
+            ecqrinBlock[0].components(separatedBy: "=")
             let ec = Double(ecqrinBlock[0].components(separatedBy: "=")[1])!
             let qr = Double(ecqrinBlock[1].components(separatedBy: "=")[1])!
             let inc = Double(ecqrinBlock[2].components(separatedBy: "=")[1])!
