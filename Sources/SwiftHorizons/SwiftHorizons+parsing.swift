@@ -38,12 +38,7 @@ extension SwiftHorizons {
             let epoch = Double(jdBlock[0])!
             let ecqrinBlock = orbitalBlock[i+1].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").components(separatedBy: " ")
             print(ecqrinBlock)
-            print(ecqrinBlock[0].components(separatedBy: "="))
-            print(ecqrinBlock[1].components(separatedBy: "="))
-            print(ecqrinBlock[2])
-            print(ecqrinBlock[2].components(separatedBy: "="))
             let ec = Double(ecqrinBlock[1].components(separatedBy: "=")[1])!
-            print(ec)
             let qr = Double(ecqrinBlock[2].components(separatedBy: "=")[1])!
             let inc = Double(ecqrinBlock[3].components(separatedBy: "=")[1])!
             let omwtpBlock = orbitalBlock[i+2].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").replacingOccurrences(of: "  ", with: "").components(separatedBy: " ")
@@ -52,10 +47,12 @@ extension SwiftHorizons {
             let w = Double(omwtpBlock[2].components(separatedBy: "=")[1])!
             let tp = Double(omwtpBlock[3].components(separatedBy: "=")[1])!
             let amataBlock = orbitalBlock[i+3].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").replacingOccurrences(of: "  ", with: "").components(separatedBy: "=")
+            print(amataBlock)
             let n = Double(amataBlock[1].components(separatedBy: "=")[1])!
             let ma = Double(amataBlock[2].components(separatedBy: "=")[1])!
             let ta = Double(amataBlock[3].components(separatedBy: "=")[1])!
             let Aadapr = orbitalBlock[i+4].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").replacingOccurrences(of: "  ", with: "").components(separatedBy: "=")
+            print(Aadapr)
             let A = Double(Aadapr[1].components(separatedBy: "=")[1])!
             let ad = Double(Aadapr[2].components(separatedBy: "=")[1])!
             let apr = Double(Aadapr[3].components(separatedBy: "=")[1])!
