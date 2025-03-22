@@ -23,7 +23,7 @@ extension SwiftHorizons {
         var orbitalBlock = soe.components(separatedBy: "\n")
         orbitalBlock.removeFirst()
         orbitalBlock.removeLast()
-        print(orbitalBlock)
+        print(orbitalBlock[0])
         var ephemorbitals = [[Double]]()
 
         
