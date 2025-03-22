@@ -179,7 +179,7 @@ extension SwiftHorizons {
                 } else {
                     // Other bodies
 //                                    print("other id\(id) name \(name) designation: \(designation) aliases: \(aliases)")
-                    output.append(MB(id: id, name: name, designation: designation, aliases: aliases, parent: "Sol", parentId: 10))
+                    output.append(MB(id: id, name: name, designation: designation, aliases: aliases, parent: "Barycenter", parentId: 0))
                 }
         }
                                   }
