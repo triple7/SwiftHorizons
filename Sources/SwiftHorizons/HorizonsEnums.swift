@@ -45,7 +45,6 @@ public enum HorizonsParameter:String, CaseIterable, Identifiable {
     case QUANTITIES
     case REF_SYSTEM
     case OUT_UNITS
-    case OUT_FORMAT
     case VEC_TABLE
     case VEC_CORR
     case CAL_FORMAT
@@ -111,7 +110,6 @@ case APPROACH
                 hp.CENTER.id: "\(parentId!)",
                 hp.EXTRA_PREC.id: "YES",
                 hp.STEP_SIZE.id: "1d",
-                hp.OUT_FORMAT.id: "3"
             ]
         case .VECTORS: return VEC_BATCH_PARAMS
             case .APPROACH:
