@@ -33,22 +33,22 @@ extension SwiftHorizons {
          */
         let idx = orbitalBlock.count/5
         for i in 0 ..< idx {
-            let jdBlock = orbitalBlock[i].replacingOccurrences(of: "= ", with: "").replacingOccurrences(of: " =", with: "").components(separatedBy: "=")
+            let jdBlock = orbitalBlock[i].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").components(separatedBy: "=")
             print(jdBlock)
             let epoch = Double(jdBlock[0])!
-            let ecqrinBlock = orbitalBlock[i+1].replacingOccurrences(of: "= ", with: "").replacingOccurrences(of: " =", with: "").components(separatedBy: " ")
+            let ecqrinBlock = orbitalBlock[i+1].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").components(separatedBy: " ")
             let ec = Double(ecqrinBlock[1])!
             let qr = Double(ecqrinBlock[3])!
             let inc = Double(ecqrinBlock[5])!
-            let omwtpBlock = orbitalBlock[i+2].replacingOccurrences(of: "= ", with: "").replacingOccurrences(of: " =", with: "").replacingOccurrences(of: "  ", with: "").components(separatedBy: " ")
+            let omwtpBlock = orbitalBlock[i+2].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").replacingOccurrences(of: "  ", with: "").components(separatedBy: " ")
             let om = Double(omwtpBlock[1])!
             let w = Double(omwtpBlock[3])!
             let tp = Double(omwtpBlock[5])!
-            let amataBlock = orbitalBlock[i+3].replacingOccurrences(of: "= ", with: "").replacingOccurrences(of: " =", with: "").replacingOccurrences(of: "  ", with: "").components(separatedBy: "=")
+            let amataBlock = orbitalBlock[i+3].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").replacingOccurrences(of: "  ", with: "").components(separatedBy: "=")
             let n = Double(amataBlock[1])!
             let ma = Double(amataBlock[3])!
             let ta = Double(amataBlock[5])!
-            let Aadapr = orbitalBlock[i+4].replacingOccurrences(of: "= ", with: "").replacingOccurrences(of: " =", with: "").replacingOccurrences(of: "  ", with: "").components(separatedBy: "=")
+            let Aadapr = orbitalBlock[i+4].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").replacingOccurrences(of: "  ", with: "").components(separatedBy: "=")
             let A = Double(Aadapr[1])!
             let ad = Double(Aadapr[3])!
             let apr = Double(Aadapr[5])!
