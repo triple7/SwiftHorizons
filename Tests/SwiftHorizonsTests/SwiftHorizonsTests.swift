@@ -8,7 +8,7 @@ final class SwiftHorizonsTests: XCTestCase {
         
         let objectID = "599"
         print("Object ID is \(objectID)")
-        let object = HorizonsBatchObject(id: objectID, type: .Mb)
+        let object = HorizonsBatchObject(name: "Jupiter", id: objectID, type: .Mb, objectType: "Planet", parent: "Sol")
         horizonSystem.getTarget(object: object, type: .OBSERVER) { result in
             XCTAssert(result, "Result is unexpected")
         }
@@ -18,7 +18,7 @@ final class SwiftHorizonsTests: XCTestCase {
         
         let objectID = "599"
         print("Object ID is \(objectID)")
-        let object = HorizonsBatchObject(id: objectID, type: .Mb)
+        let object = HorizonsBatchObject(name: "Jupiter", id: objectID, type: .Mb, objectType: "planet", parent: "Sol")
         horizonSystem.getTarget(object: object, type: .VECTORS) { result in
             XCTAssert(result, "Result is unexpected")
         }
@@ -28,7 +28,7 @@ final class SwiftHorizonsTests: XCTestCase {
         
         let objectID = "647/2000647"
         print("Object ID is \(objectID)")
-        let object = HorizonsBatchObject(id: objectID, type: .Sb)
+        let object = HorizonsBatchObject(name: "Some moon", id: objectID, type: .Sb, objectType: "NaturalSat", parent: "Saturn")
         horizonSystem.getTarget(object: object, type: .OBSERVER) { result in
             XCTAssert(result, "Result is unexpected")
         }
@@ -38,7 +38,7 @@ final class SwiftHorizonsTests: XCTestCase {
         
         let objectID = "647/2000647"
         print("Object ID is \(objectID)")
-        let object = HorizonsBatchObject(id: objectID, type: .Sb)
+        let object = HorizonsBatchObject(name: "Some moon", id: objectID, type: .Sb, objectType: "NaturalSat", parent: "Saturn")
         horizonSystem.getTarget(object: object, type: .VECTORS) { result in
             XCTAssert(result, "Result is unexpected")
         }

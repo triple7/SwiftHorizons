@@ -107,7 +107,7 @@ case APPROACH
             return [
                 hp.EPHEM_TYPE.id: self.id,
                 hp.ANG_FORMAT.id: "DEG",
-                hp.CENTER.id: "500@\(parentId!)",
+                hp.CENTER.id: "\(parentId!)",
                 hp.EXTRA_PREC.id: "YES",
             ]
         case .VECTORS: return VEC_BATCH_PARAMS

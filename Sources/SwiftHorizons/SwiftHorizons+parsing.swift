@@ -14,6 +14,11 @@ extension SwiftHorizons {
     internal func parseElements(jsonString: String) -> OrbitalElements {
         let result = try! JSONDecoder().decode(HorizonsReturnJson.self, from: jsonString.data(using: .utf8)!).result
                 print(result)
+        let asteriskDelimitor = "\n*******************************************************************************\n"
+        let format = result.components(separatedBy: asteriskDelimitor)
+        let extractedProperties = extractPhysicalProperties(from: format[0])
+        print(extractedProperties)
+
         return OrbitalElements(eccentricity: 0, perihelionDistance: 0, timeOfPerihelionPassage: 0, longitudeOfAscendingNode: 0, argumentOfPerihelion: 0, inclination: 0)
     }
             
@@ -21,8 +26,6 @@ extension SwiftHorizons {
         let result = try! JSONDecoder().decode(HorizonsReturnJson.self, from: text.data(using: .utf8)!).result
         let asteriskDelimitor = "\n*******************************************************************************\n"
         let format = result.components(separatedBy: asteriskDelimitor)
-        let extractedProperties = extractPhysicalProperties(from: format[0])
-        print(extractedProperties)
         _ = format[1].components(separatedBy: "\n")
         var soe = ""
         var wip = false
@@ -124,7 +127,9 @@ extension SwiftHorizons {
             
             if id % 100 == 99 || id <= 100 || id > 99999 { // Planet IDs usually end in 99
 //                print("Found id\(id) name \(name) designation: \(designation) aliases: \(aliases)")
-                output.append(MB(id: id, name: name, designation: designation, aliases: aliases, parent: "Sol", parentId: 10))
+                let parentId = id == 10 ?  0 : 10 // Sun case
+                let parent = id == 10 ? "Solar Barycenter" : "Sol"
+                output.append(MB(id: id, name: name, designation: designation, aliases: aliases, parent: parent, parentId: parentId))
             } else if id < 1000 && id > 299 && id % 100 != 99 {
 //                print("found moon: \(id) \(name)")
                 let planet = planets[id/100]!
