@@ -109,6 +109,7 @@ case APPROACH
                 hp.ANG_FORMAT.id: "DEG",
                 hp.CENTER.id: "\(parentId!)",
                 hp.EXTRA_PREC.id: "YES",
+                hp.STEP_SIZE.id: "1d"
             ]
         case .VECTORS: return VEC_BATCH_PARAMS
             case .APPROACH:
