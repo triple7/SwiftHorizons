@@ -40,6 +40,7 @@ extension SwiftHorizons {
             print(ecqrinBlock)
             print(ecqrinBlock[0].components(separatedBy: "="))
             print(ecqrinBlock[1].components(separatedBy: "="))
+            print(ecqrinBlock[2])
             print(ecqrinBlock[2].components(separatedBy: "="))
             let ec = Double(ecqrinBlock[0].components(separatedBy: "=")[1])!
             print(ec)
