@@ -18,7 +18,15 @@ extension SwiftHorizons {
         let format = result.components(separatedBy: asteriskDelimitor)
         let extractedProperties = extractPhysicalProperties(from: format[0])
         print(extractedProperties)
+        let start = result.components(separatedBy: "SOE\n").last!
+        let soe = "$$SOE\n\(start.components(separatedBy: "EOE").first!)"
+        var orbitalBlock = soe.components(separatedBy: "\n")
+        orbitalBlock.removeFirst()
+        orbitalBlock.removeLast()
+        print(orbitalBlock)
+        var ephemorbitals = [[Double]]()
 
+        
         return OrbitalElements(eccentricity: 0, perihelionDistance: 0, timeOfPerihelionPassage: 0, longitudeOfAscendingNode: 0, argumentOfPerihelion: 0, inclination: 0)
     }
             
