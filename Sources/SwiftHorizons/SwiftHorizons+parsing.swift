@@ -33,7 +33,7 @@ extension SwiftHorizons {
          */
         let idx = orbitalBlock.count/5
         for i in 0 ..< idx {
-            let jdBlock = orbitalBlock[i*5dx].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").components(separatedBy: "=")
+            let jdBlock = orbitalBlock[i*5].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").components(separatedBy: "=")
             let epoch = Double(jdBlock[0])!
             let ecqrinBlock = orbitalBlock[i*5+1].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").components(separatedBy: " ")
             let ec = Double(ecqrinBlock[1].components(separatedBy: "=")[1])!
