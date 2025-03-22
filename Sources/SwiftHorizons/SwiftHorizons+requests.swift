@@ -127,8 +127,8 @@ extension SwiftHorizons: URLSessionDelegate {
     
     
     public      func getBatchElements( objects: [HorizonsBatchObject], completion: @escaping ([OrbitalElements])->Void ) {
+
         let serialQueue = DispatchQueue(label: "HorizonsDownloadQueue")
-        
         var remainingObjects = objects
         var elements = [OrbitalElements]()
         // Create a recursive function to handle the download
@@ -145,6 +145,7 @@ extension SwiftHorizons: URLSessionDelegate {
             let operation = DownloadOperation(session: URLSession.shared, dataTaskURL: request.getElementUrl(), completionHandler: { (data, response, error) in
                 if self.requestIsValid(message: object.name, error: error, response: response) {
                     let text = String(decoding: data!, as: UTF8.self)
+                    print(text)
                     elements.append(self.parseElements(jsonString: text))
                     // Call the recursive function to download the next object
                     serialQueue.async {
