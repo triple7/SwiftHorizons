@@ -23,8 +23,8 @@ extension SwiftHorizons {
         var orbitalBlock = soe.components(separatedBy: "\n")
         orbitalBlock.removeFirst()
         orbitalBlock.removeLast()
-        print(orbitalBlock[0])
-        var ephemorbitals = [[Double]]()
+        print(orbitalBlock)
+        var ephemorbitals = [OrbitalElements]()
 
         
         return OrbitalElements(eccentricity: 0, perihelionDistance: 0, timeOfPerihelionPassage: 0, longitudeOfAscendingNode: 0, argumentOfPerihelion: 0, inclination: 0)
