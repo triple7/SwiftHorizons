@@ -16,6 +16,7 @@ extension SwiftHorizons {
         let asteriskDelimitor = "\n*******************************************************************************\n"
         let format = result.components(separatedBy: asteriskDelimitor)
         let extractedProperties = extractPhysicalProperties(from: format[0])
+        print(format[0])
         let start = result.components(separatedBy: "SOE\n").last!
         let soe = "$$SOE\n\(start.components(separatedBy: "EOE").first!)"
         var orbitalBlock = soe.components(separatedBy: "\n")

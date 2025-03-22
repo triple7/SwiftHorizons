@@ -148,7 +148,6 @@ extension SwiftHorizons: URLSessionDelegate {
                 session: URLSession.shared,
                 dataTaskURL: request.getElementUrl(),
                 completionHandler: { (data, response, error) in
-                    print("\(error) \(response)")
                     if self.requestIsValid(message: object.name, error: error, response: response),
                        let data = data {
                         let text = String(decoding: data, as: UTF8.self)
