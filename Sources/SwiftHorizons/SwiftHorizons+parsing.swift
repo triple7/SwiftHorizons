@@ -43,7 +43,7 @@ extension SwiftHorizons {
             let om = Double(omwtpBlock[1].components(separatedBy: "=")[1])!
             let w = Double(omwtpBlock[2].components(separatedBy: "=")[1])!
             let tp = Double(omwtpBlock[4])!
-            let amataBlock = orbitalBlock[i+3].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").replacingOccurrences(of: "  ", with: "").components(separatedBy: "=")
+            let amataBlock = orbitalBlock[i+3].replacingOccurrences(of: " = ", with: "=").replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: "  ", with: "").components(separatedBy: "=")
             
             print(orbitalBlock[i+3])
             let n = Double(amataBlock[1].components(separatedBy: "=")[1])!
