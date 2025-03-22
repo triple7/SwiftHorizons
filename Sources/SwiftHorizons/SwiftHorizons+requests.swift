@@ -140,10 +140,10 @@ extension SwiftHorizons: URLSessionDelegate {
             }
 
             let object = remainingObjects.removeFirst()
-            print("Got remaining object")
             var request = HorizonsRequest(target: object, parameters: EphemType.ELEMENTS.defaultParameters(object.parentId!))
             self.configureBatch(request: &request)
 
+            print(request.getElementUrl().absoluteString)
             let operation = DownloadOperation(
                 
                 session: URLSession.shared,

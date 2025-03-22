@@ -138,7 +138,7 @@ extension SwiftHorizons {
                     output.append(MB(id: id, name: name, designation: designation, aliases: aliases, parent: planet.0, parentId: planet.1))
                 } else {
                     // Other bodies
-                                    print("other id\(id) name \(name) designation: \(designation) aliases: \(aliases)")
+//                                    print("other id\(id) name \(name) designation: \(designation) aliases: \(aliases)")
                     output.append(MB(id: id, name: name, designation: designation, aliases: aliases, parent: "Sol", parentId: 10))
                 }
         }
