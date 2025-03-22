@@ -33,6 +33,7 @@ extension SwiftHorizons {
          */
         let idx = orbitalBlock.count/5
         for i in 0 ..< idx {
+            print(orbitalBlock)
             let jdBlock = orbitalBlock[i].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").components(separatedBy: "=")
             let epoch = Double(jdBlock[0])!
             let ecqrinBlock = orbitalBlock[i+1].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").components(separatedBy: " ")
@@ -45,16 +46,13 @@ extension SwiftHorizons {
             let tp = Double(omwtpBlock[4])!
             let amataBlock = orbitalBlock[i+3].replacingOccurrences(of: " = ", with: "=").replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: "  ", with: "").components(separatedBy: " ")
             
-            print(amataBlock)
             let n = Double(amataBlock[1].components(separatedBy: "=")[1])!
             let ma = Double(amataBlock[2].components(separatedBy: "=")[1])!
             let ta = Double(amataBlock[3].components(separatedBy: "=")[1])!
             let Aadapr = orbitalBlock[i+4].replacingOccurrences(of: " = ", with: "=").replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").replacingOccurrences(of: "  ", with: "").components(separatedBy: " ")
-            print(Aadapr)
             let A = Double(Aadapr[1].components(separatedBy: "=")[1])!
             let ad = Double(Aadapr[2].components(separatedBy: "=")[1])!
             let apr = Double(Aadapr[3].components(separatedBy: "=")[1])!
-            print("adding ephem elements")
             ephemorbitals.append(OrbitalElements(epoch: epoch, eccentricity: ec, periapsisDistance: qr, inclination: inc, ascendingNode: om, argumentOfPeriapsis: w, timeOfPeriapsis: tp, meanMotion: n, meanAnomaly: ma, trueAnomaly: ta, semiMajorAxis: A, apoapsisDistance: ad, orbitalPeriod: apr))
         }
         return TargetProperties(orbitalElements: ephemorbitals, physicalProperties: extractedProperties)
