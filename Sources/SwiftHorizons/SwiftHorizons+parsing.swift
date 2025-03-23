@@ -42,6 +42,7 @@ extension SwiftHorizons {
         let format = result.components(separatedBy: asteriskDelimitor)
         let extractedProperties = extractPhysicalProperties(from: format[0])
         let orbitalBlock = getElementBlock(text: result)
+        print("Orbital block: \(orbitalBlock)")
         var ephemorbitals = [OrbitalElements]()
         /* csv output is not available
         So JD is first of a sequence at index 0
