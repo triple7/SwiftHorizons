@@ -130,7 +130,6 @@ public struct HorizonsRequest {
          */
             var url = URLComponents(string: APIUrl)
         var params = getparameters()
-        print(params)
         for k in params.keys {
             if k != hp.format.id {
             params[k] = "'\(params[k]!)'"

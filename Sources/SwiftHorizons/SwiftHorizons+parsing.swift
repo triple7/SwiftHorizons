@@ -11,13 +11,11 @@ import simd
 extension SwiftHorizons {
 
     internal func extractNewDate(text: String) -> (start: String, stop: String) {
-        print(text)
         let upToDate = text.components(separatedBy: "A.D.").last!
         let components = upToDate.components(separatedBy: " ")
         // index 2 is the day in yyyy-MMM-dd
         // index 3 hh:mm:ss.zzzz
         let dateString = "\(components[1]) \(components[2])"
-        print(dateString)
         
         let dateFormat = DateFormatter()
         dateFormat.locale = Locale(identifier: "en_US_POSIX")
@@ -27,10 +25,8 @@ extension SwiftHorizons {
         
         let calendar = Calendar(identifier: .gregorian)
         let prevDate = calendar.date(byAdding: .day, value: -1, to: date)!
-        print(dateFormat.string(from: prevDate))
 
         let startDate = calendar.date(byAdding: .day, value: -1, to: prevDate)!
-        print(dateFormat.string(from: startDate))
 
         return (start: dateFormat.string(from: startDate), stop: dateFormat.string(from: prevDate))
     }

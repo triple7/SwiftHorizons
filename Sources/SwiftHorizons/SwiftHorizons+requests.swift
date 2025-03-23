@@ -143,6 +143,7 @@ extension SwiftHorizons: URLSessionDelegate {
             }
 
             let object = remainingObjects.removeFirst()
+            print("target start \(object.startTime) stop \(object.stopTime)")
             var request = HorizonsRequest(target: object, parameters: EphemType.ELEMENTS.defaultParameters(object.parentId!))
             print(request.parameters)
             if object.startTime == nil {
