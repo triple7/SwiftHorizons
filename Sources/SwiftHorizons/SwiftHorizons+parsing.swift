@@ -152,6 +152,28 @@ extension SwiftHorizons {
             .map { $0.trimmingCharacters(in: .whitespaces) }
         headerFields[0] = "id"
         headerFields[3] = "aliases"
+
+        // Numericals for extended identifiers
+
+let planets = [
+3: ("Earth", 399),
+4: ("Mars", 499),
+5: ("Jupiter", 599),
+6: ("Saturn", 699),
+7: ("Uranus", 799),
+8: ("Neptune", 899),
+9: ("Pluto", 999)
+]
+let extended = [
+55: ("Jupiter", 599),
+65: ("Saturn", 699),
+75: ("Uranus", 799),
+85: ("Neptune", 899),
+95: ("Pluto", 999)
+]
+// bin for checking density per planet
+        var densities = [String: Int]()
+
         
         for line in lines[(headerIndex + 2)...] {
             let components = line.split(separator: " ", omittingEmptySubsequences: true)
@@ -163,25 +185,6 @@ extension SwiftHorizons {
             let aliases = components.count > 3 ? String(components[3]) : ""
             guard let id = Int(idString) else { continue } // Ensure valid ID
 
-                                         // Numericals for extended identifiers
-
-            let planets = [
-                3: ("Earth", 399),
-                4: ("Mars", 499),
-                5: ("Jupiter", 599),
-                6: ("Saturn", 699),
-                7: ("Uranus", 799),
-                8: ("Neptune", 899),
-                9: ("Pluto", 999)
-            ]
-            let extended = [
-                55: ("Jupiter", 599),
-                65: ("Saturn", 699),
-                75: ("Uranus", 799),
-                85: ("Neptune", 899),
-                95: ("Pluto", 999)
-            ]
-            
             if id % 100 == 99 || (id <= 100 && id >= 0) || id > 99999 { // Planet IDs usually end in 99
 //                print("Found id\(id) name \(name) designation: \(designation) aliases: \(aliases)")
                 let parentId = id == 10 ?  0 : 10 // Sun case
@@ -190,23 +193,35 @@ extension SwiftHorizons {
             } else if id < 1000 && id > 299 && id % 100 != 99 {
 //                print("found moon: \(id) \(name)")
                 let planet = planets[id/100]!
+                if densities[planet.0] == nil {
+                    densities[planet.0] = 1
+                } else {
+                    densities[planet.0] = densities[planet.0]! + 1
+                }
                 output.append(MB(id: id, name: name, designation: designation, aliases: aliases, parent: planet.0, parentId: planet.1))
             } else { // Moon
-                print("Found id \(id) name \(name) designation: \(designation) aliases: \(aliases)")
+//                print("Found id \(id) name \(name) designation: \(designation) aliases: \(aliases)")
                 let bodyId = idString
                     let start = bodyId.index(bodyId.startIndex, offsetBy: 0)
                     let end = bodyId.index(bodyId.startIndex, offsetBy: 2)
                 if let planet = extended[Int(bodyId[start..<end])!]{
                     print("Planet: \(planet)")
+                    if densities[planet.0] == nil {
+                        densities[planet.0] = 1
+                    } else {
+                        densities[planet.0] = densities[planet.0]! + 1
+                    }
+
                     output.append(MB(id: id, name: name, designation: designation, aliases: aliases, parent: planet.0, parentId: planet.1))
                 } else {
                     // Other bodies
-                                    print("other id\(id) name \(name) designation: \(designation) aliases: \(aliases)")
+//                                    print("other id\(id) name \(name) designation: \(designation) aliases: \(aliases)")
                     output.append(MB(id: id, name: name, designation: designation, aliases: aliases))
                 }
         }
                                   }
         
+        print(densities)
                                          return output
     }
 
