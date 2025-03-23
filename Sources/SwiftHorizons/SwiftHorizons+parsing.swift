@@ -45,7 +45,7 @@ extension SwiftHorizons {
         let asteriskDelimitor = "\n*******************************************************************************\n"
         let format = result.components(separatedBy: asteriskDelimitor)
         let extractedProperties = extractPhysicalProperties(from: format[0])
-        let orbitalBlock = getElementBlock(text: result)
+        let orbitalBlock = getElementBlock(text: format[1])
         print("Orbital block: \(orbitalBlock)")
         var ephemorbitals = [OrbitalElements]()
         /* csv output is not available
