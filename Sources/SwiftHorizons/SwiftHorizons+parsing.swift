@@ -182,7 +182,7 @@ extension SwiftHorizons {
                 95: ("Pluto", 999)
             ]
             
-            if id % 100 == 99 || (id <= 100 && id > 0) || id > 99999 { // Planet IDs usually end in 99
+            if id % 100 == 99 || (id <= 100 && id >= 0) || id > 99999 { // Planet IDs usually end in 99
 //                print("Found id\(id) name \(name) designation: \(designation) aliases: \(aliases)")
                 let parentId = id == 10 ?  0 : 10 // Sun case
                 let parent = id == 10 ? "Solar Barycenter" : "Sol"
