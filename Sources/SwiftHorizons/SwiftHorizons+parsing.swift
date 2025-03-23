@@ -29,7 +29,10 @@ extension SwiftHorizons {
         let prevDate = calendar.date(byAdding: .day, value: -1, to: date)!
         print(dateFormat.string(from: prevDate))
 
-        return (start: dateString, stop: dateFormat.string(from: prevDate))
+        let startDate = calendar.date(byAdding: .day, value: -1, to: prevDate)!
+        print(dateFormat.string(from: startDate))
+
+        return (start: dateFormat.string(from: startDate), stop: dateFormat.string(from: prevDate))
     }
     
     internal func getElementBlock(text: String) -> [String] {
