@@ -77,6 +77,7 @@ public struct HorizonsRequest {
     private(set) var parameters:[String: String]
     
     public init(target: HorizonsBatchObject, parameters: [String: String], location: CLLocation? = nil) {
+        print("horizonsRequest: init")
         if target.type == .Mb {
             self.parameters = [hp.COMMAND.id: target.id] + parameters
         } else {
@@ -84,13 +85,6 @@ public struct HorizonsRequest {
             let des = components[1]
             self.parameters = [hp.COMMAND.id: "DES=\(des)"] + parameters
         }
-        guard let location = location else {
-            return
-        }
-        // convert altitude from iOS in meters to km in Horizons
-        let convertedAltitude = location.altitude/1000
-        self.parameters[hp.SITE_COORD.id] = "\(location.coordinate.longitude),\(location.coordinate.latitude),\(convertedAltitude)"
-        
         // User defined start and stop time
         print("target is \(target)")
         if let startTime = target.startTime {
@@ -98,6 +92,13 @@ public struct HorizonsRequest {
             self.parameters[hp.START_TIME.id] = startTime
             self.parameters[hp.STOP_TIME.id] = target.stopTime!
         }
+
+        guard let location = location else {
+            return
+        }
+        // convert altitude from iOS in meters to km in Horizons
+        let convertedAltitude = location.altitude/1000
+        self.parameters[hp.SITE_COORD.id] = "\(location.coordinate.longitude),\(location.coordinate.latitude),\(convertedAltitude)"
     }
 
     public init() {
