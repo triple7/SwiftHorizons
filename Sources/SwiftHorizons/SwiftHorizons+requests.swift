@@ -166,7 +166,7 @@ extension SwiftHorizons: URLSessionDelegate {
                             newTarget.setTime(start: rectified.start, stop: rectified.stop)
                             remainingObjects.insert(newTarget, at: 0)
                         } else {
-                            let parsed = self.parseElements(result: text)
+                            let parsed = self.parseElements(result: text, orbitalBlock: elementBlocks)
                             elements[String(object.id)] = parsed
                         }
                     }
