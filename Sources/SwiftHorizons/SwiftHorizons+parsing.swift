@@ -32,8 +32,8 @@ extension SwiftHorizons {
         let start = text.components(separatedBy: "$$SOE\n").last!
         let soe = start.components(separatedBy: "$$EOE").first!
         var elementBlock = soe.components(separatedBy: "\n")
-        print(elementBlock)
         elementBlock.removeLast()
+        print(elementBlock)
         return elementBlock.map{$0.trimmingCharacters(in: .whitespacesAndNewlines)}
     }
     
