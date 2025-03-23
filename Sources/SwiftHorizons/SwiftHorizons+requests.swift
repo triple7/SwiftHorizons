@@ -81,7 +81,7 @@ extension SwiftHorizons: URLSessionDelegate {
                 self.configureBatch(request: &request)
             }
             let operation = DownloadOperation(session: URLSession.shared, dataTaskURL: request.getURL(stop: self.sampleTimeDays), completionHandler: { (data, response, error) in
-                if self.requestIsValid(message: object.name, error: error, response: response) {
+                if self.requestIsValid(message: "state vectors for \(object.name)", error: error, response: response) {
                     let text = String(decoding: data!, as: UTF8.self)
                     if text.contains("No ephemeris for target"){
                         let result = self.rectifyDate(text)
@@ -154,7 +154,7 @@ extension SwiftHorizons: URLSessionDelegate {
                 session: URLSession.shared,
                 dataTaskURL: request.getElementUrl(),
                 completionHandler: { (data, response, error) in
-                    if self.requestIsValid(message: object.name, error: error, response: response),
+                    if self.requestIsValid(message: "elements for \(object.name) \(object.id)", error: error, response: response),
                        let data = data {
                         let text = String(decoding: data, as: UTF8.self)
                         let result = try! JSONDecoder().decode(HorizonsReturnJson.self, from: text.data(using: .utf8)!).result
