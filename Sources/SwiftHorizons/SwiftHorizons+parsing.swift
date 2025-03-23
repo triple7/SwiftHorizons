@@ -75,7 +75,7 @@ extension SwiftHorizons {
             let apr = Double(Aadapr[3].components(separatedBy: "=")[1])!
             ephemorbitals.append(OrbitalElements(epoch: epoch, eccentricity: ec, periapsisDistance: qr, inclination: inc, ascendingNode: om, argumentOfPeriapsis: w, timeOfPeriapsis: tp, meanMotion: n, meanAnomaly: ma, trueAnomaly: ta, semiMajorAxis: A, apoapsisDistance: ad, orbitalPeriod: apr))
         }
-        return TargetProperties(orbitalElements: ephemorbitals, physicalProperties: extractedProperties)
+        return try! TargetProperties(orbitalElements: ephemorbitals, physicalProperties: extractedProperties)
     }
             
             func parseSingleTarget(name: String, id: String, objectType: String, parent: String, parameters: [String: String], text: String, type: EphemType, _ notify: Bool = false)->HorizonsTarget {

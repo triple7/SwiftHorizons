@@ -186,6 +186,19 @@ public struct MB: Codable {
 public struct TargetProperties:Codable {
     let orbitalElements:[OrbitalElements]
     let physicalProperties:[String: Double]
+    
+    
+    // Mark: explicit initializer
+    public init(orbitalElements: [OrbitalElements], physicalProperties: [String: Double]) throws {
+        self.orbitalElements = orbitalElements
+        self.physicalProperties = physicalProperties
+    }
+    
+    // Mark: empty initializer
+    public init() {
+        self.orbitalElements = []
+        self.physicalProperties = [:]
+    }
 }
 
 public struct OrbitalElements: Codable {
