@@ -165,7 +165,15 @@ let planets = [
 ]
 let extended = [
 55: ("Jupiter", 599),
+61: ("Saturn", 699),
+62: ("Saturn", 699),
+63: ("Saturn", 699),
+64: ("Saturn", 699),
 65: ("Saturn", 699),
+66: ("Saturn", 699),
+67: ("Saturn", 699),
+68: ("Saturn", 699),
+69: ("Saturn", 699),
 75: ("Uranus", 799),
 85: ("Neptune", 899),
 95: ("Pluto", 999)
