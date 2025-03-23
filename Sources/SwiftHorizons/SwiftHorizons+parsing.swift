@@ -51,24 +51,31 @@ extension SwiftHorizons {
          then cycle through
          */
         let idx = orbitalBlock.count/5
-        print(orbitalBlock.count)
         for i in 0 ..< idx {
             let jdBlock = orbitalBlock[i*5].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").components(separatedBy: "=")
             let epoch = Double(jdBlock[0])!
+            print("got epoch")
             let ecqrinBlock = orbitalBlock[i*5+1].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").components(separatedBy: " ")
+            print("ecqrin")
+            print(ecqrinBlock)
             let ec = Double(ecqrinBlock[1].components(separatedBy: "=")[1])!
             let qr = Double(ecqrinBlock[2].components(separatedBy: "=")[1])!
             let inc = Double(ecqrinBlock[3].components(separatedBy: "=")[1])!
             let omwtpBlock = orbitalBlock[i*5+2].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").replacingOccurrences(of: "  ", with: "").components(separatedBy: " ")
+            print("omwtp block")
+            print(omwtpBlock)
             let om = Double(omwtpBlock[1].components(separatedBy: "=")[1])!
             let w = Double(omwtpBlock[2].components(separatedBy: "=")[1])!
             let tp = Double(omwtpBlock[4])!
             let amataBlock = orbitalBlock[i*5+3].replacingOccurrences(of: " = ", with: "=").replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: "  ", with: "").components(separatedBy: " ")
-            
+            print("amata block")
+            print(amataBlock)
             let n = Double(amataBlock[1].components(separatedBy: "=")[1])!
             let ma = Double(amataBlock[2].components(separatedBy: "=")[1])!
             let ta = Double(amataBlock[3].components(separatedBy: "=")[1])!
             let Aadapr = orbitalBlock[i*5+4].replacingOccurrences(of: " = ", with: "=").replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").replacingOccurrences(of: "  ", with: "").components(separatedBy: " ")
+            print("Aadaapr block")
+            print(Aadapr)
             let A = Double(Aadapr[1].components(separatedBy: "=")[1])!
             let ad = Double(Aadapr[2].components(separatedBy: "=")[1])!
             let apr = Double(Aadapr[3].components(separatedBy: "=")[1])!
