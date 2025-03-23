@@ -51,8 +51,8 @@ extension SwiftHorizons {
          then cycle through
          */
         let idx = orbitalBlock.count/5
+        print(orbitalBlock.count)
         for i in 0 ..< idx {
-            print(orbitalBlock[i*5])
             let jdBlock = orbitalBlock[i*5].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").components(separatedBy: "=")
             let epoch = Double(jdBlock[0])!
             let ecqrinBlock = orbitalBlock[i*5+1].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").components(separatedBy: " ")
