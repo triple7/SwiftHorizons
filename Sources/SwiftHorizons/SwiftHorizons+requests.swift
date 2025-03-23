@@ -143,9 +143,7 @@ extension SwiftHorizons: URLSessionDelegate {
             }
 
             let object = remainingObjects.removeFirst()
-            print("target start \(object.startTime) stop \(object.stopTime)")
             var request = HorizonsRequest(target: object, parameters: EphemType.ELEMENTS.defaultParameters(object.parentId!))
-            print(request.parameters)
             if object.startTime == nil {
                 // We are just taking the closest time to now
                 self.configureBatch(request: &request)
@@ -161,6 +159,7 @@ extension SwiftHorizons: URLSessionDelegate {
                         let text = String(decoding: data, as: UTF8.self)
                         let result = try! JSONDecoder().decode(HorizonsReturnJson.self, from: text.data(using: .utf8)!).result
 
+                        print(result)
                         let elementBlocks = self.getElementBlock(text: result)
                         if elementBlocks.last!.contains("No ephemeris for") {
                             let rectified = self.extractNewDate(text: elementBlocks.last!)

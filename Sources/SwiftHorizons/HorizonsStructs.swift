@@ -77,7 +77,6 @@ public struct HorizonsRequest {
     private(set) var parameters:[String: String]
     
     public init(target: HorizonsBatchObject, parameters: [String: String], location: CLLocation? = nil) {
-        print("horizonsRequest: init")
         if target.type == .Mb {
             self.parameters = [hp.COMMAND.id: target.id] + parameters
         } else {
@@ -86,9 +85,7 @@ public struct HorizonsRequest {
             self.parameters = [hp.COMMAND.id: "DES=\(des)"] + parameters
         }
         // User defined start and stop time
-        print("target is \(target)")
         if let startTime = target.startTime {
-            print("has startime and stop times")
             self.parameters[hp.START_TIME.id] = startTime
             self.parameters[hp.STOP_TIME.id] = target.stopTime!
         }
