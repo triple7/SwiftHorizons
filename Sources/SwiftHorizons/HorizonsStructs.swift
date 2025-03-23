@@ -92,6 +92,7 @@ public struct HorizonsRequest {
         self.parameters[hp.SITE_COORD.id] = "\(location.coordinate.longitude),\(location.coordinate.latitude),\(convertedAltitude)"
         
         // User defined start and stop time
+        print("target is \(target)")
         if let startTime = target.startTime {
             print("has startime and stop times")
             self.parameters[hp.START_TIME.id] = startTime
