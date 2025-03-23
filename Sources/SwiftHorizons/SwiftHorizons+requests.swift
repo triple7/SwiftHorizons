@@ -129,10 +129,10 @@ extension SwiftHorizons: URLSessionDelegate {
 
     
     
-    public func getBatchElements(objects: [HorizonsBatchObject], completion: @escaping ([TargetProperties]) -> Void) {
+    public func getBatchElements(objects: [HorizonsBatchObject], completion: @escaping ([String: TargetProperties]) -> Void) {
         print("getBatchElements: \(objects.count) targets")
         var remainingObjects = objects
-        var elements = [TargetProperties]()
+        var elements = [String: TargetProperties]()
 
         func downloadNextObject() {
             guard !remainingObjects.isEmpty else {
@@ -167,7 +167,7 @@ extension SwiftHorizons: URLSessionDelegate {
                             remainingObjects.insert(newTarget, at: 0)
                         } else {
                             let parsed = self.parseElements(result: text)
-                            elements.append(parsed)
+                            elements[String(object.id)] = parsed
                         }
                     }
 
