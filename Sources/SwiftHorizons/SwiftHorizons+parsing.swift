@@ -54,6 +54,7 @@ extension SwiftHorizons {
          */
         let idx = orbitalBlock.count/5
         for i in 0 ..< idx {
+            print(orbitalBlock[i*5])
             let jdBlock = orbitalBlock[i*5].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").components(separatedBy: "=")
             let epoch = Double(jdBlock[0])!
             let ecqrinBlock = orbitalBlock[i*5+1].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").components(separatedBy: " ")
@@ -75,6 +76,7 @@ extension SwiftHorizons {
             let apr = Double(Aadapr[3].components(separatedBy: "=")[1])!
             ephemorbitals.append(OrbitalElements(epoch: epoch, eccentricity: ec, periapsisDistance: qr, inclination: inc, ascendingNode: om, argumentOfPeriapsis: w, timeOfPeriapsis: tp, meanMotion: n, meanAnomaly: ma, trueAnomaly: ta, semiMajorAxis: A, apoapsisDistance: ad, orbitalPeriod: apr))
         }
+        print("epheOrbitals: \(ephemorbitals)")
         return try! TargetProperties(orbitalElements: ephemorbitals, physicalProperties: extractedProperties)
     }
             
