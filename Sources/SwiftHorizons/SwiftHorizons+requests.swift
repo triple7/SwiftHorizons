@@ -76,7 +76,10 @@ extension SwiftHorizons: URLSessionDelegate {
             
             let object = remainingObjects.removeFirst()
             var request = HorizonsRequest(target: object, parameters: type.defaultParameters())
-            self.configureBatch(request: &request)
+            if object.startTime == nil {
+                // We are just taking the closest time to now
+                self.configureBatch(request: &request)
+            }
             let operation = DownloadOperation(session: URLSession.shared, dataTaskURL: request.getURL(stop: self.sampleTimeDays), completionHandler: { (data, response, error) in
                 if self.requestIsValid(message: object.name, error: error, response: response) {
                     let text = String(decoding: data!, as: UTF8.self)
