@@ -196,7 +196,8 @@ let extended = [
 //                print("Found id\(id) name \(name) designation: \(designation) aliases: \(aliases)")
                 let parentId = id == 10 ?  0 : 10 // Sun case
                 let parent = id == 10 ? "Solar Barycenter" : "Sol"
-                output.append(MB(id: id, name: name, designation: designation, aliases: aliases, parent: parent, parentId: parentId))
+                let type = id == 10 ? "Star" : "Planet"
+                output.append(MB(id: id, name: name, type: type, designation: designation, aliases: aliases, parent: parent, parentId: parentId))
             } else if id < 1000 && id > 299 && id % 100 != 99 {
 //                print("found moon: \(id) \(name)")
                 let planet = planets[id/100]!
@@ -205,7 +206,7 @@ let extended = [
                 } else {
                     densities[planet.0] = densities[planet.0]! + 1
                 }
-                output.append(MB(id: id, name: name, designation: designation, aliases: aliases, parent: planet.0, parentId: planet.1))
+                output.append(MB(id: id, name: name, type: "NaturalSat", designation: designation, aliases: aliases, parent: planet.0, parentId: planet.1))
             } else { // Moon
 //                print("Found id \(id) name \(name) designation: \(designation) aliases: \(aliases)")
                 let bodyId = idString
@@ -219,11 +220,11 @@ let extended = [
                         densities[planet.0] = densities[planet.0]! + 1
                     }
 
-                    output.append(MB(id: id, name: name, designation: designation, aliases: aliases, parent: planet.0, parentId: planet.1))
+                    output.append(MB(id: id, name: name, type: "NaturalSat", designation: designation, aliases: aliases, parent: planet.0, parentId: planet.1))
                 } else {
                     // Other bodies
 //                                    print("other id\(id) name \(name) designation: \(designation) aliases: \(aliases)")
-                    output.append(MB(id: id, name: name, designation: designation, aliases: aliases))
+                    output.append(MB(id: id, name: name, type: "Satellite", designation: designation, aliases: aliases))
                 }
         }
                                   }

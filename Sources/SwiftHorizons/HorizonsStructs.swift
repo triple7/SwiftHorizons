@@ -175,6 +175,7 @@ struct MBList: Codable {
 public struct MB: Codable {
     public let id: Int
     public let name: String
+    public let type: String // reflects AOSType
     public var designation: String?
     public var aliases: String?
     public var parent: String?
