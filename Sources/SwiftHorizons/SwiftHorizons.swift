@@ -82,12 +82,12 @@ public class SwiftHorizons:NSObject {
 
         // Get current TDB time
         let currentTDBTime = getTDBtime(date: Date())
-        print("SwiftHorizons: Sampling data for \(self.sampleTimeDays) days")
+//        print("SwiftHorizons: Sampling data for \(self.sampleTimeDays) days")
         
         let stopTime = Calendar.current.date(byAdding: .day, value: self.sampleTimeDays, to: currentTDBTime)!
         
-        print("SwiftHorizons: currentTDBTime \(currentTDBTime)")
-        print("SwiftHorizons: stopTime \(stopTime)")
+//        print("SwiftHorizons: currentTDBTime \(currentTDBTime)")
+//        print("SwiftHorizons: stopTime \(stopTime)")
         
         // Format dates
         let stopTimeString = Parameters.EndDate
@@ -100,8 +100,8 @@ public class SwiftHorizons:NSObject {
             .components(separatedBy: "\n")
             .first ?? ""
 
-        print("SwiftHorizons: startTimeString: \(startTimeString)")
-        print("SwiftHorizons: stopTimeString: \(stopTimeString) ")
+//        print("SwiftHorizons: startTimeString: \(startTimeString)")
+//        print("SwiftHorizons: stopTimeString: \(stopTimeString) ")
         
         request.setParameter(name: hp.STOP_TIME.id, value: stopTimeString)
         request.setParameter(name: hp.START_TIME.id, value: startTimeString)

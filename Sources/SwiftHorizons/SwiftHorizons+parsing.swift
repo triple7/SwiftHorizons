@@ -192,11 +192,12 @@ extension SwiftHorizons {
                 let planet = planets[id/100]!
                 output.append(MB(id: id, name: name, designation: designation, aliases: aliases, parent: planet.0, parentId: planet.1))
             } else { // Moon
-                print("Found id\(id) name \(name) designation: \(designation) aliases: \(aliases)")
+                print("Found id \(id) name \(name) designation: \(designation) aliases: \(aliases)")
                 let bodyId = idString
                     let start = bodyId.index(bodyId.startIndex, offsetBy: 0)
                     let end = bodyId.index(bodyId.startIndex, offsetBy: 2)
                 if let planet = extended[Int(bodyId[start..<end])!]{
+                    print("Planet: \(planet)")
                     output.append(MB(id: id, name: name, designation: designation, aliases: aliases, parent: planet.0, parentId: planet.1))
                 } else {
                     // Other bodies
