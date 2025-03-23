@@ -15,6 +15,8 @@ public struct HorizonsBatchObject:Codable, Hashable, Equatable {
     public let objectType:String // category of object as known in english language
     public let parent:String // The object's orbit parent
     public var parentId:Int?
+    public var startTime:String?
+    public var stopTime:String?
 
     public init(name: String, id: String, type: HorizonsType, objectType: String, parent: String, parentId: Int? = nil) {
         self.name = name
@@ -23,6 +25,12 @@ public struct HorizonsBatchObject:Codable, Hashable, Equatable {
         self.objectType = objectType
         self.parent = parent
         self.parentId = parentId
+    }
+    
+    
+    public mutating func setTime(start: String, stop: String) {
+        self.startTime = start
+        self.stopTime = stop
     }
     
     public static func == (lhs: HorizonsBatchObject, rhs: HorizonsBatchObject) -> Bool {
@@ -82,6 +90,12 @@ public struct HorizonsRequest {
         // convert altitude from iOS in meters to km in Horizons
         let convertedAltitude = location.altitude/1000
         self.parameters[hp.SITE_COORD.id] = "\(location.coordinate.longitude),\(location.coordinate.latitude),\(convertedAltitude)"
+        
+        // User defined start and stop time
+        if let startTime = target.startTime {
+            self.parameters[hp.START_TIME.id] = startTime
+            self.parameters[hp.STOP_TIME.id] = target.stopTime!
+        }
     }
 
     public init() {
@@ -131,7 +145,7 @@ public struct HorizonsRequest {
          end: time unit after current local time
          Returns: [String: String]
          */
-        let T = DateAgent.getISODate(t0: start, t1: stop)
+        let T = (parameters[hp.START_TIME.id] != nil) ? (parameters[hp.START_TIME.id]!, parameters[hp.STOP_TIME.id]!) : DateAgent.getISODate(t0: start, t1: stop)
         return parameters + [hp.START_TIME.id: T.0, hp.STOP_TIME.id: T.1]
     }
 

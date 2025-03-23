@@ -151,8 +151,18 @@ extension SwiftHorizons: URLSessionDelegate {
                     if self.requestIsValid(message: object.name, error: error, response: response),
                        let data = data {
                         let text = String(decoding: data, as: UTF8.self)
-                        let parsed = self.parseElements(jsonString: text)
-                        elements.append(parsed)
+                        let result = try! JSONDecoder().decode(HorizonsReturnJson.self, from: text.data(using: .utf8)!).result
+
+                        let elementBlocks = self.getElementBlock(text: result)
+                        if elementBlocks.last!.contains("No ephemeris for") {
+                            let rectified = self.extractNewDate(text: elementBlocks.last!)
+                            var newTarget = object
+                            newTarget.setTime(start: rectified.start, stop: rectified.stop)
+                            remainingObjects.insert(newTarget, at: 0)
+                        } else {
+                            let parsed = self.parseElements(result: text)
+                            elements.append(parsed)
+                        }
                     }
 
                     // Continue with the next download

@@ -9,18 +9,40 @@ import Foundation
 import simd
 
 extension SwiftHorizons {
+
+    internal func extractNewDate(text: String) -> (start: String, stop: String) {
+        let upToDate = text.components(separatedBy: "A.D.").last!
+        let components = upToDate.components(separatedBy: " ")
+        // index 2 is the day in yyyy-MMM-dd
+        // index 3 hh:mm:ss.zzzz
+        let dateString = "\(components[1]) \(components[2])"
+        
+        let dateFormat = DateFormatter()
+        dateFormat.locale = Locale(identifier: "en_US_POSIX")
+        dateFormat.timeZone = TimeZone(abbreviation: "UTC")
+        dateFormat.dateFormat = "yyyy-MMM-dd HH:mm:ss.SSSS"
+        let date = dateFormat.date(from: dateString)!
+        
+        let calendar = Calendar(identifier: .gregorian)
+        let prevDate = calendar.date(byAdding: .day, value: -1, to: date)!
+
+        return (start: dateString, stop: dateFormat.string(from: prevDate))
+    }
     
+    internal func getElementBlock(text: String) -> [String] {
+        let start = text.components(separatedBy: "SOE\n").last!
+        let soe = "$$SOE\n\(start.components(separatedBy: "EOE").first!)"
+        var elementBlock = soe.components(separatedBy: "\n")
+        elementBlock.removeFirst()
+        elementBlock.removeLast()
+        return elementBlock
+    }
     
-    internal func parseElements(jsonString: String) -> TargetProperties {
-        let result = try! JSONDecoder().decode(HorizonsReturnJson.self, from: jsonString.data(using: .utf8)!).result
+    internal func parseElements(result: String) -> TargetProperties {
         let asteriskDelimitor = "\n*******************************************************************************\n"
         let format = result.components(separatedBy: asteriskDelimitor)
         let extractedProperties = extractPhysicalProperties(from: format[0])
-        let start = result.components(separatedBy: "SOE\n").last!
-        let soe = "$$SOE\n\(start.components(separatedBy: "EOE").first!)"
-        var orbitalBlock = soe.components(separatedBy: "\n")
-        orbitalBlock.removeFirst()
-        orbitalBlock.removeLast()
+        let orbitalBlock = getElementBlock(text: result)
         print(orbitalBlock)
         var ephemorbitals = [OrbitalElements]()
         /* csv output is not available
