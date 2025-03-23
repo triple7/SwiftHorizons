@@ -93,6 +93,7 @@ public struct HorizonsRequest {
         
         // User defined start and stop time
         if let startTime = target.startTime {
+            print("has startime and stop times")
             self.parameters[hp.START_TIME.id] = startTime
             self.parameters[hp.STOP_TIME.id] = target.stopTime!
         }
@@ -129,6 +130,7 @@ public struct HorizonsRequest {
          */
             var url = URLComponents(string: APIUrl)
         var params = getparameters()
+        print(params)
         for k in params.keys {
             if k != hp.format.id {
             params[k] = "'\(params[k]!)'"
