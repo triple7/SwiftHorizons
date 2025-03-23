@@ -54,28 +54,23 @@ extension SwiftHorizons {
         for i in 0 ..< idx {
             let jdBlock = orbitalBlock[i*5].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").components(separatedBy: "=")
             let epoch = Double(jdBlock[0])!
-            print("got epoch")
             let ecqrinBlock = orbitalBlock[i*5+1].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").components(separatedBy: " ")
             print("ecqrin")
-            print(ecqrinBlock)
             let ec = Double(ecqrinBlock[0].components(separatedBy: "=")[1])!
             let qr = Double(ecqrinBlock[1].components(separatedBy: "=")[1])!
             let inc = Double(ecqrinBlock[2].components(separatedBy: "=")[1])!
             let omwtpBlock = orbitalBlock[i*5+2].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").replacingOccurrences(of: "  ", with: "").components(separatedBy: " ")
             print("omwtp block")
-            print(omwtpBlock)
             let om = Double(omwtpBlock[0].components(separatedBy: "=")[1])!
             let w = Double(omwtpBlock[1].components(separatedBy: "=")[1])!
             let tp = Double(omwtpBlock[1].components(separatedBy: "=")[1])!
             let amataBlock = orbitalBlock[i*5+3].replacingOccurrences(of: " = ", with: "=").replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: "  ", with: "").components(separatedBy: " ")
             print("amata block")
-            print(amataBlock)
             let n = Double(amataBlock[0].components(separatedBy: "=")[1])!
             let ma = Double(amataBlock[1].components(separatedBy: "=")[1])!
             let ta = Double(amataBlock[2].components(separatedBy: "=")[1])!
             let Aadapr = orbitalBlock[i*5+4].replacingOccurrences(of: " = ", with: "=").replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").replacingOccurrences(of: "  ", with: "").components(separatedBy: " ")
             print("Aadaapr block")
-            print(Aadapr)
             let A = Double(Aadapr[0].components(separatedBy: "=")[1])!
             let ad = Double(Aadapr[1].components(separatedBy: "=")[1])!
             let apr = Double(Aadapr[2].components(separatedBy: "=")[1])!
@@ -186,7 +181,6 @@ let extended = [
 95: ("Pluto", 999)
 ]
 // bin for checking density per planet
-        var densities = [String: Int]()
 
         
         for line in lines[(headerIndex + 2)...] {
@@ -208,11 +202,6 @@ let extended = [
             } else if id < 1000 && id > 299 && id % 100 != 99 {
 //                print("found moon: \(id) \(name)")
                 let planet = planets[id/100]!
-                if densities[planet.0] == nil {
-                    densities[planet.0] = 1
-                } else {
-                    densities[planet.0] = densities[planet.0]! + 1
-                }
                 output.append(MB(id: id, name: name, type: "NaturalSat", designation: designation, aliases: aliases, parent: planet.0, parentId: planet.1))
             } else { // Moon
 //                print("Found id \(id) name \(name) designation: \(designation) aliases: \(aliases)")
@@ -221,11 +210,6 @@ let extended = [
                     let end = bodyId.index(bodyId.startIndex, offsetBy: 2)
                 if let planet = extended[Int(bodyId[start..<end])!]{
 //                    print("Planet: \(planet)")
-                    if densities[planet.0] == nil {
-                        densities[planet.0] = 1
-                    } else {
-                        densities[planet.0] = densities[planet.0]! + 1
-                    }
 
                     output.append(MB(id: id, name: name, type: "NaturalSat", designation: designation, aliases: aliases, parent: planet.0, parentId: planet.1))
                 } else {
@@ -236,7 +220,6 @@ let extended = [
         }
                                   }
         
-        print(densities)
                                          return output
     }
 
