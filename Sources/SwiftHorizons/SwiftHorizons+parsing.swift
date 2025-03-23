@@ -36,7 +36,6 @@ extension SwiftHorizons {
         print(soe)
         var elementBlock = soe.components(separatedBy: "\n")
         print("elements: \(elementBlock)")
-        elementBlock.removeFirst()
         elementBlock.removeLast()
         return elementBlock
     }
