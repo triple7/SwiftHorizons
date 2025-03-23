@@ -42,7 +42,6 @@ extension SwiftHorizons {
         let format = result.components(separatedBy: asteriskDelimitor)
         let extractedProperties = extractPhysicalProperties(from: format[0])
         let orbitalBlock = getElementBlock(text: result)
-        print(orbitalBlock)
         var ephemorbitals = [OrbitalElements]()
         /* csv output is not available
         So JD is first of a sequence at index 0
@@ -205,7 +204,7 @@ let extended = [
                     let start = bodyId.index(bodyId.startIndex, offsetBy: 0)
                     let end = bodyId.index(bodyId.startIndex, offsetBy: 2)
                 if let planet = extended[Int(bodyId[start..<end])!]{
-                    print("Planet: \(planet)")
+//                    print("Planet: \(planet)")
                     if densities[planet.0] == nil {
                         densities[planet.0] = 1
                     } else {
