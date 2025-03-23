@@ -55,28 +55,23 @@ extension SwiftHorizons {
             let jdBlock = orbitalBlock[i*5].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").components(separatedBy: "=")
             let epoch = Double(jdBlock[0])!
             let ecqrinBlock = orbitalBlock[i*5+1].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").components(separatedBy: " ")
-            print("ecqrin")
             let ec = Double(ecqrinBlock[0].components(separatedBy: "=")[1])!
             let qr = Double(ecqrinBlock[1].components(separatedBy: "=")[1])!
             let inc = Double(ecqrinBlock[2].components(separatedBy: "=")[1])!
             let omwtpBlock = orbitalBlock[i*5+2].replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").replacingOccurrences(of: "  ", with: "").components(separatedBy: " ")
-            print("omwtp block")
             let om = Double(omwtpBlock[0].components(separatedBy: "=")[1])!
             let w = Double(omwtpBlock[1].components(separatedBy: "=")[1])!
             let tp = Double(omwtpBlock[1].components(separatedBy: "=")[1])!
             let amataBlock = orbitalBlock[i*5+3].replacingOccurrences(of: " = ", with: "=").replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: "  ", with: "").components(separatedBy: " ")
-            print("amata block")
             let n = Double(amataBlock[0].components(separatedBy: "=")[1])!
             let ma = Double(amataBlock[1].components(separatedBy: "=")[1])!
             let ta = Double(amataBlock[2].components(separatedBy: "=")[1])!
             let Aadapr = orbitalBlock[i*5+4].replacingOccurrences(of: " = ", with: "=").replacingOccurrences(of: "= ", with: "=").replacingOccurrences(of: " =", with: "=").replacingOccurrences(of: "  ", with: "").components(separatedBy: " ")
-            print("Aadaapr block")
             let A = Double(Aadapr[0].components(separatedBy: "=")[1])!
             let ad = Double(Aadapr[1].components(separatedBy: "=")[1])!
             let apr = Double(Aadapr[2].components(separatedBy: "=")[1])!
             ephemorbitals.append(OrbitalElements(epoch: epoch, eccentricity: ec, periapsisDistance: qr, inclination: inc, ascendingNode: om, argumentOfPeriapsis: w, timeOfPeriapsis: tp, meanMotion: n, meanAnomaly: ma, trueAnomaly: ta, semiMajorAxis: A, apoapsisDistance: ad, orbitalPeriod: apr))
         }
-        print("epheOrbitals: \(ephemorbitals)")
         return try! TargetProperties(orbitalElements: ephemorbitals, physicalProperties: extractedProperties)
     }
             
