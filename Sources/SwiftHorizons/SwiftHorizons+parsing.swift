@@ -29,15 +29,11 @@ extension SwiftHorizons {
     }
     
     internal func getElementBlock(text: String) -> [String] {
-
         let start = text.components(separatedBy: "$$SOE\n").last!
-        print(start)
         let soe = start.components(separatedBy: "$$EOE").first!
-        print(soe)
         var elementBlock = soe.components(separatedBy: "\n")
-        print("elements: \(elementBlock)")
         elementBlock.removeLast()
-        return elementBlock
+        return elementBlock.map{$0.trimmingCharacters(in: .whitespacesAndNewlines)}
     }
     
     internal func parseElements(result: String) -> TargetProperties {
