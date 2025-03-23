@@ -144,7 +144,7 @@ extension SwiftHorizons: URLSessionDelegate {
 
             let object = remainingObjects.removeFirst()
             var request = HorizonsRequest(target: object, parameters: EphemType.ELEMENTS.defaultParameters(object.parentId!))
-
+            print(request.parameters)
             if object.startTime == nil {
                 // We are just taking the closest time to now
                 self.configureBatch(request: &request)
