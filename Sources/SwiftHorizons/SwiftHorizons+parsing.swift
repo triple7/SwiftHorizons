@@ -39,9 +39,8 @@ extension SwiftHorizons {
     internal func parseElements(result: String) -> TargetProperties {
         let asteriskDelimitor = "\n*******************************************************************************\n"
         let format = result.components(separatedBy: asteriskDelimitor)
-        print("Getting format for physical properties\n \(format[0])")
         let extractedProperties = extractPhysicalProperties(from: format[0])
-        let orbitalBlock = getElementBlock(text: format[1])
+        let orbitalBlock = getElementBlock(text: result)
         print("Orbital block: \(orbitalBlock)")
         var ephemorbitals = [OrbitalElements]()
         /* csv output is not available
