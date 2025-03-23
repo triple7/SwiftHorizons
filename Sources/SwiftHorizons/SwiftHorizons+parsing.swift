@@ -31,7 +31,7 @@ extension SwiftHorizons {
     internal func getElementBlock(text: String) -> [String] {
 
         let start = text.components(separatedBy: "$$SOE\n").last!
-        print(star)
+        print(start)
         let soe = start.components(separatedBy: "$$EOE").first!
         print(soe)
         var elementBlock = soe.components(separatedBy: "\n")
