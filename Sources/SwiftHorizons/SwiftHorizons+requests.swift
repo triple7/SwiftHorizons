@@ -160,12 +160,14 @@ extension SwiftHorizons: URLSessionDelegate {
                         let result = try! JSONDecoder().decode(HorizonsReturnJson.self, from: text.data(using: .utf8)!).result
 
                         let elementBlocks = self.getElementBlock(text: result)
+                        print("checking blocks")
                         if elementBlocks.last!.contains("No ephemeris for") {
                             let rectified = self.extractNewDate(text: elementBlocks.last!)
                             var newTarget = object
                             newTarget.setTime(start: rectified.start, stop: rectified.stop)
                             remainingObjects.insert(newTarget, at: 0)
                         } else {
+                            print("parsing")
                             let parsed = self.parseElements(result: text)
                             elements[String(object.id)] = parsed
                         }
