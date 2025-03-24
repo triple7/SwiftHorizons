@@ -7,6 +7,7 @@ public enum HorizonsError:Error {
     case FUTURE
     case RequestError
     case OK
+    case Warning
 }
 
 public struct HorizonsSyslog:CustomStringConvertible {
@@ -149,6 +150,9 @@ public class SwiftHorizons:NSObject {
         }
     }
 
+    public func addSyslog(message: String, logType: HorizonsError) {
+        self.sysLog.append(HorizonsSyslog(log: logType, message: message))
+    }
 }
 
  

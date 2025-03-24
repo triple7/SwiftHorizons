@@ -15,26 +15,26 @@ extension SwiftHorizons: URLSessionDelegate {
     private func requestIsValid(message: String, error: Error?, response: URLResponse?) -> Bool {
         var gotError = false
         if error != nil {
-            self.sysLog.append(HorizonsSyslog(log: .RequestError, message: error!.localizedDescription))
+            self.addSyslog(message: error!.localizedDescription, logType: .RequestError)
             gotError = true
         }
         if (response as? HTTPURLResponse) == nil {
-            self.sysLog.append(HorizonsSyslog(log: .RequestError, message: "response timed out"))
+            self.addSyslog(message: "response timed out", logType: .requestError)
             gotError = true
         }
         if let response = response {
             let urlResponse = (response as! HTTPURLResponse)
             if urlResponse.statusCode != 200 {
                 let error = NSError(domain: "com.error", code: urlResponse.statusCode)
-                self.sysLog.append(HorizonsSyslog(log: .RequestError, message: error.localizedDescription))
+                self.addSyslog(message: error.localizedDescription, logType: .RequestError)
                 gotError = true
             }
         } else {
-            self.sysLog.append(HorizonsSyslog(log: .RequestError, message: "response timed out"))
+            self.addSyslog(message: "Request timed out", logType: .RequestError)
             gotError = true
         }
         if !gotError {
-            self.sysLog.append(HorizonsSyslog(log: .OK, message: "\(message) downloaded"))
+            self.addSyslog(message: message, logType: .OK)
         }
         return !gotError
     }
@@ -51,7 +51,7 @@ extension SwiftHorizons: URLSessionDelegate {
             self.isProcessingBatch = false
             let msg = success ? "all \(batchCount) ephemerides downloaded" : "one or more failures, check logs"
             let log:HorizonsError = success ? .OK : .RequestError
-            self.sysLog.append(HorizonsSyslog(log: log, message: msg))
+            self.addSyslog(message: msg, logType: log)
         })
     }
     
@@ -86,7 +86,7 @@ extension SwiftHorizons: URLSessionDelegate {
                     if text.contains("No ephemeris for target"){
                         let result = self.rectifyDate(text)
                         if result == "FUTURE" {
-                            self.sysLog.append(HorizonsSyslog(log: .FUTURE, message: "ephemerus is historical"))
+                            self.addSyslog(message: "Ephemerus is historical", logType: .FUTURE)
                             if self.batch.isEmpty {
                                 if notify {
                                     NotificationCenter.default.post(name: resetToEarthNotification, object: nil)
@@ -97,7 +97,7 @@ extension SwiftHorizons: URLSessionDelegate {
                         let target = self.parseSingleTarget(name: object.name, id: object.id, objectType: object.objectType, parent: object.parent, parameters: request.parameters, text: text, type: type, notify)
                         self.targets[object.id] = target
                         self.downloaded.append(object)
-                        self.sysLog.append(HorizonsSyslog(log: .OK, message: "ephemerus  \(object.id) \(object.type.id) downloaded"))
+                        self.addSyslog(message: "ephemerus  \(object.id) \(object.type.id) downloaded", logType: .OK)
                         if notify {
                             DispatchQueue.main.async {
                                 NotificationCenter.default.post(name: bodyLoadNotification, object: (target, remainingObjects.count))
@@ -163,15 +163,18 @@ extension SwiftHorizons: URLSessionDelegate {
                         if result.contains("Required masses not defined, osculating elements not available") {
                             // pass as has multiple solutions
                             // TODO: segment possible element solutions
+                            self.addSyslog(message: "Required mass for \(object.name) \(object.id) not available.", logType: .warning)
                         } else if result.contains("No ephemeris for") {
                             let rectified = self.extractNewDate(text: result)
                             var newTarget = object
                             newTarget.setTime(start: rectified.start, stop: rectified.stop)
                             remainingObjects.insert(newTarget, at: 0)
+                            self.addSyslog(message: "Rectified dates for \(object.name) \(object.id) to \(rectified.start)", logType: .OK)
                         } else {
                             let elementBlocks = self.getElementBlock(text: result)
                             let parsed = self.parseElements(result: text, orbitalBlock: elementBlocks)
                             elements[String(object.id)] = parsed
+                            self.addSyslog(message: "Added orbital elements for \(object.name) \(object.id)", logType: .OK)
                         }
                     }
 
