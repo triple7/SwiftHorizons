@@ -159,13 +159,13 @@ extension SwiftHorizons: URLSessionDelegate {
                         let text = String(decoding: data, as: UTF8.self)
                         let result = try! JSONDecoder().decode(HorizonsReturnJson.self, from: text.data(using: .utf8)!).result
 
-                        let elementBlocks = self.getElementBlock(text: result)
-                        if elementBlocks.last!.contains("No ephemeris for") {
-                            let rectified = self.extractNewDate(text: elementBlocks.last!)
+                        if result.contains("No ephemeris for") {
+                            let rectified = self.extractNewDate(text: result)
                             var newTarget = object
                             newTarget.setTime(start: rectified.start, stop: rectified.stop)
                             remainingObjects.insert(newTarget, at: 0)
                         } else {
+                            let elementBlocks = self.getElementBlock(text: result)
                             let parsed = self.parseElements(result: text, orbitalBlock: elementBlocks)
                             elements[String(object.id)] = parsed
                         }
