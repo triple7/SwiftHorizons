@@ -19,7 +19,7 @@ extension SwiftHorizons: URLSessionDelegate {
             gotError = true
         }
         if (response as? HTTPURLResponse) == nil {
-            self.addSyslog(message: "response timed out", logType: .requestError)
+            self.addSyslog(message: "response timed out", logType: .RequestError)
             gotError = true
         }
         if let response = response {
