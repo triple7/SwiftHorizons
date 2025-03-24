@@ -11,7 +11,7 @@ import simd
 extension SwiftHorizons {
 
     internal func extractNewDate(text: String) -> (start: String, stop: String) {
-
+print(text)
         let asteriskDelimitor = "\n*******************************************************************************\n"
         let format = text.components(separatedBy: asteriskDelimitor)[1]
 print(format)

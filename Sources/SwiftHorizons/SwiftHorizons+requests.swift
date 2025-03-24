@@ -159,6 +159,7 @@ extension SwiftHorizons: URLSessionDelegate {
                         let text = String(decoding: data, as: UTF8.self)
                         let result = try! JSONDecoder().decode(HorizonsReturnJson.self, from: text.data(using: .utf8)!).result
 
+                        print(result)
                         if result.contains("No ephemeris for") {
                             let rectified = self.extractNewDate(text: result)
                             var newTarget = object
