@@ -159,7 +159,6 @@ extension SwiftHorizons: URLSessionDelegate {
                         let text = String(decoding: data, as: UTF8.self)
                         let result = try! JSONDecoder().decode(HorizonsReturnJson.self, from: text.data(using: .utf8)!).result
 
-                        print(result)
                         if result.contains("Required masses not defined, osculating elements not available") {
                             // pass as has multiple solutions
                             // TODO: segment possible element solutions
