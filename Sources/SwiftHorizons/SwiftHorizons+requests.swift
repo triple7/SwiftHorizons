@@ -160,7 +160,10 @@ extension SwiftHorizons: URLSessionDelegate {
                         let result = try! JSONDecoder().decode(HorizonsReturnJson.self, from: text.data(using: .utf8)!).result
 
                         print(result)
-                        if result.contains("No ephemeris for") {
+                        if result.contains("Required masses not defined, osculating elements not available") {
+                            // pass as has multiple solutions
+                            // TODO: segment possible element solutions
+                        } else if result.contains("No ephemeris for") {
                             let rectified = self.extractNewDate(text: result)
                             var newTarget = object
                             newTarget.setTime(start: rectified.start, stop: rectified.stop)
