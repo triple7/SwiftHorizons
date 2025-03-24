@@ -33,9 +33,6 @@ extension SwiftHorizons: URLSessionDelegate {
             self.addSyslog(message: "Request timed out", logType: .RequestError)
             gotError = true
         }
-        if !gotError {
-            self.addSyslog(message: message, logType: .OK)
-        }
         return !gotError
     }
 
