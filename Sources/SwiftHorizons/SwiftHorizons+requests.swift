@@ -163,7 +163,7 @@ extension SwiftHorizons: URLSessionDelegate {
                         if result.contains("Required masses not defined, osculating elements not available") {
                             // pass as has multiple solutions
                             // TODO: segment possible element solutions
-                            self.addSyslog(message: "Required mass for \(object.name) \(object.id) not available.", logType: .warning)
+                            self.addSyslog(message: "Required mass for \(object.name) \(object.id) not available.", logType: .Warning)
                         } else if result.contains("No ephemeris for") {
                             let rectified = self.extractNewDate(text: result)
                             var newTarget = object
