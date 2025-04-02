@@ -110,14 +110,18 @@ extension SwiftHorizons {
         coordinateBlock.removeFirst()
         coordinateBlock.removeLast()
         var ephemCoordinates = [[Double]]()
-        var ephemCoordinateTimestamps = [Double]()
+                var ephemVelocities = [[Double]]()
+                var ephemCoordinateTimestamps = [Double]()
         for c in coordinateBlock {
             var coordinates = parseCoordinates(text: c.components(separatedBy: ","), type: type)
             let timestamp = coordinates.removeFirst()
             ephemCoordinateTimestamps.append(Double(timestamp)!)
             ephemCoordinates.append(coordinates.map {Double($0)!})
+            for i in 0 ..< 3 {
+                ephemVelocities.append(ephemCoordinates.removeLast())
+            }
         }
-        return HorizonsTarget(name: name, id: id, objectType: objectType, parent: parent, parameters: parameters, properties: [String]()/* temporary */, coordinates: ephemCoordinates, timestamps: ephemCoordinateTimestamps)
+                return HorizonsTarget(name: name, id: id, objectType: objectType, parent: parent, parameters: parameters, properties: [String]()/* temporary */, coordinates: ephemCoordinates, velocities: ephemVelocities, timestamps: ephemCoordinateTimestamps)
     }
 
     private final func parseCoordinates(text: [String], type: EphemType)->[String] {
@@ -127,7 +131,7 @@ extension SwiftHorizons {
         case .ELEMENTS:
             return [String]()
         case .VECTORS:
-            return [ text[0], text[2], text[3], text[4]].map {$0.trimmingCharacters(in: .whitespaces)}
+            return [ text[0], text[2], text[3], text[4], text[5], text[6], text[7]].map {$0.trimmingCharacters(in: .whitespaces)}
         case .APPROACH:
             return [String]()
         case .SPK:

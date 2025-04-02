@@ -53,6 +53,7 @@ public struct HorizonsTarget:Codable {
      * target request parameters
      * target physical properties
      * target ephemerus carthesian vectors
+     * target velocity vectors
      * target coordinate timestamp
      */
     
@@ -64,6 +65,7 @@ public struct HorizonsTarget:Codable {
     public let parameters:[String: String] /* object request parameters */
     public let properties:[String] /* physical object properties */
     public let coordinates:[[Double]] /* ephemerus carthesian coordinates */
+    public let velocities:[[Double]]
     public let timestamps:[Double]
 
 }
