@@ -118,6 +118,7 @@ extension SwiftHorizons {
             ephemCoordinateTimestamps.append(Double(timestamp)!)
             ephemCoordinates.append(coordinates.map {Double($0)!})
             for i in 0 ..< 3 {
+                print("coordinates \(ephemCoordinates.count)")
                 ephemVelocities.append(ephemCoordinates.removeLast())
             }
         }
