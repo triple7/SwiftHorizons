@@ -116,11 +116,13 @@ extension SwiftHorizons {
             var coordinates = parseCoordinates(text: c.components(separatedBy: ","), type: type)
             let timestamp = coordinates.removeFirst()
             ephemCoordinateTimestamps.append(Double(timestamp)!)
-            ephemCoordinates.append(coordinates.map {Double($0)!})
-            for i in 0 ..< 3 {
-                print("coordinates \(ephemCoordinates.count)")
-                ephemVelocities.append(ephemCoordinates.removeLast())
-            }
+            var coordinateSet = [Double]()
+            var velocitySetg = [Double]()
+            for (i, c) in coordinates.enumerated() {
+                i < 3 ? coordinateSet.append(Double(c)!) : velocitySetg.append(Double(c)!)
+                }
+            ephemCoordinates.append(coordinateSet)
+            ephemVelocities.append(velocitySetg)
         }
                 return HorizonsTarget(name: name, id: id, objectType: objectType, parent: parent, parameters: parameters, properties: [String]()/* temporary */, coordinates: ephemCoordinates, velocities: ephemVelocities, timestamps: ephemCoordinateTimestamps)
     }
