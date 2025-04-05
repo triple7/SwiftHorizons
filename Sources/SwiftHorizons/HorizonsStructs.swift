@@ -239,7 +239,7 @@ public struct OrbitalElements: Codable {
 
 
 public struct AsteroidParams: Codable {
-    public let spkid: String               // Spacecraft and Planet Kernel ID
+    public let spkid: Int               // Spacecraft and Planet Kernel ID
     public let name: String                // Asteroid name
     public let kind: String                // Type or classification of the object
     public let `class`: String             // Dynamical class of the asteroid
