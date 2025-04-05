@@ -83,7 +83,7 @@ public struct HorizonsRequest {
             self.parameters = [hp.COMMAND.id: target.id] + parameters
         } else {
             let components = target.id.components(separatedBy: "/")
-            let des = components[1]
+            let des = components.count == 1 ?  components[0] : components[1]
             self.parameters = [hp.COMMAND.id: "DES=\(des)"] + parameters
         }
         // User defined start and stop time
