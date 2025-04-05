@@ -108,7 +108,12 @@ public struct HorizonsRequest {
         parameters[name] = value
     }
 
-    
+    public mutating func setParameters(parameters: [String:String]) {
+        for key in parameters.keys {
+            self.setParameter(name: key, value: parameters[key]!)
+        }
+    }
+
     public func getURL(start: Int = -1, stop: Int = 1)->URL {
         /** Returns a formatted request Url
          Params:

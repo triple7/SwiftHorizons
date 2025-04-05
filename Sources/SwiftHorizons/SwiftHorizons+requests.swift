@@ -126,8 +126,8 @@ extension SwiftHorizons: URLSessionDelegate {
 
     
     
-    public func getBatchElements(objects: [HorizonsBatchObject], completion: @escaping ([String: TargetProperties]) -> Void) {
-        print("getBatchElements: \(objects.count) targets")
+    public func getBatchElements(objects: [HorizonsBatchObject], parameters: [String: String]? = nil, completion: @escaping ([String: TargetProperties]) -> Void) {
+//        print("getBatchElements: \(objects.count) targets")
         var remainingObjects = objects
         var elements = [String: TargetProperties]()
 
@@ -146,6 +146,11 @@ extension SwiftHorizons: URLSessionDelegate {
                 self.configureBatch(request: &request)
             }
 
+            if let parameters = parameters {
+                // Extra custom parameters
+                request.setParameters(parameters: parameters)
+            }
+            
             let operation = DownloadOperation(
                 
                 session: URLSession.shared,

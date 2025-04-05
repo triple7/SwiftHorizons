@@ -23,7 +23,7 @@ public struct HorizonsSyslog:CustomStringConvertible {
 
         self.log = log
                   self.message = message
-        print("Horizons: \(log) \(message)")
+//        print("Horizons: \(log) \(message)")
     }
     
     public var description:String {
@@ -128,9 +128,9 @@ public class SwiftHorizons:NSObject {
     public func addToBatch( _ objects: [HorizonsBatchObject], reorder: Bool = true) {
         // Injects batch items at the start
         for object in objects {
-            print(
-                "Adding \(object.name) parent \(object.parent) \(object.id)"
-            )
+//            print(
+//                "Adding \(object.name) parent \(object.parent) \(object.id)"
+//            )
             if !downloaded.contains(object) && !batch.contains(object) {
                 if reorder {
                     self.batch.insert(object, at: 0)
