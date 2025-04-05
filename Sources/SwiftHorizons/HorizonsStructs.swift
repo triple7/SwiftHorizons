@@ -217,4 +217,46 @@ public struct OrbitalElements: Codable {
     public let semiMajorAxis: Double       // A (km)
     public let apoapsisDistance: Double    // AD (km)
     public let orbitalPeriod: Double       // PR (days)
+
+    // CodingKeys enum to map short JSON keys to long property names
+    enum CodingKeys: String, CodingKey {
+        case epoch = "E"                   // Julian Date of the elements
+        case eccentricity = "e"               // Eccentricity
+        case periapsisDistance = "q"          // Periapsis Distance (km)
+        case inclination = "i"                // Inclination (degrees)
+        case ascendingNode = "o"              // Longitude of Ascending Node (degrees)
+        case argumentOfPeriapsis = "W"         // Argument of Periapsis (degrees)
+        case timeOfPeriapsis = "Tp"            // Time of Periapsis (Julian Date)
+        case meanMotion = "n"                  // Mean Motion (degrees/day)
+        case meanAnomaly = "m"                // Mean Anomaly (degrees)
+        case trueAnomaly = "t"                // True Anomaly (degrees)
+        case semiMajorAxis = "a"               // Semi-Major Axis (km)
+        case apoapsisDistance = "ad"           // Apoapsis Distance (km)
+        case orbitalPeriod = "p"              // Orbital Period (days)
+    }
+}
+
+
+
+public struct AsteroidParams: Codable {
+    public let spkid: String               // Spacecraft and Planet Kernel ID
+    public let name: String                // Asteroid name
+    public let kind: String                // Type or classification of the object
+    public let `class`: String             // Dynamical class of the asteroid
+    public let absolutemagnitude: Double   // Absolute magnitude (H)
+    public let diameter: Double            // Diameter (km)
+    public let GM: Double                  // Gravitational parameter (km^3/s^2)
+    public let albedo: Double              // Geometric albedo
+
+    // CodingKeys enum to map short JSON keys to long property names
+    enum CodingKeys: String, CodingKey {
+        case spkid = "s"                   // SPK-ID (shortened to "id")
+        case name = "n"                     // Name (shortened to "n")
+        case kind = "k"                     // Kind (shortened to "k")
+        case `class` = "c"                  // Class (shortened to "c")
+        case absolutemagnitude = "H"        // Absolute magnitude (H)
+        case diameter = "D"                 // Diameter (km)
+        case GM = "GM"                      // Gravitational parameter (km^3/s^2)
+        case albedo = "A"                   // Albedo (geometric)
+    }
 }
