@@ -239,24 +239,52 @@ public struct OrbitalElements: Codable {
 
 
 public struct AsteroidParams: Codable {
-    public let spkid: Int               // Spacecraft and Planet Kernel ID
-    public let name: String                // Asteroid name
-    public let kind: String                // Type or classification of the object
-    public let `class`: String             // Dynamical class of the asteroid
-    public var absolutemagnitude: Double?   // Absolute magnitude (H)
-    public var diameter: Double?            // Diameter (km)
-    public var gm: Double?                  // Gravitational parameter (km^3/s^2)
-    public var albedo: Double?              // Geometric albedo
+    public let spkid: Int                 // Spacecraft and Planet Kernel ID
+    public let name: String               // Asteroid name
+    public let kind: String               // Type or classification of the object
+    public let `class`: String            // Dynamical class of the asteroid
+    public var absolutemagnitude: Double? // Absolute magnitude (H)
+    public var diameter: Double?          // Diameter (km)
+    public var gm: Double?                // Gravitational parameter (km^3/s^2)
+    public var albedo: Double?            // Geometric albedo
 
     // CodingKeys enum to map short JSON keys to long property names
     enum CodingKeys: String, CodingKey {
-        case spkid = "s"                   // SPK-ID (shortened to "id")
-        case name = "n"                     // Name (shortened to "n")
-        case kind = "k"                     // Kind (shortened to "k")
-        case `class` = "c"                  // Class (shortened to "c")
-        case absolutemagnitude = "H"        // Absolute magnitude (H)
-        case diameter = "D"                 // Diameter (km)
-        case gm = "gm"                      // Gravitational parameter (km^3/s^2)
-        case albedo = "A"                   // Albedo (geometric)
+        case spkid = "s"                   // SPK-ID (shortened to "s")
+        case name = "n"                    // Name (shortened to "n")
+        case kind = "k"                    // Kind (shortened to "k")
+        case `class` = "c"                 // Class (shortened to "c")
+        case absolutemagnitude = "H"       // Absolute magnitude (H)
+        case diameter = "D"                // Diameter (km)
+        case gm = "gm"                     // Gravitational parameter (km^3/s^2)
+        case albedo = "A"                  // Albedo (geometric)
+    }
+
+    // Custom decoding to handle both strings, numbers, and null values
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.spkid = try container.decodeIfPresent(Int.self, forKey: .spkid) ?? 0
+        self.name = try container.decodeIfPresent(String.self, forKey: .name) ?? "Unknown"
+        self.kind = try container.decodeIfPresent(String.self, forKey: .kind) ?? "Unknown"
+        self.class = try container.decodeIfPresent(String.self, forKey: .class) ?? "Unknown"
+
+        // Handle cases where the value might be a Double, String, or null
+        self.absolutemagnitude = try Self.decodeDoubleIfPresent(container, forKey: .absolutemagnitude)
+        self.diameter = try Self.decodeDoubleIfPresent(container, forKey: .diameter)
+        self.gm = try Self.decodeDoubleIfPresent(container, forKey: .gm)
+        self.albedo = try Self.decodeDoubleIfPresent(container, forKey: .albedo)
+    }
+
+    // Helper function to decode Double or String, including handling null
+    private static func decodeDoubleIfPresent(_ container: KeyedDecodingContainer<CodingKeys>, forKey key: CodingKeys) throws -> Double? {
+        if let doubleValue = try? container.decodeIfPresent(Double.self, forKey: key) {
+            return doubleValue
+        }
+        if let stringValue = try? container.decodeIfPresent(String.self, forKey: key), let doubleValue = Double(stringValue) {
+            return doubleValue
+        }
+        return nil
     }
 }
+
