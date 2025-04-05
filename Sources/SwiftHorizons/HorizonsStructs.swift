@@ -243,10 +243,10 @@ public struct AsteroidParams: Codable {
     public let name: String                // Asteroid name
     public let kind: String                // Type or classification of the object
     public let `class`: String             // Dynamical class of the asteroid
-    public let absolutemagnitude: Double   // Absolute magnitude (H)
-    public let diameter: Double            // Diameter (km)
-    public let GM: Double                  // Gravitational parameter (km^3/s^2)
-    public let albedo: Double              // Geometric albedo
+    public var absolutemagnitude: Double?   // Absolute magnitude (H)
+    public var diameter: Double?            // Diameter (km)
+    public var gm: Double?                  // Gravitational parameter (km^3/s^2)
+    public var albedo: Double?              // Geometric albedo
 
     // CodingKeys enum to map short JSON keys to long property names
     enum CodingKeys: String, CodingKey {
@@ -256,7 +256,7 @@ public struct AsteroidParams: Codable {
         case `class` = "c"                  // Class (shortened to "c")
         case absolutemagnitude = "H"        // Absolute magnitude (H)
         case diameter = "D"                 // Diameter (km)
-        case GM = "GM"                      // Gravitational parameter (km^3/s^2)
+        case gm = "gm"                      // Gravitational parameter (km^3/s^2)
         case albedo = "A"                   // Albedo (geometric)
     }
 }
