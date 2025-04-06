@@ -75,8 +75,17 @@ public class SwiftHorizons:NSObject {
         retries = [HorizonsBatchObject: Int]()
     }
 
+    public func convertToHorizonsDateFormat(timestamp: String) -> String {
+        let dateFormat = DateFormatter()
+        dateFormat.timeZone = TimeZone(abbreviation: "UTC")
+        dateFormat.dateFormat = "yyyy-MMM-dd HH:mm" //automatically converts from utc
+        let date = dateFormat.date(from: timestamp)!
+        return dateFormat.string(from: date)
+    }
+
     
     public func configureBatch(request: inout HorizonsRequest){
+
         let dateFormat = DateFormatter()
         dateFormat.timeZone = TimeZone(abbreviation: "UTC")
         dateFormat.dateFormat = "yyyy-MMM-dd HH:mm" //automatically converts from utc
