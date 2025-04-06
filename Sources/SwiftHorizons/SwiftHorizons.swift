@@ -48,6 +48,13 @@ public class SwiftHorizons:NSObject {
     internal var snapShotToday:Date?
     internal var snapShotJDStart:Double?
     internal var local:CLLocation?
+    
+    internal lazy var dateFormat:DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+        dateFormatter.dateFormat = "yyyy-MMM-dd HH:mm" //automatically converts from utc
+        return dateFormatter
+    }()
 
     
     internal lazy var batch:[HorizonsBatchObject] = {
@@ -75,15 +82,15 @@ public class SwiftHorizons:NSObject {
         retries = [HorizonsBatchObject: Int]()
     }
 
+    public func convertToHorizonsDateFormat(date: Date) -> String {
+        return dateFormat.string(from: date)
+    }
+    
     public func convertToHorizonsDateFormat(timestamp: String) -> String {
-        let dateFormat = DateFormatter()
-        dateFormat.timeZone = TimeZone(abbreviation: "UTC")
-        dateFormat.dateFormat = "yyyy-MMM-dd HH:mm" //automatically converts from utc
         let date = dateFormat.date(from: timestamp)!
         return dateFormat.string(from: date)
     }
 
-    
     public func configureBatch(request: inout HorizonsRequest){
 
         let dateFormat = DateFormatter()
