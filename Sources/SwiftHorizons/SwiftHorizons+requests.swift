@@ -53,7 +53,7 @@ extension SwiftHorizons: URLSessionDelegate {
     }
     
     
-    public      func getBatchTargets( objects: [HorizonsBatchObject], type: EphemType, notify: Bool=true, completion: @escaping (Bool)->Void ) {
+    public      func getBatchTargets( objects: [HorizonsBatchObject], type: EphemType, parameters: [String: String]? = nil, notify: Bool=true, completion: @escaping (Bool)->Void ) {
         let serialQueue = DispatchQueue(label: "HorizonsDownloadQueue")
         
         var remainingObjects = objects
@@ -77,6 +77,12 @@ extension SwiftHorizons: URLSessionDelegate {
                 // We are just taking the closest time to now
                 self.configureBatch(request: &request)
             }
+            
+            if let parameters = parameters {
+                // Extra custom parameters
+                request.setParameters(parameters: parameters)
+            }
+
             let operation = DownloadOperation(session: URLSession.shared, dataTaskURL: request.getURL(stop: self.sampleTimeDays), completionHandler: { (data, response, error) in
                 if self.requestIsValid(message: "state vectors for \(object.name)", error: error, response: response) {
                     let text = String(decoding: data!, as: UTF8.self)
