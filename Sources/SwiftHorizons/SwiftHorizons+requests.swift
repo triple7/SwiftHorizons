@@ -115,6 +115,7 @@ extension SwiftHorizons: URLSessionDelegate {
                             }
                             self.batch.removeAll()
                         }
+                        print("\(object.id) dowloaded: \(remainingObjects.count) remaining.")
                         downloadNextObject()
                     }
                 }
