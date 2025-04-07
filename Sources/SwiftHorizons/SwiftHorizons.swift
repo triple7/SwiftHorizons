@@ -82,6 +82,12 @@ public class SwiftHorizons:NSObject {
         retries = [HorizonsBatchObject: Int]()
     }
 
+    
+    public func convertTimestampToHorizonsDateFormat(timestamp: String) -> Date {
+        let timeString = convertToHorizonsDateFormat(timestamp: timestamp)
+        return dateFormat.date(from: timeString)!
+    }
+
     public func convertToHorizonsDateFormat(date: Date) -> String {
         return dateFormat.string(from: date)
     }
