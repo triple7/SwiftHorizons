@@ -18,7 +18,7 @@ public struct HorizonsSyslog:CustomStringConvertible {
     init( log: HorizonsError, message: String) {
         let date = Date()
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
+        dateFormatter.dateFormat = "yyyy-MMM-dd hh:mm:ss"
         self.timecode = dateFormatter.string(from: date)
 
         self.log = log
