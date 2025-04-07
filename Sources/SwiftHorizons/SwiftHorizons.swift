@@ -166,6 +166,11 @@ public class SwiftHorizons:NSObject {
         }
     }
     
+    public func clearTargets() {
+        self.targets.removeAll()
+        self.sysLog.removeAll()
+    }
+    
     public func printLogs() {
         for log in sysLog {
             print(log.description)
