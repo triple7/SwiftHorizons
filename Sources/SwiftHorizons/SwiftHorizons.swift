@@ -52,8 +52,7 @@ public class SwiftHorizons:NSObject {
     internal lazy var dateFormat:DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
-        dateFormatter.locale = Locale(identifier: "en_US_POSIX")  // Ensures consistent month abbreviation
-        dateFormatter.dateFormat = "yyyy-MMM-dd HH:mm" //automatically converts from utc
+        dateFormatter.dateFormat = "yyyy-MMM-dd HH:mm:ss" //automatically converts from utc
         return dateFormatter
     }()
 
