@@ -8,7 +8,7 @@
 import Foundation
 import CoreLocation
 
-public struct HorizonsBatchObject:Codable, Hashable, Equatable {
+public struct HorizonsBatchObject:Codable, Hashable, Comparable  {
     public let name:String // Known name
     public let id: String // Known id in horizons
     public let type: HorizonsType // for request forming
@@ -33,6 +33,10 @@ public struct HorizonsBatchObject:Codable, Hashable, Equatable {
         self.stopTime = stop
     }
     
+    public static func < (lhs: HorizonsBatchObject, rhs: HorizonsBatchObject) -> Bool {
+        return lhs.id < rhs.id
+    }
+
     public static func == (lhs: HorizonsBatchObject, rhs: HorizonsBatchObject) -> Bool {
         return lhs.id == rhs.id && lhs.type == rhs.type
     }
