@@ -18,7 +18,7 @@ public struct HorizonsSyslog:CustomStringConvertible {
     init( log: HorizonsError, message: String) {
         let date = Date()
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy--MM-dd hh:mm:ss"
+        dateFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss"
         self.timecode = dateFormatter.string(from: date)
 
         self.log = log
@@ -82,7 +82,6 @@ public class SwiftHorizons:NSObject {
         retries = [HorizonsBatchObject: Int]()
     }
 
-    
     public func convertTimestampToHorizonsDateFormat(timestamp: String) -> Date {
         return dateFormat.date(from: timestamp)!
     }
