@@ -105,25 +105,31 @@ extension SwiftHorizons {
         }
         
         /* Parses the returned coordinate text block */
-        var coordinateBlock = soe.components(separatedBy: "\n")
-        coordinateBlock.removeFirst()
-        coordinateBlock.removeLast()
-        var ephemCoordinates = [[Double]]()
-                var ephemVelocities = [[Double]]()
-                var ephemCoordinateTimestamps = [Double]()
-        for c in coordinateBlock {
-            var coordinates = parseCoordinates(text: c.components(separatedBy: ","), type: type)
-            let timestamp = coordinates.removeFirst()
-            ephemCoordinateTimestamps.append(Double(timestamp)!)
-            var coordinateSet = [Double]()
-            var velocitySetg = [Double]()
-            for (i, c) in coordinates.enumerated() {
-                i < 3 ? coordinateSet.append(Double(c)!) : velocitySetg.append(Double(c)!)
+                do {
+                    var coordinateBlock = soe.components(separatedBy: "\n")
+                    coordinateBlock.removeFirst()
+                    coordinateBlock.removeLast()
+                    var ephemCoordinates = [[Double]]()
+                    var ephemVelocities = [[Double]]()
+                    var ephemCoordinateTimestamps = [Double]()
+                    for c in coordinateBlock {
+                        var coordinates = parseCoordinates(text: c.components(separatedBy: ","), type: type)
+                        let timestamp = coordinates.removeFirst()
+                        ephemCoordinateTimestamps.append(Double(timestamp)!)
+                        var coordinateSet = [Double]()
+                        var velocitySetg = [Double]()
+                        for (i, c) in coordinates.enumerated() {
+                            i < 3 ? coordinateSet.append(Double(c)!) : velocitySetg.append(Double(c)!)
+                        }
+                        ephemCoordinates.append(coordinateSet)
+                        ephemVelocities.append(velocitySetg)
+                    }
+                    return HorizonsTarget(name: name, id: id, objectType: objectType, parent: parent, parameters: parameters, properties: [String]()/* temporary */, coordinates: ephemCoordinates, velocities: ephemVelocities, timestamps: ephemCoordinateTimestamps)
+                } catch let error {
+                    print("Error: \(error.localizedDescription)")
+                    print(result)
+                    fatalError("Unable to get target coordinates")
                 }
-            ephemCoordinates.append(coordinateSet)
-            ephemVelocities.append(velocitySetg)
-        }
-                return HorizonsTarget(name: name, id: id, objectType: objectType, parent: parent, parameters: parameters, properties: [String]()/* temporary */, coordinates: ephemCoordinates, velocities: ephemVelocities, timestamps: ephemCoordinateTimestamps)
     }
 
     private final func parseCoordinates(text: [String], type: EphemType)->[String] {
