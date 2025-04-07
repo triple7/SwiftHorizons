@@ -107,7 +107,7 @@ extension SwiftHorizons {
         /* Parses the returned coordinate text block */
                     var coordinateBlock = soe.components(separatedBy: "\n")
                 if coordinateBlock.count == 1 {
-                    print(coordinateBlock)
+                    print(result)
                     fatalError("Coordinate block does not exist")
                 }
                     coordinateBlock.removeFirst()
