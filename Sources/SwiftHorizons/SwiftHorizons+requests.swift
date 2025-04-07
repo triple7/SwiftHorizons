@@ -86,7 +86,9 @@ extension SwiftHorizons: URLSessionDelegate {
             let operation = DownloadOperation(session: URLSession.shared, dataTaskURL: request.getURL(stop: self.sampleTimeDays), completionHandler: { (data, response, error) in
                 if self.requestIsValid(message: "state vectors for \(object.name)", error: error, response: response) {
                     let text = String(decoding: data!, as: UTF8.self)
-                    if text.contains("No ephemeris for target"){
+                    if text.contains("Matching small-bodies") {
+                        // TODO: write logic to get either 1 or all records added
+                        self.addSyslog(message: "ephemerus has multiple entries, skipping", logType: .Warning)                    } else if text.contains("No ephemeris for target"){
                         let result = self.rectifyDate(text)
                         if result == "FUTURE" {
                             self.addSyslog(message: "Ephemerus is historical", logType: .FUTURE)
