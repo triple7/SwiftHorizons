@@ -84,8 +84,7 @@ public class SwiftHorizons:NSObject {
 
     
     public func convertTimestampToHorizonsDateFormat(timestamp: String) -> Date {
-        let timeString = convertToHorizonsDateFormat(timestamp: timestamp)
-        return dateFormat.date(from: timeString)!
+        return dateFormat.date(from: timestamp)!
     }
 
     public func convertToHorizonsDateFormat(date: Date) -> String {
