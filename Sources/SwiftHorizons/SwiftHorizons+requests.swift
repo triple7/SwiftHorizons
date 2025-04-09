@@ -88,7 +88,11 @@ extension SwiftHorizons: URLSessionDelegate {
                     let text = String(decoding: data!, as: UTF8.self)
                     if text.contains("Matching small-bodies") {
                         // TODO: write logic to get either 1 or all records added
-                        self.addSyslog(message: "ephemerus has multiple entries, skipping", logType: .Warning)                    } else if text.contains("No ephemeris for target"){
+                        self.addSyslog(message: "ephemerus has multiple entries, skipping", logType: .Warning)
+                        // Add the target regardless with no data
+                        self.targets[object.id] = HorizonsTarget(name: object.name, id: object.id, designation: object.type.id, parent: object.parent, objectType: object.objectType)
+                        self.downloaded.append(object)
+                    } else if text.contains("No ephemeris for target"){
                         let result = self.rectifyDate(text)
                         if result == "FUTURE" {
                             self.addSyslog(message: "Ephemerus is historical", logType: .FUTURE)

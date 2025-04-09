@@ -72,6 +72,35 @@ public struct HorizonsTarget:Codable {
     public let velocities:[[Double]]
     public let timestamps:[Double]
 
+    // Mark: proper initializer
+    public init(name: String, id: String, objectType: String, parent: String, parameters: [String:String], properties: [String], coordinates: [[Double]], velocities: [[Double]], timestamps: [Double]) {
+        self.name = name
+        self.id = id
+        self.objectType = objectType
+        self.parent = parent
+        self.parameters = parameters
+        self.properties = properties
+        self.coordinates = coordinates
+        self.velocities = velocities
+        self.timestamps = timestamps
+    }
+    
+    // Mark: empty objects
+    public init(name: String, id: String, designation: String? = nil, parent: String, objectType: String) {
+        self.name = name
+        self.id = id
+        self.designation = designation
+        self.parent = parent
+        self.objectType = objectType
+        self.parameters = [:]
+        self.properties = []
+        self.coordinates = []
+        self.velocities = []
+        self.timestamps = []
+        
+        
+    }
+    
 }
 
 public struct HorizonsRequest {
