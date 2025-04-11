@@ -24,7 +24,7 @@ extension SwiftHorizons {
 
     internal func extractNewDate(text: String) -> (start: String, stop: String) {
         let asteriskDelimitor = "***********************************************************************\n"
-        let format = text.components(separatedBy: asteriskDelimitor)[1]
+        let format = text.components(separatedBy: asteriskDelimitor).last!
         let upToDate = format.components(separatedBy: "A.D.").last!
         let components = upToDate.components(separatedBy: " ")
         print("Got components")
