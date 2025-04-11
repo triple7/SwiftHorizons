@@ -8,6 +8,18 @@
 import Foundation
 import simd
 
+extension String {
+    func capitalizingFirstLetter() -> String {
+        guard let first = self.first else { return self }
+        return String(first).uppercased() + self.dropFirst()
+    }
+
+    mutating func capitalizeFirstLetter() {
+        self = self.capitalizingFirstLetter()
+    }
+}
+
+
 extension SwiftHorizons {
 
     internal func extractNewDate(text: String) -> (start: String, stop: String) {
@@ -17,7 +29,11 @@ extension SwiftHorizons {
         let components = upToDate.components(separatedBy: " ")
         // index 2 is the day in yyyy-MMM-dd
         // index 3 hh:mm:ss.zzzz
-        let dateString = "\(components[1]) \(components[2])"
+        let ymd = components[1].split(separator: "-")
+        // Some have JAN instead of Jan
+        let month = ymd[1].lowercased().capitalizingFirstLetter()
+        let YMD = "\(ymd[0])-\(month)-\(ymd[2])"
+        let dateString = "\(YMD) \(components[2])"
         
         print(components)
         print(dateString)
