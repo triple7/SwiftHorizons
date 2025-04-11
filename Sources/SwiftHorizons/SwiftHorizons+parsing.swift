@@ -26,8 +26,10 @@ extension SwiftHorizons {
         let asteriskDelimitor = "\n*******************************************************************************\n"
         print(text)
         let format = text.components(separatedBy: asteriskDelimitor)[1]
+        print("Got format")
         let upToDate = format.components(separatedBy: "A.D.").last!
         let components = upToDate.components(separatedBy: " ")
+        print("Got components")
         // index 2 is the day in yyyy-MMM-dd
         // index 3 hh:mm:ss.zzzz
         let ymd = components[1].split(separator: "-")
