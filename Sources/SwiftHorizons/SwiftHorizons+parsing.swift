@@ -11,7 +11,6 @@ import simd
 extension SwiftHorizons {
 
     internal func extractNewDate(text: String) -> (start: String, stop: String) {
-        print(text)
         let asteriskDelimitor = "\n*******************************************************************************\n"
         let format = text.components(separatedBy: asteriskDelimitor)[1]
         let upToDate = format.components(separatedBy: "A.D.").last!
@@ -20,6 +19,8 @@ extension SwiftHorizons {
         // index 3 hh:mm:ss.zzzz
         let dateString = "\(components[1]) \(components[2])"
         
+        print(components)
+        print(dateString)
         let dateFormat = DateFormatter()
         dateFormat.locale = Locale(identifier: "en_US_POSIX")
         dateFormat.timeZone = TimeZone(abbreviation: "UTC")
