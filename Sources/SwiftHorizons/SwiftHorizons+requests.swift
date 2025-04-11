@@ -178,8 +178,10 @@ extension SwiftHorizons: URLSessionDelegate {
                             // pass as has multiple solutions
                             // TODO: segment possible element solutions
                             self.addSyslog(message: "Required mass for \(object.name) \(object.id) not available.", logType: .Warning)
+                            elements[String(object.id)] = TargetProperties()
                         } else if result.contains("Cannot output osculating elements of SSB") {
                             self.addSyslog(message: "\(object.name) \(object.id) is an SSB. No  oscillating element.", logType: .Warning)
+                            elements[String(object.id)] = TargetProperties()
                         } else if result.contains("No ephemeris for") {
                             let rectified = self.extractNewDate(text: result)
                             var newTarget = object
