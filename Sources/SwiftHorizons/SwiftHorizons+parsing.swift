@@ -25,7 +25,6 @@ extension SwiftHorizons {
     internal func extractNewDate(text: String) -> (start: String, stop: String) {
         let asteriskDelimitor = "***********************************************************************\n"
         let format = text.components(separatedBy: asteriskDelimitor).last!
-        print(format)
         let upToDate = format.components(separatedBy: "A.D.").last!
         let components = upToDate.components(separatedBy: " ")
         // index 2 is the day in yyyy-MMM-dd
