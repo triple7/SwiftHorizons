@@ -185,6 +185,7 @@ extension SwiftHorizons: URLSessionDelegate {
                             remainingObjects.insert(newTarget, at: 0)
                             self.addSyslog(message: "Rectified dates for \(object.name) \(object.id) to \(rectified.start)", logType: .OK)
                         } else {
+                            print(text)
                             let elementBlocks = self.getElementBlock(text: result)
                             let parsed = self.parseElements(result: text, orbitalBlock: elementBlocks)
                             elements[String(object.id)] = parsed
