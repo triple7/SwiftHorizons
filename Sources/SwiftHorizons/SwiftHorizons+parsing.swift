@@ -23,7 +23,7 @@ extension String {
 extension SwiftHorizons {
 
     internal func extractNewDate(text: String) -> (start: String, stop: String) {
-        let asteriskDelimitor = "\n*******************************************************************************\n"
+        let asteriskDelimitor = "***********************************************************************\n"
         print(text)
         let test = text.components(separatedBy: asteriskDelimitor)
         print(test)
