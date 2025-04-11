@@ -43,8 +43,9 @@ extension SwiftHorizons {
         let date = dateFormat.date(from: dateString)!
         
         let calendar = Calendar(identifier: .gregorian)
-        let prevDate = calendar.date(byAdding: .day, value: -1, to: date)!
-        return (start: dateFormat.string(from: prevDate), stop: dateString)
+        let prevDate = calendar.date(byAdding: .day, value: -2, to: date)!
+        let endDate = calendar.date(byAdding: .day, value: -1, to: date)!
+        return (start: dateFormat.string(from: prevDate), stop: dateFormat.string(from: endDate))
     }
     
     internal func getElementBlock(text: String) -> [String] {
