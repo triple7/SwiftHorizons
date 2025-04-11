@@ -27,8 +27,6 @@ extension SwiftHorizons {
         let format = text.components(separatedBy: asteriskDelimitor).last!
         let upToDate = format.components(separatedBy: "A.D.").last!
         let components = upToDate.components(separatedBy: " ")
-        print("Got components")
-        print(components)
         // index 2 is the day in yyyy-MMM-dd
         // index 3 hh:mm:ss.zzzz
         let ymd = components[1].split(separator: "-")
@@ -37,8 +35,6 @@ extension SwiftHorizons {
         let YMD = "\(ymd[0])-\(month)-\(ymd[2])"
         let dateString = "\(YMD) \(components[2])"
         
-        print(components)
-        print(dateString)
         let dateFormat = DateFormatter()
         dateFormat.locale = Locale(identifier: "en_US_POSIX")
         dateFormat.timeZone = TimeZone(abbreviation: "UTC")

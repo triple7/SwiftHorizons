@@ -184,6 +184,7 @@ extension SwiftHorizons: URLSessionDelegate {
                             elements[String(object.id)] = TargetProperties()
                         } else if result.contains("No ephemeris for") {
                             let rectified = self.extractNewDate(text: result)
+                            print("rectified \(rectified)")
                             var newTarget = object
                             newTarget.setTime(start: rectified.start, stop: rectified.stop)
                             remainingObjects.insert(newTarget, at: 0)
