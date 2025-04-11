@@ -103,6 +103,7 @@ extension SwiftHorizons: URLSessionDelegate {
                             }
                         }
                     }else{
+                        print("URL: \(request.getURL())")
                         let target = self.parseSingleTarget(name: object.name, id: object.id, objectType: object.objectType, parent: object.parent, parameters: request.parameters, text: text, type: type, notify)
                         self.targets[object.id] = target
                         self.downloaded.append(object)
@@ -241,6 +242,7 @@ extension SwiftHorizons: URLSessionDelegate {
         let task = session.dataTask(with: request.getURL(stop: self.sampleTimeDays)) { [weak self] data, response, error in
             if self!.requestIsValid(message: "request \(type.id)", error: error, response: response) {
                 let text = String(decoding: data!, as: UTF8.self)
+                print("URL: \(request.getURL())")
                 let target = self?.parseSingleTarget(name: object.name, id: object.id, objectType: object.objectType, parent: object.parent, parameters: request.parameters, text: text, type: type)
                 self?.targets[object.id] = target
                 self?.sysLog.append(HorizonsSyslog(log: .OK, message: "ephemerus downloaded"))
