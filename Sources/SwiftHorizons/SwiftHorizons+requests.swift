@@ -198,7 +198,6 @@ extension SwiftHorizons: URLSessionDelegate {
                     }
 
                     // Continue with the next download
-                    print("Continuing from \(object.id)")
                     downloadNextObject()
                 })
 
