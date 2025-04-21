@@ -241,6 +241,7 @@ public struct TargetProperties:Codable {
     }
 }
 
+
 public struct OrbitalElements: Codable {
     public let epoch: Double               // Julian Date of the elements
     public let eccentricity: Double        // EC
@@ -272,7 +273,39 @@ public struct OrbitalElements: Codable {
         case apoapsisDistance = "ad"           // Apoapsis Distance (km)
         case orbitalPeriod = "p"              // Orbital Period (days)
     }
+    
+    public init(
+        epoch: Double,
+        eccentricity: Double,
+        periapsisDistance: Double,
+        inclination: Double,
+        ascendingNode: Double,
+        argumentOfPeriapsis: Double,
+        timeOfPeriapsis: Double,
+        meanMotion: Double,
+        meanAnomaly: Double,
+        trueAnomaly: Double,
+        semiMajorAxis: Double,
+        apoapsisDistance: Double,
+        orbitalPeriod: Double
+    ) {
+        self.epoch = epoch
+        self.eccentricity = eccentricity
+        self.periapsisDistance = periapsisDistance
+        self.inclination = inclination
+        self.ascendingNode = ascendingNode
+        self.argumentOfPeriapsis = argumentOfPeriapsis
+        self.timeOfPeriapsis = timeOfPeriapsis
+        self.meanMotion = meanMotion
+        self.meanAnomaly = meanAnomaly
+        self.trueAnomaly = trueAnomaly
+        self.semiMajorAxis = semiMajorAxis
+        self.apoapsisDistance = apoapsisDistance
+        self.orbitalPeriod = orbitalPeriod
+    }
+
 }
+
 
 
 
