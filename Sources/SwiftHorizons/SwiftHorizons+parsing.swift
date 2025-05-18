@@ -98,7 +98,7 @@ extension SwiftHorizons {
         let result = try! JSONDecoder().decode(HorizonsReturnJson.self, from: text.data(using: .utf8)!).result
         let asteriskDelimitor = "\n*******************************************************************************\n"
         let format = result.components(separatedBy: asteriskDelimitor)
-                let extractedProperties = extractPhysicalProperties(from: format[0])
+//                let extractedProperties = extractPhysicalProperties(from: format[0])
         var soe = ""
         var wip = false
         switch type {
@@ -143,7 +143,7 @@ extension SwiftHorizons {
                         ephemCoordinates.append(coordinateSet)
                         ephemVelocities.append(velocitySetg)
                     }
-                return HorizonsTarget(name: name, id: id, objectType: objectType, parent: parent, parameters: parameters, properties: extractedProperties, coordinates: ephemCoordinates, velocities: ephemVelocities, timestamps: ephemCoordinateTimestamps)
+                return HorizonsTarget(name: name, id: id, objectType: objectType, parent: parent, parameters: parameters, properties: [], coordinates: ephemCoordinates, velocities: ephemVelocities, timestamps: ephemCoordinateTimestamps)
     }
 
     private final func parseCoordinates(text: [String], type: EphemType)->[String] {
