@@ -98,7 +98,7 @@ extension SwiftHorizons {
         let result = try! JSONDecoder().decode(HorizonsReturnJson.self, from: text.data(using: .utf8)!).result
         let asteriskDelimitor = "\n*******************************************************************************\n"
         let format = result.components(separatedBy: asteriskDelimitor)
-        _ = format[1].components(separatedBy: "\n")
+                let extractedProperties = extractPhysicalProperties(from: format[0])
         var soe = ""
         var wip = false
         switch type {
@@ -124,7 +124,6 @@ extension SwiftHorizons {
         /* Parses the returned coordinate text block */
                     var coordinateBlock = soe.components(separatedBy: "\n")
                 if coordinateBlock.count == 1 {
-                    print(result)
                     fatalError("Coordinate block does not exist")
                 }
                     coordinateBlock.removeFirst()
@@ -144,7 +143,7 @@ extension SwiftHorizons {
                         ephemCoordinates.append(coordinateSet)
                         ephemVelocities.append(velocitySetg)
                     }
-                    return HorizonsTarget(name: name, id: id, objectType: objectType, parent: parent, parameters: parameters, properties: [String]()/* temporary */, coordinates: ephemCoordinates, velocities: ephemVelocities, timestamps: ephemCoordinateTimestamps)
+                return HorizonsTarget(name: name, id: id, objectType: objectType, parent: parent, parameters: parameters, properties: extractedProperties, coordinates: ephemCoordinates, velocities: ephemVelocities, timestamps: ephemCoordinateTimestamps)
     }
 
     private final func parseCoordinates(text: [String], type: EphemType)->[String] {

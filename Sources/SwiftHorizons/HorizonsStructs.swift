@@ -67,13 +67,13 @@ public struct HorizonsTarget:Codable {
     public let objectType:String
     public let parent:String
     public let parameters:[String: String] /* object request parameters */
-    public let properties:[String] /* physical object properties */
+    public let properties:[String: Double] /* physical object properties */
     public let coordinates:[[Double]] /* ephemerus carthesian coordinates */
     public let velocities:[[Double]]
     public let timestamps:[Double]
 
     // Mark: proper initializer
-    public init(name: String, id: String, objectType: String, parent: String, parameters: [String:String], properties: [String], coordinates: [[Double]], velocities: [[Double]], timestamps: [Double]) {
+    public init(name: String, id: String, objectType: String, parent: String, parameters: [String:String], properties: [String: Double], coordinates: [[Double]], velocities: [[Double]], timestamps: [Double]) {
         self.name = name
         self.id = id
         self.objectType = objectType
@@ -93,7 +93,7 @@ public struct HorizonsTarget:Codable {
         self.parent = parent
         self.objectType = objectType
         self.parameters = [:]
-        self.properties = []
+        self.properties = [:]
         self.coordinates = []
         self.velocities = []
         self.timestamps = []
